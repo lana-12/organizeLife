@@ -34,6 +34,9 @@ class Project
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'projet')]
     private Collection $collaborator;
 
+    #[ORM\Column(length: 50)]
+    private ?string $slug = null;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -144,6 +147,18 @@ class Project
     public function removeCollaborator(User $collaborator): static
     {
         $this->collaborator->removeElement($collaborator);
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): static
+    {
+        $this->slug = $slug;
 
         return $this;
     }
