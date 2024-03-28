@@ -8,6 +8,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
+
                 
                     <li class="nav-item">
                         <a class="nav-link {{ app.current_route == 'home' ? 'active' : '' }}" aria-current="page" href="{{ path('home') }}">Accueil</a>
@@ -30,6 +31,7 @@
                     <li class="nav-item">
                         <a class="nav-link {{ app.current_route starts with 'app_logout' ? 'active' : '' }}" href="{{ path('app_logout') }}">Déconnexion</a>
                     </li>
+
                     
                     {# <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">

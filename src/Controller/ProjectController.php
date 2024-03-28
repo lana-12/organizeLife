@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 #[Route('/projets')]
 class ProjectController extends AbstractController
 
+
 {
     public function __construct(
         
@@ -28,12 +29,14 @@ class ProjectController extends AbstractController
     public function index(Request $request): Response
     {
         $projects = $this->projectRepo->findAll();
+
         // dd($projects);
         return $this->render('project/index.html.twig', [
             'projects' => $projects,
             
         ]);
     }
+
 
 
     /**
@@ -43,7 +46,8 @@ class ProjectController extends AbstractController
     public function show(int $id, string $slug, Request $request): Response
     {
         $project = $this->projectRepo->find($id);
-        dump($project);
+
+        
 
         // dd($projects);
         return $this->render('project/show.html.twig', [
