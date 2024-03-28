@@ -7,15 +7,31 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+
+                
                     <li class="nav-item">
                         <a class="nav-link {{ app.current_route == 'home' ? 'active' : '' }}" aria-current="page" href="{{ path('home') }}">Accueil</a>
                     </li>
+
                     <li class="nav-item">
-                        <a class="nav-link {{ app.current_route starts with 'recipe.' ? 'active' : '' }}" href="{{ path('recipe.index') }}">Link</a>
+                        <a class="nav-link {{ app.current_route starts with 'app_login' ? 'active' : '' }}" href="{{ path('recipe.index') }}">Link</a>
                     </li>
+
+
+
                     <li class="nav-item">
                         <a class="nav-link {{ app.current_route starts with 'project.' ? 'active' : '' }}" href="{{ path('project.index') }}">Projets</a>
                     </li>
+
+
+                    <li class="nav-item">
+                        <a class="nav-link {{ app.current_route starts with 'app_login' ? 'active' : '' }}" href="{{ path('app_login') }}">Connexion</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ app.current_route starts with 'app_logout' ? 'active' : '' }}" href="{{ path('app_logout') }}">Déconnexion</a>
+                    </li>
+
                     
                     {# <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">

@@ -1,0 +1,20 @@
+<p>
+    Un nouveau messsage a été reçu
+</p>
+
+<ul>
+    <li>Nom: {{ data.name  }} </li>
+    <li>Email: {{ data.email  }}</li>
+</ul>
+
+<p>
+<strong>Sujet :</strong></br>
+
+{{ data.subject  }}
+</p>
+
+<p>
+<strong>Message :  </strong></br>
+{{ data.message | nl2br }}
+
+</p>
