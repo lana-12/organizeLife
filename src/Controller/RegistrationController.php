@@ -18,34 +18,36 @@ class RegistrationController extends AbstractController
     #[Route('/register', name: 'register')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, UserAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
     {
+
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
         
         if ($form->isSubmitted() && $form->isValid()) {
-            // var_dump('user' . $user);
-            // encode the plain password
-            $user->setRoles(
-                ['ROLE_USER', 'ROLE_ADMIN']);
-            $user->setPassword(
-                $userPasswordHasher->hashPassword(
+
+            if($request->getMethod() === "POST"){
+
+                $user->setRoles(
+                    ['ROLE_USER', 'ROLE_ADMIN']);
+                $user->setPassword(
+                    $userPasswordHasher->hashPassword(
+                        $user,
+                        $form->get('plainPassword')->getData()
+                    )
+                );
+               
+                $entityManager->persist($user);
+                $entityManager->flush();
+                // do anything else you need here, like send an email
+    
+                return $userAuthenticator->authenticateUser(
                     $user,
-                    $form->get('plainPassword')->getData()
-                )
-            );
-
-            $entityManager->persist($user);
-            $entityManager->flush();
-            // do anything else you need here, like send an email
-
-            return $userAuthenticator->authenticateUser(
-                $user,
-                $authenticator,
-                $request
-            );
+                    $authenticator,
+                    $request
+                );
+            }
         }
-
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form,
         ]);

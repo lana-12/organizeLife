@@ -19,6 +19,8 @@ class ContactController extends AbstractController
     #[Route('/', name: 'contact')]
     public function contact(Request $request, MailerService $mailer): Response
     {
+
+        
         $data = new ContactDTO();
 
         // Decommenter pour utiliser pour les test
