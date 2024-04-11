@@ -2,14 +2,17 @@
 
 namespace App\Entity;
 
-use App\Repository\ProjectRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ProjectRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProjectRepository::class)]
 #[ORM\Table(name: '`projects`')]
+#[UniqueEntity(fields: ['name'], message: 'Ce nom est déjà utilisé ')]
 
 class Project
 {
@@ -18,7 +21,8 @@ class Project
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 180, unique: true)]
+    #[Assert\NotBlank]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
@@ -30,7 +34,9 @@ class Project
     #[ORM\OneToMany(targetEntity: Event::class, mappedBy: 'project')]
     private Collection $events;
 
+
     #[ORM\ManyToOne(inversedBy: 'projects')]
+    #[ORM\JoinColumn(onDelete: 'CASCADE')]
     private ?User $admin = null;
 
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'projet')]

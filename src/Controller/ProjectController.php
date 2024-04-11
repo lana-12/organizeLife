@@ -5,8 +5,9 @@ namespace App\Controller;
 use App\Entity\Project;
 use App\Form\ProjectType;
 use App\Repository\ProjectRepository;
-use Symfony\Component\HttpFoundation\Request;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,7 +19,8 @@ class ProjectController extends AbstractController
 {
     public function __construct(
         
-        private ProjectRepository $projectRepo
+        private ProjectRepository $projectRepo,
+        private EntityManagerInterface $em
     
     ){}
 
@@ -70,41 +72,32 @@ class ProjectController extends AbstractController
 
         $project = new Project();
         $form = $this->createForm(ProjectType::class, $project);
-
-
-        
         
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {
-            $project = $form->getData();
-            $slug = $project->getSlug();
-            dd($slug);
-            
 
             if($request->getMethod() === "POST"){
 
+                // Retrieve all data in the form 
+                $project = $form->getData();
+
+                // TODO: Prévoir un nombre limiter de caractère
+                // Retrieve NameProject
+                $slug = $project->getName();
+                $project->setSlug($slug);
 
                 $admin = $security->getUser();
                 $project->setAdmin($admin);
 
-                if ($form->getConfig()->getData() === "") {
-                    // $project->setSlug()
-                }
+                $this->em->persist($project);
+                $this->em->flush();
+            
+            // do anything else you need here, like send an email
 
+            
+            return $this->redirectToRoute('home');
 
-
-
-        
-            //     $entityManager->persist($user);
-            //     $entityManager->flush();
-            //     // do anything else you need here, like send an email
-    
-            //     return $userAuthenticator->authenticateUser(
-            //         $user,
-            //         $authenticator,
-            //         $request
-            //     );
             }
         }
 

@@ -17,16 +17,15 @@ class ProjectType extends AbstractType
         $builder
             ->add('name')
             ->add('description')
-            ->add('slug')
-            ->add('admin', EntityType::class, [
-                'class' => User::class,
-                'choice_label' => 'id',
-            ])
-            ->add('collaborator', EntityType::class, [
-                'class' => User::class,
-                'choice_label' => 'lastname',
-                'multiple' => true,
-            ])
+            // ->add('admin', EntityType::class, [
+            //     'class' => User::class,
+            //     'choice_label' => 'id',
+            // ])
+            // ->add('collaborator', EntityType::class, [
+            //     'class' => User::class,
+            //     'choice_label' => 'lastname',
+            //     'multiple' => true,
+            // ])
             ->add('save', SubmitType::class, [
                 'label'=> 'Créer',
             ])
