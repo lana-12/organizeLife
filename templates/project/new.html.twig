@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouveau Projet {% endblock %}
+
+
+{% block body %}
+<h2>Nouveau Projet</h2>
+
+
+    {{ form_errors(projectForm) }}
+    {{ form_start(projectForm) }}
+    <div class="d-flex ">
+        {{ form_row(projectForm.name) }}
+        {{ form_row(projectForm.slug) }}
+    </div>
+
+    <div>
+        {{ form_row(projectForm.description) }}
+    </div>
+
+   
+    <div>
+        {{ form_rest(projectForm) }}
+    </div>
+
+    {# <div>
+        {{ form_row(projectForm.save) }}
+    </div> #}
+
+    {# <button type="submit" class="btn">Register</button> #}
+    {# {{ form_rest(projectForm) }} #}
+    
+    {{ form_end(projectForm) }}
+
+
+
+{% endblock %}

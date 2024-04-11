@@ -9,6 +9,8 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProjectRepository::class)]
+#[ORM\Table(name: '`projects`')]
+
 class Project
 {
     #[ORM\Id]
@@ -39,7 +41,7 @@ class Project
 
     public function __construct()
     {
-        $this->createdAt = new \DateTime();
+        $this->createdAt = new \DateTimeImmutable();
         $this->events = new ArrayCollection();
         $this->collaborator = new ArrayCollection();
     }
