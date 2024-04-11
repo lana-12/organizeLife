@@ -35,7 +35,16 @@ class ProjectController extends AbstractController
     #[Route('/', name: 'project.index')]
     public function index(Request $request): Response
     {
-        $projects = $this->projectRepo->findAll();
+
+        /**
+         * @var User 
+         */
+
+        //  TODO : Faire une verif de plus
+        $adminProject = $this->security->getUser();
+        $adminId = $adminProject->getId();
+        
+        $projects = $this->projectRepo->findByProjectsByAdminId($adminId );
 
         // dd($projects);
         return $this->render('project/index.html.twig', [

@@ -24,6 +24,8 @@ class ProjectRepository extends ServiceEntityRepository
 
     public function findByProjectsByAdminId(int $adminId): array
     {
+
+        
         return $this->createQueryBuilder('p')
             ->andWhere('p.admin = :adminId')
             ->setParameter('adminId', $adminId)

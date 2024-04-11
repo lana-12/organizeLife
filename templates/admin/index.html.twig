@@ -8,6 +8,11 @@
     <div class="container">
     {{ dump(admin) }}
     {{ dump(projects) }}
+
+                <a class="btn btn-danger" href="{{ path('project.new', {id: project.id }) }}">Supprimer</a>
+
+
+    
         {# <h2>Hello {{ controller_name }}! ✅</h2>
 
         This friendly message is coming from:
