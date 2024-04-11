@@ -1,9 +1,7 @@
 {% extends 'base.html.twig' %}
 
 
-{% block title %} OrgalizeLife | Projet {% endblock %}
-
-
+{% block title %} OrgalizeLife | Projets {% endblock %}
 
 {% block body %}
 <style>
@@ -11,21 +9,18 @@
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
 
-<div class="example-wrapper">
-{% for project in projects %}
-    <h2>{{ project.name }}</h2>
-    <a href="{{ path('project.show', {id: project.id , slug: project.slug }) }}">{{ project.name }}</a>
+    <div class="example-wrapper">
 
+    {% for project in projects %}
+        <h2>{{ project.name }}</h2>
+        <a href="{{ path('project.show', {id: project.id , slug: project.slug }) }}">{{ project.name }}</a>
 
+        <p> {{ project.description }}</p>
+        <a class="btn btn-danger" href="{{ path('project.delete', {id: project.id }) }}">Supprimer</a>
 
+        {{ dump(project) }}
+    {% endfor %}
 
-<p>
-	{{ project.description }}
-</p>
+    </div>
 
-
-	{{ dump(project) }}
-{% endfor %}
-
-</div>
 {% endblock %}

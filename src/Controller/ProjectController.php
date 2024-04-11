@@ -62,7 +62,7 @@ class ProjectController extends AbstractController
      * New Project 
      */
     #[Route('/nouveau', name: 'project.new')]
-    public function new(Request $request, Security $security): Response
+    public function newProject(Request $request, Security $security): Response
     {
         if(!$security->getUser()){
             $this->addFlash('danger', "Vous devez être connecté(e) pour accéder à ce service");
@@ -106,5 +106,16 @@ class ProjectController extends AbstractController
         ]);
     }
 
+    /**
+     * New Project 
+     */
+    #[Route('/supprimer/{id}', name: 'project.delete')]
+    public function deleteProject(?Project $project, EntityManagerInterface $em )
+    {
+        $em->remove($project);
+        $em->flush();
+        $this->addFlash('success', 'Le project a été supprimer avec succes');
+        return $this->redirectToRoute('project.index', [], Response::HTTP_SEE_OTHER);
+    }
     
 }
