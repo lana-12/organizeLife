@@ -12,13 +12,19 @@
     <div class="example-wrapper">
 
     {% for project in projects %}
+
+{{ dump(project.slug) }}
+
+
+
         <h2>{{ project.name }}</h2>
         <a href="{{ path('project.show', {id: project.id , slug: project.slug }) }}">{{ project.name }}</a>
-
         <p> {{ project.description }}</p>
+        
         <a class="btn btn-danger" href="{{ path('project.delete', {id: project.id }) }}">Supprimer</a>
 
         {{ dump(project) }}
+
     {% endfor %}
 
     </div>

@@ -10,17 +10,19 @@ use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/projets')]
+#[IsGranted('ROLE_ADMIN')] 
 class ProjectController extends AbstractController
-
 
 {
     public function __construct(
         
         private ProjectRepository $projectRepo,
-        private EntityManagerInterface $em
+        private EntityManagerInterface $em,
+        private Security $security
     
     ){}
 
@@ -45,12 +47,10 @@ class ProjectController extends AbstractController
     /**
      * Retrieve Project by id
      */
-    #[Route('/show/{slug}-{id}', name: 'project.show', requirements: ['id' => '\d+', 'slug' => '[a-z0-9-]+'] )]
+    #[Route('/show/{slug}-{id}', name: 'project.show', requirements: ['id' => '\d+', 'slug' => '[A-z0-9-]+'] )]
     public function show(int $id, string $slug, Request $request): Response
     {
         $project = $this->projectRepo->find($id);
-
-        
 
         // dd($projects);
         return $this->render('project/show.html.twig', [
@@ -62,13 +62,12 @@ class ProjectController extends AbstractController
      * New Project 
      */
     #[Route('/nouveau', name: 'project.new')]
-    public function newProject(Request $request, Security $security): Response
+    public function newProject(Request $request): Response
     {
-        if(!$security->getUser()){
+        if(!$this->security->getUser()){
             $this->addFlash('danger', "Vous devez être connecté(e) pour accéder à ce service");
             return $this->redirectToRoute('home');
         }
-
 
         $project = new Project();
         $form = $this->createForm(ProjectType::class, $project);
@@ -87,7 +86,7 @@ class ProjectController extends AbstractController
                 $slug = $project->getName();
                 $project->setSlug($slug);
 
-                $admin = $security->getUser();
+                $admin = $this->security->getUser();
                 $project->setAdmin($admin);
 
                 $this->em->persist($project);
@@ -95,9 +94,9 @@ class ProjectController extends AbstractController
             
             // do anything else you need here, like send an email
 
-            
-            return $this->redirectToRoute('home');
+            $this->addFlash('success', 'Le project a été créer avec succes');
 
+            return $this->redirectToRoute('project.index');
             }
         }
 
@@ -110,10 +109,10 @@ class ProjectController extends AbstractController
      * New Project 
      */
     #[Route('/supprimer/{id}', name: 'project.delete')]
-    public function deleteProject(?Project $project, EntityManagerInterface $em )
+    public function deleteProject(?Project $project)
     {
-        $em->remove($project);
-        $em->flush();
+        $this->em->remove($project);
+        $this->em->flush();
         $this->addFlash('success', 'Le project a été supprimer avec succes');
         return $this->redirectToRoute('project.index', [], Response::HTTP_SEE_OTHER);
     }

@@ -5,32 +5,66 @@
 {% endblock %}
 
 {% block body %}
-	<style>
-		.example-wrapper {
-			margin: 1em auto;
-			max-width: 800px;
-			width: 95%;
-			font: 18px / 1.5 sans-serif;
-		}
-		.example-wrapper code {
-			background: #F5F5F5;
-			padding: 2px 6px;
-		}
-	</style>
+	{# {{ dump(app.user) }} #}
 
-	<div class="example-wrapper">
-		<h1>{{ project.name }}! ✅</h1>
-		<p>{{ project.id }}</p>
+	<section class="container">
 
-		<p>{{ project.description }}</p>
+	{% if project %}
+		<h2 class="text-center my-4">{{ project.name }} - id: {{ project.id }}</h2>
 
+		<div class="bg-secondary text-white p-3 m-3">
+			<h3 class="text-center">Administrateur : </h3>
+			<p>{{ app.user.firstname }}</p>
+			<p>{{ app.user.lastname }}</p>
+			<p>{{ app.user.email }}</p>
+		</div>
 
-		{{ dump(project) }}
-		{{ dump(app) }}
-		{{ dump(app.current_route) }}
-		{{ dump(app.request) }}
+		<div class="bg-secondary text-white p-3 m-3">
+			<h3 class="text-center">Projet : </h3>
+			<p>{{ project.description }}</p>
 
+			<div>
+            {% if project.collaborator is not empty %}
+                {% for collaborator in project.collaborator %}
+                    <p>{{ collaborator.firstname }} {{ collaborator.lastname }}</p>
+                {% endfor %}
+            {% else %}
+                <p>Aucun collaborateur pour ce projet.</p>
+            {% endif %}
+        	</div>
 
-	</div>
+			<div>
+            {% if project.events is not empty %}
+                {% for events in project.events %}
+                    <p>{{ events.title }}</p>
+                {% endfor %}
+            {% else %}
+                <p>Aucun évènement pour ce projet.</p>
+            {% endif %}
+        	</div>
+			
+		</div>
+		<div class="">
+			{{ dump(project) }}
+			{{ dump(app.current_route) }}
+			{{ dump(app.request) }}
+
+		</div>
+		
+
+	{% else %}
+		<div class="alert alert-danger alert-dismissible" role="alert ">
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+
+			<div class="alert-message">
+				<p>Pas de project</p>
+			</div>
+		</div>
+
+	{% endif %}
+		
+	</section
+
+	
 {% endblock %}
 
