@@ -40,7 +40,7 @@ class ProjectController extends AbstractController
          * @var User 
          */
 
-        //  TODO : Faire une verif de plus
+        //  TODO : Faire une
         $adminProject = $this->security->getUser();
         $adminId = $adminProject->getId();
         

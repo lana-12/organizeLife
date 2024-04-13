@@ -24,30 +24,41 @@ class AdminController extends AbstractController
     ){}
 
 
-    #[Route('/', name: 'admin.index')]
+    #[Route('/espaceperso', name: 'admin.index')]
     public function index(): Response
     {
-        if(!$this->security->getUser()){
+        /**
+         * @var User 
+         */
+        $user = $this->security->getUser();
+
+        // Check if user is logged in
+        if(!$user){
             $this->addFlash('danger', "Vous devez être connecté(e) pour accéder à ce service");
             return $this->redirectToRoute('home');
         }
 
-        /**
-         * @var User 
-         */
-        $adminProject = $this->security->getUser();
-        $adminId = $adminProject->getId();
+        // Check if user is Admin
+        if(!in_array("ROLE_ADMIN", $user->getRoles(), true )){
+            $this->addFlash('danger', "Vous ne disposez pas des droits pour accéder à ce service");
+            return $this->redirectToRoute('home');
+        } 
 
-        
+        $adminId = $user->getId();
         $projects = $this->projectRepo->findByProjectsByAdminId($adminId);
         
-        // dd($adminProject);
-        // dd($projects);
-
-
-        return $this->render('admin/index.html.twig', [
-            'admin' => $adminProject,
-            'projects' => $projects,
-        ]);
+        if ($projects) {
+            return $this->render('admin/index.html.twig', [
+                'admin' => $user,
+                'projects' => $projects,
+                'role' => 'Admin',
+            ]);
+        } else {
+            $this->addFlash('danger', "Vous n'avez aucun projet");
+            return $this->render('admin/index.html.twig', [
+                'user' => $user,
+                'role'=> 'User'
+            ]);
+        }
     }
 }
