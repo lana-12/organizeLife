@@ -40,14 +40,35 @@ class ProjectController extends AbstractController
     public function show(?Project $project): Response
     {
 
-        //  TODO : Faire une Verif if Admin si If son project
+        /**
+         * @var $user
+         */
+        $user = $this->security->getUser();
 
-        $project = $this->projectRepo->find($project);
+        if(!$this->security->getUser()){
+            $this->addFlash('danger', "Vous devez être connecté(e) pour accéder à ce service");
+            return $this->redirectToRoute('home');
+        }
 
-        // dd($projects);
-        return $this->render('project/_show.html.twig', [
-            'project' => $project,
-        ]);
+        if(!in_array("ROLE_ADMIN", $user->getRoles(), true )){
+            $this->addFlash('danger', "Vous ne disposez pas des droits pour accéder à ce service");
+            return $this->redirectToRoute('home');
+        } 
+
+        if(!$project){
+            $this->addFlash('danger', "Ce projet n'existe pas");
+            return $this->redirectToRoute('admin.index');
+        }
+
+        if($user->getId() === $project->getAdmin()->getId()){
+            return $this->render('project/_show.html.twig', [
+                'project' => $project,
+            ]);
+        }
+
+        $this->addFlash('danger', "Vous ne disposez pas des droits pour accéder à ce projet");
+        return $this->redirectToRoute('admin.index');
+        
     }
 
     /**
@@ -56,12 +77,16 @@ class ProjectController extends AbstractController
     #[Route('/nouveau', name: 'project.new')]
     public function newProject(Request $request): Response
     {
+
         if(!$this->security->getUser()){
             $this->addFlash('danger', "Vous devez être connecté(e) pour accéder à ce service");
             return $this->redirectToRoute('home');
         }
-        //  TODO :  Verif si admin comme ds AdminController (à voir faire un service)
 
+        if(!in_array("ROLE_ADMIN", $this->security->getUser()->getRoles(), true )){
+            $this->addFlash('danger', "Vous ne disposez pas des droits pour accéder à ce service");
+            return $this->redirectToRoute('home');
+        } 
         $project = new Project();
         $form = $this->createForm(ProjectType::class, $project);
         
@@ -74,7 +99,7 @@ class ProjectController extends AbstractController
                 // Retrieve all data in the form 
                 $project = $form->getData();
 
-                // TODO: Prévoir un nombre limiter de caractère
+                // TODO: Prévoir un nombre limiter de caractère ou fair un DTO pour le slug
                 // Retrieve NameProject
                 $slug = str_replace(' ', '', $project->getName());
                 $project->setSlug($slug);
@@ -87,14 +112,15 @@ class ProjectController extends AbstractController
             
             // do anything else you need here, like send an email
 
-            $this->addFlash('success', 'Le project a été créer avec succes');
+            $this->addFlash('success', 'Le project a été créé avec succes');
 
             return $this->redirectToRoute('admin.index');
             }
         }
 
-        return $this->render('project/_new.html.twig', [
+        return $this->render('project/_formProject.html.twig', [
             'projectForm' => $form,
+            'editMode'=> $project->getId() !== null,
         ]);
     }
 
@@ -102,15 +128,63 @@ class ProjectController extends AbstractController
      * Edit Project 
      */
     #[Route('/edit/{slug}-{id}', name: 'project.edit', requirements: ['id' => '\d+', 'slug' => '[A-z0-9-]+'] )]
-    public function editProject(?Project $project)
+    public function editProject(?Project $project, Request $request): Response
     {
+        /**
+         * @var $user
+         */
+        $user = $this->security->getUser();
 
-        $project = $this->projectRepo->find($project);
+        if(!$this->security->getUser()){
+            $this->addFlash('danger', "Vous devez être connecté(e) pour accéder à ce service");
+            return $this->redirectToRoute('home');
+        }
+
+        if(!in_array("ROLE_ADMIN", $user->getRoles(), true )){
+            $this->addFlash('danger', "Vous ne disposez pas des droits pour accéder à ce service");
+            return $this->redirectToRoute('home');
+        } 
+
+        if(!$project){
+            $this->addFlash('danger', "Ce projet n'existe pas");
+            return $this->redirectToRoute('admin.index');
+        }
+
+        if($user->getId() === $project->getAdmin()->getId()){
+            if(!$project){
+                $project = new Project();
+            }
 
 
-        return $this->render('project/_edit.html.twig', [
-            'project' => $project,
-        ]);
+            $form = $this->createForm(ProjectType::class, $project);
+            $form->handleRequest($request);
+            
+            if ($form->isSubmitted() && $form->isValid()) {
+                if($request->getMethod() === "POST"){
+    
+                    $project = $form->getData();
+                    $slug = str_replace(' ', '', $project->getName());
+                    $project->setSlug($slug);
+        
+                    $this->em->persist($project);
+                    $this->em->flush();
+                
+                // do anything else you need here, like send an email
+    
+                $this->addFlash('success', 'Le project a été modifié avec succes');
+    
+                return $this->redirectToRoute('admin.index');
+                }
+            }
+
+            return $this->render('project/_formProject.html.twig', [
+                'project' => $project,
+                'projectForm' => $form,
+                'editMode'=> $project->getId() !== null,
+
+            ]);
+    }   
+       
     }
 
 
