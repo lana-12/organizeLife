@@ -47,7 +47,7 @@
             <divclass="col">
                 <div class="boxProjects ">
                     <h2 class="" >Vos Projets</h2>
-
+                    <a href="{{ path('project.new') }}" class="btn btn-primary " >Nouveau</a>
                 {% if projects %}
                         {# {{ dump(projects) }} #}
                        {% for project in projects %}
@@ -57,18 +57,19 @@
                                     <p >{{ project.name | capitalize }}</p>
                                 </div>                                    
                                 <div class="" >
-                                    <a href="#" class="btn btn-primary " >Gérer</a>
-                                    <a href="#" class="btn btn-warning " >Modifier</a>
-                                    <a href="#" class="btn btn-danger " >Supprimer</a>
+                                    <a href="{{ path('project.show', {id: project.id , slug: project.slug }) }}" class="btn btn-success " >Gérer</a>
+
+                                    <a href="{{ path('project.edit', {id: project.id , slug: project.slug }) }}" class="btn btn-warning " >Modifier</a>
+
+                                    <a href="{{ path('project.delete', {id: project.id , slug: project.slug }) }}" class="btn btn-danger " >Supprimer</a>
 
                                 </div>
                             </div>                       
                                  
                         {% endfor %}
-                    
 
                 {% else %}
-                    <p>Pas de projet <a href="#" class="text-white " alt="Créer un projet" title="Créer un projet"> Nouveau</a></p>
+                    <p>Pas de projet <a href="{{ path('project.new') }}" class="text-white " alt="Créer un projet" title="Créer un projet"> Nouveau</a></p>
 
                 {% endif %}
                 </div>

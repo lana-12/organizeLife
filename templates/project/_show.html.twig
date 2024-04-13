@@ -9,18 +9,20 @@
 
 	<section class="container">
 
+		<h2 class="my-4">Gérer</h2>
+
 	{% if project %}
-		<h2 class="text-center my-4">{{ project.name }} - id: {{ project.id }}</h2>
+		<h3 class="text-center my-4">{{ project.name }} - id: {{ project.id }}</h3>
 
 		<div class="bg-secondary text-white p-3 m-3">
-			<h3 class="text-center">Administrateur : </h3>
+			<h4 class="text-center">Administrateur : </h4>
 			<p>{{ app.user.firstname }}</p>
 			<p>{{ app.user.lastname }}</p>
 			<p>{{ app.user.email }}</p>
 		</div>
 
 		<div class="bg-secondary text-white p-3 m-3">
-			<h3 class="text-center">Projet : </h3>
+			<h4 class="text-center">Projet : </h4>
 			<p>{{ project.description }}</p>
 
 			<div>

@@ -27,42 +27,25 @@ class ProjectController extends AbstractController
     ){}
 
 
-    /**
-     * Retrieve AllProjects
-     *
-     * @return Response
-     */
     #[Route('/', name: 'project.index')]
     public function index(Request $request): Response
     {
-
-        /**
-         * @var User 
-         */
-
-        //  TODO : Faire une
-        $adminProject = $this->security->getUser();
-        $adminId = $adminProject->getId();
-        
-        $projects = $this->projectRepo->findByProjectsByAdminId($adminId );
-
-        // dd($projects);
-        return $this->render('project/index.html.twig', [
-            'projects' => $projects,
-            
-        ]);
+        return $this->render('home/index.html.twig');
     }
 
     /**
      * Retrieve Project by id
      */
     #[Route('/show/{slug}-{id}', name: 'project.show', requirements: ['id' => '\d+', 'slug' => '[A-z0-9-]+'] )]
-    public function show(int $id, string $slug, Request $request): Response
+    public function show(?Project $project): Response
     {
-        $project = $this->projectRepo->find($id);
+
+        //  TODO : Faire une Verif if Admin si If son project
+
+        $project = $this->projectRepo->find($project);
 
         // dd($projects);
-        return $this->render('project/show.html.twig', [
+        return $this->render('project/_show.html.twig', [
             'project' => $project,
         ]);
     }
@@ -77,6 +60,7 @@ class ProjectController extends AbstractController
             $this->addFlash('danger', "Vous devez être connecté(e) pour accéder à ce service");
             return $this->redirectToRoute('home');
         }
+        //  TODO :  Verif si admin comme ds AdminController (à voir faire un service)
 
         $project = new Project();
         $form = $this->createForm(ProjectType::class, $project);
@@ -92,7 +76,7 @@ class ProjectController extends AbstractController
 
                 // TODO: Prévoir un nombre limiter de caractère
                 // Retrieve NameProject
-                $slug = $project->getName();
+                $slug = str_replace(' ', '', $project->getName());
                 $project->setSlug($slug);
 
                 $admin = $this->security->getUser();
@@ -105,17 +89,33 @@ class ProjectController extends AbstractController
 
             $this->addFlash('success', 'Le project a été créer avec succes');
 
-            return $this->redirectToRoute('project.index');
+            return $this->redirectToRoute('admin.index');
             }
         }
 
-        return $this->render('project/new.html.twig', [
+        return $this->render('project/_new.html.twig', [
             'projectForm' => $form,
         ]);
     }
 
     /**
-     * New Project 
+     * Edit Project 
+     */
+    #[Route('/edit/{slug}-{id}', name: 'project.edit', requirements: ['id' => '\d+', 'slug' => '[A-z0-9-]+'] )]
+    public function editProject(?Project $project)
+    {
+
+        $project = $this->projectRepo->find($project);
+
+
+        return $this->render('project/_edit.html.twig', [
+            'project' => $project,
+        ]);
+    }
+
+
+    /**
+     * Delete Project 
      */
     #[Route('/supprimer/{id}', name: 'project.delete')]
     public function deleteProject(?Project $project)
@@ -123,7 +123,8 @@ class ProjectController extends AbstractController
         $this->em->remove($project);
         $this->em->flush();
         $this->addFlash('success', 'Le project a été supprimer avec succes');
-        return $this->redirectToRoute('project.index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('admin.index', [], Response::HTTP_SEE_OTHER);
     }
+
     
 }

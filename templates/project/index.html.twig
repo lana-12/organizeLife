@@ -1,49 +1,30 @@
 {% extends 'base.html.twig' %}
 
-
 {% block title %} OrgalizeLife | Projets {% endblock %}
 
 {% block body %}
-    <div class="example-wrapper">
+    <div class="">
+        {% if projects %}
+            {% set routeName = app.request.attributes.get('_route') %}
 
+            {% include {
+                'project.show': './_show.html.twig',
+                'project.new': './_new.html.twig',
+                'project.edit': './_edit.html.twig',
+                'project.index': '../home/index.html.twig'
 
-    {% if projects  %}
+            }[routeName] ?? '' %}
 
-        
-        {% for project in projects %}
-
-            <div>
-                <h2>{{ project.name }}</h2>
-                <a href="{{ path('project.show', {id: project.id , slug: project.slug }) }}">{{ project.name }}</a>
-                <p> {{ project.description }}</p>
-                
-                <a class="btn btn-danger" href="{{ path('project.delete', {id: project.id }) }}">Supprimer</a>
-
-                {{ dump(project) }}
-            
-            
-            </div>
-    
-        {% endfor %}
-
-    {% else %}
-        <div class="alert alert-danger alert-dismissible" role="alert ">
+        {% else %}
+            <div class="alert alert-danger alert-dismissible" role="alert">
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 
                 <div class="alert-message">
                     <p>Pas de project en cours ...</p>
-                    <a href="{{ path('project.show', {id: project.id , slug: project.slug }) }}">{{ project.name }}</a>
-                    
-                    </a>
+                    <a href="{{ path('project.new') }}">Nouveau</a>
                 </div>
             </div>
-
-    {% endif %}
-
-
-
-
+        {% endif %}
 
     </div>
-
 {% endblock %}
