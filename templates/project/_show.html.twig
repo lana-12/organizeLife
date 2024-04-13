@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{project.name}}
+{% endblock %}
+
+{% block body %}
+	{# {{ dump(app.user) }} #}
+
+	<section class="container">
+
+		<h2 class="my-4">Gérer</h2>
+
+	{% if project %}
+		<h3 class="text-center my-4">{{ project.name }} - id: {{ project.id }}</h3>
+
+		<div class="bg-secondary text-white p-3 m-3">
+			<h4 class="text-center">Administrateur : </h4>
+			<p>{{ app.user.firstname }}</p>
+			<p>{{ app.user.lastname }}</p>
+			<p>{{ app.user.email }}</p>
+		</div>
+
+		<div class="bg-secondary text-white p-3 m-3">
+			<h4 class="text-center">Projet : </h4>
+			<p>{{ project.description }}</p>
+
+			<div>
+            {% if project.collaborator is not empty %}
+                {% for collaborator in project.collaborator %}
+                    <p>{{ collaborator.firstname }} {{ collaborator.lastname }}</p>
+                {% endfor %}
+            {% else %}
+                <p>Aucun collaborateur pour ce projet.</p>
+            {% endif %}
+        	</div>
+
+			<div>
+            {% if project.events is not empty %}
+                {% for events in project.events %}
+                    <p>{{ events.title }}</p>
+                {% endfor %}
+            {% else %}
+                <p>Aucun évènement pour ce projet.</p>
+            {% endif %}
+        	</div>
+			
+		</div>
+		<div class="">
+			{{ dump(project) }}
+			{{ dump(app.current_route) }}
+			{{ dump(app.request) }}
+
+		</div>
+		
+
+	{% else %}
+		<div class="alert alert-danger alert-dismissible" role="alert ">
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+
+			<div class="alert-message">
+				<p>Pas de project</p>
+			</div>
+		</div>
+
+	{% endif %}
+		
+	</section
+
+	
+{% endblock %}
+

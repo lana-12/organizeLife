@@ -21,6 +21,19 @@ class ProjectRepository extends ServiceEntityRepository
         parent::__construct($registry, Project::class);
     }
 
+
+    public function findByProjectsByAdminId(int $adminId): array
+    {
+
+        
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.admin = :adminId')
+            ->setParameter('adminId', $adminId)
+            ->getQuery()
+            ->getResult();
+    }
+
+
     //    /**
     //     * @return Project[] Returns an array of Project objects
     //     */

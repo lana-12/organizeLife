@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Espace Perso | {{ parent() }}{% endblock %}
+
+{% block body %}
+
+<h2>EspacePerso</h2>
+
+{# TODO: Verifier if isConnected and  ROLE_ADMIN  #}
+{# TODO: A voir comment faire pour boxespacePerso + boxProject de faire des includes #}
+{# TODO: Mettre confirm() on the btn-Delete #}
+
+
+    <div class="container">
+        
+        <div class="row my-5">
+            <divclass="col">
+
+                {% if admin %}
+                    {# {{ dump(admin) }} #}
+                    <div class="boxEspacePerso ">
+                        <h2 class="" >Vos Données Personelles</h2>
+
+                        <div class="d-flex justify-content-around " >
+                            <p>{{ admin.firstname | capitalize }}</p>
+                            <p>{{ admin.lastname | capitalize }}</p>
+                        </div>
+
+                            <p>Email : {{ admin.email }}</p>
+                            <p>Votre Rôle : {{ role }}</p>
+                            
+                        <div class="d-flex justify-content-around  " >
+                            <a href="#" class="btn btn-warning " >Modifier</a>
+                            <a href="#" class="btn btn-primary " >Gérer</a>
+
+                        </div>
+                    </div>
+
+                {% else %}
+                    <p>Pas de compte</p>
+                {% endif %}
+            </div>
+        </div>
+
+
+        <div class="row">
+            <divclass="col">
+                <div class="boxProjects ">
+                    <h2 class="" >Vos Projets</h2>
+                    <a href="{{ path('project.new') }}" class="btn btn-primary " >Nouveau</a>
+                {% if projects %}
+                        {# {{ dump(projects) }} #}
+                       {% for project in projects %}
+                          {{ dump(project) }}
+                            <div class="boxProject">
+                                <div class="" >
+                                    <p >{{ project.name | capitalize }}</p>
+                                </div>                                    
+                                <div class="" >
+                                    <a href="{{ path('project.show', {id: project.id , slug: project.slug }) }}" class="btn btn-success " >Gérer</a>
+
+                                    <a href="{{ path('project.edit', {id: project.id , slug: project.slug }) }}" class="btn btn-warning " >Modifier</a>
+
+                                    <a href="{{ path('project.delete', {id: project.id , slug: project.slug }) }}" class="btn btn-danger " >Supprimer</a>
+
+                                </div>
+                            </div>                       
+                                 
+                        {% endfor %}
+
+                {% else %}
+                    <p>Pas de projet <a href="{{ path('project.new') }}" class="text-white " alt="Créer un projet" title="Créer un projet"> Nouveau</a></p>
+
+                {% endif %}
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
