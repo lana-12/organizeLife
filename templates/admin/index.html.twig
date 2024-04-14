@@ -12,29 +12,13 @@
 
 
     <div class="container">
-        
+               
         <div class="row my-5">
             <divclass="col">
 
                 {% if admin %}
                     {# {{ dump(admin) }} #}
-                    <div class="boxEspacePerso ">
-                        <h2 class="" >Vos Données Personelles</h2>
-
-                        <div class="d-flex justify-content-around " >
-                            <p>{{ admin.firstname | capitalize }}</p>
-                            <p>{{ admin.lastname | capitalize }}</p>
-                        </div>
-
-                            <p>Email : {{ admin.email }}</p>
-                            <p>Votre Rôle : {{ role }}</p>
-                            
-                        <div class="d-flex justify-content-around  " >
-                            <a href="#" class="btn btn-warning " >Modifier</a>
-                            <a href="#" class="btn btn-primary " >Gérer</a>
-
-                        </div>
-                    </div>
+                    {% include "user/_boxEspacePerso.html.twig"  %}
 
                 {% else %}
                     <p>Pas de compte</p>

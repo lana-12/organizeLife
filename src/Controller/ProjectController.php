@@ -61,6 +61,7 @@ class ProjectController extends AbstractController
         }
 
         if($user->getId() === $project->getAdmin()->getId()){
+            
             return $this->render('project/_show.html.twig', [
                 'project' => $project,
             ]);
