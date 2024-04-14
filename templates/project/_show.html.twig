@@ -39,7 +39,7 @@
 				<section class="bg-secondary text-white p-3 m-3">
 					<h4 class="text-center">Projet : </h4>
 					<p>{{ project.description }}</p>
-					<p>{{project.createdAt | date("d/m/Y") }}</p>
+					<p class="text-muted">Créer le {{project.createdAt | date("d/m/Y") }}</p>
 				</section>
 			</div>
 		</div>
@@ -57,7 +57,7 @@
 					{% if project.collaborator is not empty %}
 
                 		{% for collaborator in project.collaborator %}
-                    		<p>{{ collaborator.firstname }} {{ collaborator.lastname }}</p>
+                    		<p>Prénom : {{ collaborator.firstname }}</p>
 							
 
                 		{% endfor %}
