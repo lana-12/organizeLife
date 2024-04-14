@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-class TextFormatter
+class TextFormatterService
 {
 
     public function formatSlug(string $text): string

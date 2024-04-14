@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Entity\Project;
 use App\Form\ProjectType;
 use App\Repository\ProjectRepository;
-use App\Service\TextFormatter;
+use App\Service\TextFormatterService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,7 +24,7 @@ class ProjectController extends AbstractController
         private ProjectRepository $projectRepo,
         private EntityManagerInterface $em,
         private Security $security,
-        private TextFormatter $textFormatter
+        private TextFormatterService $textFormatter
     
     ){}
 

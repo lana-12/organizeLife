@@ -17,7 +17,7 @@ services:
         tags:
             - { name: 'controller.service_arguments' }
 
-    App\Service\TextFormatter:
+    App\Service\TextFormatterService:
         arguments: []
 
 
