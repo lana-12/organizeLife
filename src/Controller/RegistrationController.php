@@ -28,6 +28,9 @@ class RegistrationController extends AbstractController
 
             if($request->getMethod() === "POST"){
 
+                $user->setFirstname(ucfirst($form->get('firstname')->getData()) );
+                $user->setLastname(ucfirst($form->get('lastname')->getData()) );
+
                 $user->setRoles(
                     ['ROLE_USER', 'ROLE_ADMIN']);
                 $user->setPassword(
@@ -36,7 +39,6 @@ class RegistrationController extends AbstractController
                         $form->get('plainPassword')->getData()
                     )
                 );
-               
                 $entityManager->persist($user);
                 $entityManager->flush();
                 // do anything else you need here, like send an email

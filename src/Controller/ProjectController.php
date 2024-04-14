@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Project;
 use App\Form\ProjectType;
 use App\Repository\ProjectRepository;
+use App\Service\TextFormatter;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,7 +23,8 @@ class ProjectController extends AbstractController
         
         private ProjectRepository $projectRepo,
         private EntityManagerInterface $em,
-        private Security $security
+        private Security $security,
+        private TextFormatter $textFormatter
     
     ){}
 
@@ -35,8 +37,9 @@ class ProjectController extends AbstractController
 
     /**
      * Retrieve Project by id
+     * 'slug' => '[\p{L}0-9-]+'  pas => 'slug' => '[A-z0-9-]+' [A-zÀ-ú0-9-]+
      */
-    #[Route('/show/{slug}-{id}', name: 'project.show', requirements: ['id' => '\d+', 'slug' => '[A-z0-9-]+'] )]
+    #[Route('/show/{slug}-{id}', name: 'project.show', requirements: ['id' => '\d+','slug' => '[A-zÀ-ú0-9-]+'    ] )]
     public function show(?Project $project): Response
     {
 
@@ -88,25 +91,34 @@ class ProjectController extends AbstractController
             $this->addFlash('danger', "Vous ne disposez pas des droits pour accéder à ce service");
             return $this->redirectToRoute('home');
         } 
+
+        /**
+         * @var $user
+         */
+        $admin = $this->security->getUser();
+
         $project = new Project();
+
         $form = $this->createForm(ProjectType::class, $project);
-        
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {
-
             if($request->getMethod() === "POST"){
 
                 // Retrieve all data in the form 
                 $project = $form->getData();
+                
+                // $admin = $this->security->getUser();
+                $project->setAdmin($admin);
+
 
                 // TODO: Prévoir un nombre limiter de caractère ou fair un DTO pour le slug
-                // Retrieve NameProject
-                $slug = str_replace(' ', '', $project->getName());
-                $project->setSlug($slug);
+                // Retrieve NameAdmin strtolower() 
 
-                $admin = $this->security->getUser();
-                $project->setAdmin($admin);
+                $formattedSlug = $this->textFormatter->formatSlug($project->getName());
+                $project->setSlug($formattedSlug);
+                
+                // dd($project);
 
                 $this->em->persist($project);
                 $this->em->flush();
@@ -128,20 +140,20 @@ class ProjectController extends AbstractController
     /**
      * Edit Project 
      */
-    #[Route('/edit/{slug}-{id}', name: 'project.edit', requirements: ['id' => '\d+', 'slug' => '[A-z0-9-]+'] )]
+    #[Route('/edit/{slug}-{id}', name: 'project.edit', requirements: ['id' => '\d+', 'slug' => '[A-zÀ-ú0-9-]+'] )]
     public function editProject(?Project $project, Request $request): Response
     {
         /**
          * @var $user
          */
-        $user = $this->security->getUser();
+        $admin = $this->security->getUser();
 
         if(!$this->security->getUser()){
             $this->addFlash('danger', "Vous devez être connecté(e) pour accéder à ce service");
             return $this->redirectToRoute('home');
         }
 
-        if(!in_array("ROLE_ADMIN", $user->getRoles(), true )){
+        if(!in_array("ROLE_ADMIN", $admin->getRoles(), true )){
             $this->addFlash('danger', "Vous ne disposez pas des droits pour accéder à ce service");
             return $this->redirectToRoute('home');
         } 
@@ -151,7 +163,7 @@ class ProjectController extends AbstractController
             return $this->redirectToRoute('admin.index');
         }
 
-        if($user->getId() === $project->getAdmin()->getId()){
+        if($admin->getId() === $project->getAdmin()->getId()){
             if(!$project){
                 $project = new Project();
             }
@@ -164,8 +176,10 @@ class ProjectController extends AbstractController
                 if($request->getMethod() === "POST"){
     
                     $project = $form->getData();
-                    $slug = str_replace(' ', '', $project->getName());
-                    $project->setSlug($slug);
+
+
+                    $formattedSlug = $this->textFormatter->formatSlug($project->getName());
+                    $project->setSlug($formattedSlug);
         
                     $this->em->persist($project);
                     $this->em->flush();

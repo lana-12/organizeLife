@@ -79,9 +79,11 @@ class CollaboratorController extends AbstractController
             
             // dd($form->getData());
 
-
             if($request->getMethod() === "POST"){
 
+
+                $collaborator->setFirstname(ucfirst($form->get('firstname')->getData()) );
+                $collaborator->setLastname(ucfirst($form->get('lastname')->getData()) );
 
                 $collaborator->setRoles(['ROLE_USER', 'ROLE_COLLABORATOR']);
                 $collaborator->addProject($project);
