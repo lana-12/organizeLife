@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Espace Perso | {{ parent() }}{% endblock %}
+
+{% block body %}
+
+<h2>EspacePerso</h2>
+
+{# TODO: Verifier if isConnected and  ROLE_ADMIN  #}
+{# TODO: A voir comment faire pour boxespacePerso + boxProject de faire des includes #}
+{# TODO: Mettre confirm() on the btn-Delete #}
+
+
+    <div class="container">
+        
+        <div class="row my-5">
+            <divclass="col">
+
+                {% include "user/_boxEspacePerso.html.twig"  %}
+
+            </div>
+        </div>
+
+
+        <div class="row">
+            <divclass="col">
+                <div class=" ">
+                   
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

@@ -1,0 +1,28 @@
+
+{% if app.user %}
+
+    <div class="boxEspacePerso ">
+        <h2 class="" >Vos Données Personelles</h2>
+
+        <div class="d-flex justify-content-around " >
+            <p>{{ app.user.firstname | capitalize }}</p>
+            <p>{{ app.user.lastname | capitalize }}</p>
+        </div>
+
+            <p>Email : {{ app.user.email }}</p>
+            {# <p>Votre Rôle : {{ role }}</p> #}
+            
+        <div class="d-flex justify-content-around  " >
+            <a href="#" class="btn btn-warning " >Modifier</a>
+            <a href="#" class="btn btn-primary " >Gérer</a>
+
+        </div>
+    </div>
+
+{% else %}
+    
+
+
+
+
+{% endif %}
