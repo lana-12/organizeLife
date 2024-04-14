@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Entity\Project;
+use App\DTO\CollaboratorDTO;
 use App\Form\CollaboratorType;
 use App\Service\CollaboratorService;
 use App\Repository\ProjectRepository;
@@ -20,7 +21,7 @@ class CollaboratorController extends AbstractController
 {
     public function __construct(
         
-        private CollaboratorService $collaborator,
+        private CollaboratorService $collaboratorService,
         private ProjectRepository $projectRepo,
         private EntityManagerInterface $em,
         private Security $security
@@ -44,7 +45,7 @@ class CollaboratorController extends AbstractController
 
 
     #[Route('/ajouter/{id}', name: 'collaborator.new', requirements: ['id' => '\d+', ])]
-    public function new(Request $request, int $id, UserPasswordHasherInterface $userPasswordHasher): Response
+    public function new(Request $request, int $id): Response
     {
 
          /**
@@ -66,53 +67,28 @@ class CollaboratorController extends AbstractController
         // Retrieve project by id paramater url
         $project = $this->projectRepo->find($id);
 
-        // Gestion of the Collaborator
-        $collaborator = new User();
-        
-        // dd($user);
-        
-        // Create User + dispaly Form
-        $form = $this->createForm(CollaboratorType::class, $collaborator);
+
+        // Gestion of the CollaboratorDTO
+        $collaboratorDTO = new CollaboratorDTO();
+        $form = $this->createForm(CollaboratorType::class, $collaboratorDTO);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            
-            // dd($form->getData());
+            $this->collaboratorService->createCollaborator($collaboratorDTO, $project);
 
-            if($request->getMethod() === "POST"){
-
-
-                $collaborator->setFirstname(ucfirst($form->get('firstname')->getData()) );
-                $collaborator->setLastname(ucfirst($form->get('lastname')->getData()) );
-
-                $collaborator->setRoles(['ROLE_USER', 'ROLE_COLLABORATOR']);
-                $collaborator->addProject($project);
-                $project->addCollaborator($collaborator);
-                $project->setAdmin($this->security->getUser());
-
-                $collaborator->setPassword(
-                    $userPasswordHasher->hashPassword(
-                        $collaborator,
-                        $form->get('password')->getData()
-                    )
-                );
-                
-                $this->em->persist($collaborator);
-                $this->em->persist($project);
-                $this->em->flush();
-      
-
-                $this->addFlash('success', "Collaborateur créé avec success !!");
-
-                return $this->redirectToRoute('project.show', [
-                    'id' => $project->getId(),
-                    'slug' => $project->getSlug(),
-                
-                ]);
-
-            }
-
+            $this->addFlash('success', 'Collaborateur créé avec succès !!');
+            return $this->redirectToRoute('project.show', [
+                'id' => $project->getId(),
+                'slug' => $project->getSlug(),
+            ]);
         }
+
+
+
+
+
+
+
 
         return $this->render('collaborator/formNewCollaborator.html.twig', [
             'collaboratorform' => $form,
@@ -120,3 +96,9 @@ class CollaboratorController extends AbstractController
     
     }
 }
+
+
+
+
+
+

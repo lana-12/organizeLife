@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\User;
 use App\Entity\Project;
+use App\DTO\CollaboratorDTO;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -21,10 +22,6 @@ class CollaboratorType extends AbstractType
             ->add('email', EmailType::class, [
                 'label' => 'Son email',
             ])
-
-            ->add('password', PasswordType::class, [
-                'label' => 'Son mot de Passe',
-            ])
             ->add('firstname', TextType::class, [
                 'label' => 'Son prénom',
             ])
@@ -40,7 +37,7 @@ class CollaboratorType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => User::class,
+            'data_class' => CollaboratorDTO::class,
         ]);
     }
 }
