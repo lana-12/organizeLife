@@ -7,29 +7,20 @@ use App\Entity\Project;
 
 class CollaboratorDTO
 {
-    private ?int $id = null;
-    private ?string $firstname = null;
-    private ?string $lastname = null;
-    private ?string $email = null;
-    public ?User $user = null;
-    public ?Project $project = null;
+    
+
+    public function __construct(
+        
+        private ?string $firstname = null,
+        private ?string $lastname = null,
+        private ?string $email = null,
+        private ?User $user = null,
+        private ?Project $project = null,
+    
+    ){}
+
 
     // Getters and setters
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
-    public function setId(?int $id): self
-    {
-        $this->id = $id;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of firstname
-     */ 
     public function getFirstname()
     {
         return $this->firstname;
@@ -86,4 +77,44 @@ class CollaboratorDTO
 
         return $this;
     }
+
+        /**
+         * Get the value of user
+         */ 
+        public function getUser()
+        {
+                return $this->user;
+        }
+
+        /**
+         * Set the value of user
+         *
+         * @return  self
+         */ 
+        public function setUser($user)
+        {
+                $this->user = $user;
+
+                return $this;
+        }
+
+        /**
+         * Get the value of project
+         */ 
+        public function getProject()
+        {
+                return $this->project;
+        }
+
+        /**
+         * Set the value of project
+         *
+         * @return  self
+         */ 
+        public function setProject($project)
+        {
+                $this->project = $project;
+
+                return $this;
+        }
 }

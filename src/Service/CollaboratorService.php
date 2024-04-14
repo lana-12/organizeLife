@@ -35,24 +35,24 @@ class CollaboratorService extends AbstractController
 
 
 
-    public function getCollaboratorsByProject(int $projectId): array
-    {
-        $collaborators = $this->userRepository->findByProjectId($projectId);
+    // public function getCollaboratorsByProject(int $projectId): array
+    // {
+    //     $collaborators = $this->userRepository->findByProjectId($projectId);
 
-        $collaboratorDTOs = [];
+    //     $collaboratorDTOs = [];
 
-        foreach ($collaborators as $collaborator) {
-            $collaboratorDTO = new CollaboratorDTO();
-            $collaboratorDTO->setId($collaborator->getId());
-            $collaboratorDTO->setFirstname($collaborator->getFirstname());
-            $collaboratorDTO->setLastname($collaborator->getLastname());
-            $collaboratorDTO->setEmail($collaborator->getEmail());
+    //     foreach ($collaborators as $collaborator) {
+    //         $collaboratorDTO = new CollaboratorDTO();
+    //         $collaboratorDTO->setId($collaborator->getId());
+    //         $collaboratorDTO->setFirstname($collaborator->getFirstname());
+    //         $collaboratorDTO->setLastname($collaborator->getLastname());
+    //         $collaboratorDTO->setEmail($collaborator->getEmail());
 
-            $collaboratorDTOs[] = $collaboratorDTO;
-        }
+    //         $collaboratorDTOs[] = $collaboratorDTO;
+    //     }
 
-        return $collaboratorDTOs;
-    }
+    //     return $collaboratorDTOs;
+    // }
 
 
 

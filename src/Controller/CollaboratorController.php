@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\Project;
 use App\Entity\User;
+use App\Entity\Project;
 use App\Form\CollaboratorType;
 use App\Service\CollaboratorService;
 use App\Repository\ProjectRepository;
@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 
 class CollaboratorController extends AbstractController
@@ -22,7 +23,7 @@ class CollaboratorController extends AbstractController
         private CollaboratorService $collaborator,
         private ProjectRepository $projectRepo,
         private EntityManagerInterface $em,
-        private Security $security,
+        private Security $security
     
     ){}
 
@@ -42,65 +43,74 @@ class CollaboratorController extends AbstractController
 
 
 
-    #[Route('/ajouter/{$id}', name: 'collaborator.new', requirements: ['id' => '\d+', ])]
-    public function new(Request $request, int $id): Response
+    #[Route('/ajouter/{id}', name: 'collaborator.new', requirements: ['id' => '\d+', ])]
+    public function new(Request $request, int $id, UserPasswordHasherInterface $userPasswordHasher): Response
     {
 
-        /**
-         * @var User 
+         /**
+         * @var $user
          */
         $user = $this->security->getUser();
-        // Gestion of the Users
-        dump($user);
-        dd($this->projectRepo->find($id));
+        $admin = $user->getId();
 
-        // Gestion of the Users
+        if(!$this->security->getUser()){
+            $this->addFlash('danger', "Vous devez être connecté(e) pour accéder à ce service");
+            return $this->redirectToRoute('home');
+        }
 
+        if(!in_array("ROLE_ADMIN", $user->getRoles(), true )){
+            $this->addFlash('danger', "Vous ne disposez pas des droits pour accéder à ce service");
+            return $this->redirectToRoute('home');
+        } 
+
+        // Retrieve project by id paramater url
+        $project = $this->projectRepo->find($id);
+
+        // Gestion of the Collaborator
+        $collaborator = new User();
+        
+        // dd($user);
+        
         // Create User + dispaly Form
-        $user = new User();
-        $form = $this->createForm(CollaboratorType::class, $user);
+        $form = $this->createForm(CollaboratorType::class, $collaborator);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             
-dump($form );
+            // dd($form->getData());
 
 
-        //     if($request->getMethod() === "POST"){
-        //         $user->setRoles(['ROLE_USER', 'ROLE_COLLABORATOR']);
+            if($request->getMethod() === "POST"){
 
 
-        //         // $user->setPassword(
-        //         //     $this->userPasswordHasher->hashPassword(
-        //         //         $user,
-        //         //         $form->get('plainPassword')->getData()
-        //         //     )
-        //         // );
+                $collaborator->setRoles(['ROLE_USER', 'ROLE_COLLABORATOR']);
+                $collaborator->addProject($project);
+                $project->addCollaborator($collaborator);
+                $project->setAdmin($this->security->getUser());
 
+                $collaborator->setPassword(
+                    $userPasswordHasher->hashPassword(
+                        $collaborator,
+                        $form->get('password')->getData()
+                    )
+                );
+                
+                $this->em->persist($collaborator);
+                $this->em->persist($project);
+                $this->em->flush();
+      
 
+                $this->addFlash('success', "Collaborateur créé avec success !!");
 
+                return $this->redirectToRoute('project.show', [
+                    'id' => $project->getId(),
+                    'slug' => $project->getSlug(),
+                
+                ]);
 
-        //         $this->addFlash('success', "Collaborateur créé avec success !!");
+            }
 
-            
-        //     }
-        // }
-
-
-        // $user = $collaboratorDTO->user;
-        // $plainPassword = uniqid();
-        // $user->setPassword($this->passwordEncoder->encodePassword($user, $plainPassword));
-        // $user->setRoles(['ROLE_USER', 'ROLE_COLLABORATOR']);
-
-        // $project = $collaboratorDTO->project;
-        // $project->addCollaborator($user);
-
-        // $this->em->persist($user);
-        // $this->em->persist($project);
-        // $this->em->flush();
-
-        // Vous pouvez ajouter ici la logique pour envoyer un e-mail au nouvel utilisateur avec son mot de passe
-    }
+        }
 
         return $this->render('collaborator/formNewCollaborator.html.twig', [
             'collaboratorform' => $form,

@@ -3,3 +3,10 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+
+collaborator_new:
+    path: /ajouter/{id}
+    controller: App\Controller\CollaboratorController::new
+    methods: GET|POST
+    requirements:
+        id: '\d+'
