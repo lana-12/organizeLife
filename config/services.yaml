@@ -13,7 +13,7 @@ services:
 
     App\Controller\CollaboratorController:
         arguments:
-            $collaborator: '@App\Service\CollaboratorService'
+            $collaboratorService: '@App\Service\CollaboratorService'
         tags:
             - { name: 'controller.service_arguments' }
 

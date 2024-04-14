@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\User;
+use App\Entity\Project;
 use App\DTO\CollaboratorDTO;
 use App\Form\CollaboratorType;
 use App\Repository\UserRepository;
@@ -22,17 +23,46 @@ class CollaboratorService extends AbstractController
 
         private CollaboratorDTO $collaboratorDTO,
         private UserRepository $userRepository,
-        private UserPasswordHasherInterface $userPasswordHasher, 
         private UserAuthenticatorInterface $userAuthenticator, 
         private UserAuthenticator $authenticator, 
         private EntityManagerInterface $em,
         private Security $security,
+        private UserPasswordHasherInterface $userPasswordHasher
 
         
         
         )
     {}
 
+
+
+    
+    public function createCollaborator(CollaboratorDTO $collaboratorDTO, Project $project): void
+    {
+        // Gestion of the Collaborator
+        $collaborator = new User();
+        $collaborator->setFirstname($collaboratorDTO->getFirstname());
+        $collaborator->setLastname($collaboratorDTO->getLastname());
+        $collaborator->setEmail($collaboratorDTO->getEmail());
+        $collaborator->setRoles(['ROLE_USER', 'ROLE_COLLABORATOR']);
+
+
+        $collaborator->addProject($project);
+        $project->addCollaborator($collaborator);
+        $project->setAdmin($this->security->getUser());
+
+        $password = $collaboratorDTO->getLastname();
+        $collaborator->setPassword(
+            $this->userPasswordHasher->hashPassword(
+                $collaborator,
+                $password
+            )
+        );
+        
+                $this->em->persist($collaborator);
+                $this->em->persist($project);
+                $this->em->flush();
+    }
 
 
     // public function getCollaboratorsByProject(int $projectId): array
@@ -56,64 +86,6 @@ class CollaboratorService extends AbstractController
 
 
 
-    public function createCollaborator(Request $request): void
-    {
-         /**
-         * @var User 
-         */
-        $user = $this->security->getUser();
-        // Gestion of the Users
-        dd($user);
-
-        // Create User + dispaly Form       
-        $user = new User();
-        $form = $this->createForm(CollaboratorType::class, $user);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            
-dump($form );
-
-
-        //     if($request->getMethod() === "POST"){
-        //         $user->setRoles(['ROLE_USER', 'ROLE_COLLABORATOR']);
-
-
-        //         // $user->setPassword(
-        //         //     $this->userPasswordHasher->hashPassword(
-        //         //         $user,
-        //         //         $form->get('plainPassword')->getData()
-        //         //     )
-        //         // );
-
-
-
-
-        //         $this->addFlash('success', "Collaborateur créé avec success !!");
-
-            
-        //     }
-        // }
-
-
-        // $user = $collaboratorDTO->user;
-        // $plainPassword = uniqid();
-        // $user->setPassword($this->passwordEncoder->encodePassword($user, $plainPassword));
-        // $user->setRoles(['ROLE_USER', 'ROLE_COLLABORATOR']);
-
-        // $project = $collaboratorDTO->project;
-        // $project->addCollaborator($user);
-
-        // $this->em->persist($user);
-        // $this->em->persist($project);
-        // $this->em->flush();
-
-        // Vous pouvez ajouter ici la logique pour envoyer un e-mail au nouvel utilisateur avec son mot de passe
-    }
-
-    // return $this->render('collaborator/formNewCollaborator.html.twig', [
-    //     'collaboratorform' => $form,
-    // ]);
-}
+    
 
 }
