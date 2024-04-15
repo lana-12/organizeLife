@@ -1,18 +1,4 @@
-body {
-    background-color: rgb(240, 216, 111);
-}
-
-/* TODO: Faire architecture en SCSS */
-
-/* Page EspacePerso  */
-.boxEspacePerso {
-    background-color: grey;
-    padding: 10px 15px;
-    border-radius: 5px;
-}
-
 .boxProjects {
-    
     background-color: grey;
     display: flex;
     flex-direction: column;
