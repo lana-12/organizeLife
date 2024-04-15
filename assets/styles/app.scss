@@ -1,3 +1,17 @@
-body {
-    background-color: red;
-}
+
+
+
+// Folder generals
+@import "./generals/variables.scss";
+// @import "./generals/class.scss";
+// @import "./generals/mixins.scss";
+@import "./generals/reset.scss";
+@import "./generals/body.scss";
+
+// Folder components
+
+
+// Folder layout
+@import "./layout/project.scss";
+@import "./layout/user.scss";
+
