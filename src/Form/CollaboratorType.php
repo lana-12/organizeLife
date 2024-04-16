@@ -21,15 +21,27 @@ class CollaboratorType extends AbstractType
         $builder
             ->add('email', EmailType::class, [
                 'label' => 'Son email',
+                'attr'=>[
+                    'class'=>'form-control',
+                ],
             ])
             ->add('firstname', TextType::class, [
                 'label' => 'Son prénom',
+                'attr'=>[
+                    'class'=>'form-control',
+                ],
             ])
             ->add('lastname', TextType::class, [
                 'label' => 'Son nom',
+                'attr'=>[
+                    'class'=>'form-control',
+                ],
             ])
             ->add('save', SubmitType::class, [
                 'label'=> 'Enregistrer',
+                'attr'=>[
+                    'class'=>'btn btn-primary ' ,
+                ],
             ])
         ;
     }

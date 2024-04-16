@@ -1,25 +1,26 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Calendrier
+{% block title %}Calendrier{% endblock %}
+
+{% block body %}
+    <button id="btnClick">Cliquez-moi</button>
+    <div id="calendar"></div>
 {% endblock %}
 
 {% block javascripts %}
-        <script src="{{ asset('js/calendar.js') }}" ></script>
-        <script src='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.11/index.global.min.js'></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-{% endblock %}
-	
-{% block body %}
-<!-- Button to trigger modal -->
-<button type="button" class="btn btn-primary" id="clikbtn">
-	Ajouter un événement
-</button>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js" integrity="sha256-J37ZtjEw94oWBNZ9w/XC73raGXE9t10//XHJfKz2QCM=" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.3/dist/sweetalert2.all.min.js" integrity="sha256-xkymBp70qMSHnInLEXDWb34pyON8sBGMA1S84vQILx4=" crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
+    <script src="{{ asset('js/CalendarManager.js') }}"></script>
 
 
+    <script>
+        let calendarManagerInstance = new CalendarManager();
+        calendarManagerInstance.initialize();
+    </script>
 
-	<div id='calendar'>
     
-    </div>
-
 {% endblock %}
-
