@@ -4,7 +4,7 @@
 
 {% block body %}
     <button id="btnClick">Cliquez-moi</button>
-    <div id="calendar"></div>
+    <div id="calendar-holder"></div>
 {% endblock %}
 
 {% block javascripts %}
@@ -20,6 +20,7 @@
     <script>
         let calendarManagerInstance = new CalendarManager();
         calendarManagerInstance.initialize();
+        
     </script>
 
     
