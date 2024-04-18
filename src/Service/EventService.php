@@ -29,7 +29,6 @@ class EventService
                 ],
             ];
         }
-
         return $formattedEvents;
     }
 

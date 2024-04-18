@@ -18,4 +18,6 @@ class EventService {
         const data = await response.json();
         return data.formatEvent;
     }
+
+    
 }

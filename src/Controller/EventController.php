@@ -3,38 +3,57 @@
 namespace App\Controller;
 
 use App\Entity\Event;
+use App\Form\EventType;
+use App\Repository\EventRepository;
 use App\Repository\ProjectRepository;
 use App\Repository\TypeEventRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class EventController extends AbstractController
 {
-    #[Route('/event', name: 'event')]
-    public function index(EntityManagerInterface $em, ProjectRepository $projectRepository, TypeEventRepository $typeEventRepo): Response
+    public function __construct(
+        
+        private EventRepository $eventRepo,
+        private EntityManagerInterface $em,
+        private Security $security,
+    
+    ){}
+    #[Route('/event/nouveau/{id}', name: 'event.new')]
+    public function new(Request $request, int $id, ProjectRepository $projectRepo)
     {
-        $idProject = $projectRepository->find(2);
-        $idType= $typeEventRepo->find(1);
+
+        //TODO: Verif si connected + admin + project existe
+        // Mettre form-control sur EventType + add constraints for the entity Event
+
         $event = new Event();
-        $event->setTitle('Midi');
-        $event->setTypeEvent($idType);
-        $event->setProject($idProject);
+        $projectId = $projectRepo->find($id);
 
-        // Date and hour for event
-        $event->setDateEvent(new \DateTimeImmutable('2024-04-22'));
-        $event->setHourEvent(new \DateTimeImmutable('12:00:00'));
+        $event->setProject($projectId);
 
-        $event->setDescription("Allez le chercher à midi ");
+        $form = $this->createForm(EventType::class, $event, [
+            'projectId' => $id,
+        ]);
+        
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $eventData = $form->getData();
+        
+            
+            $this->em->persist($eventData);
+            $this->em->flush();
+            $this->addFlash('success', 'L\'évènement a été créé avec succes');
 
-        $em->persist($event);
-        $em->flush();
-        $this->addFlash('success', 'L event a été créé avec succes');
-
-
-        return $this->render('event/index.html.twig', [
-            'controller_name' => 'EventController',
+            return $this->redirectToRoute('calendar', ['id' => $event->getProject()->getId()]);
+            // dd($eventData);
+        }
+        
+        return $this->render('event/create.html.twig', [
+            'form' => $form,
         ]);
     }
 }

@@ -74,8 +74,6 @@ class CalendarManager {
     async loadEventsFromServer() {
 
         try {
-            console.log(this.projectId);
-
             const events = await this.eventService.getEvents(this.projectId);
             events.forEach((event) => {
                 this.myCalendar.addEvent({

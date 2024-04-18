@@ -19,6 +19,7 @@
 {% endblock %}
 
 {% block javascripts %}
+{{ parent() }}
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js" integrity="sha256-J37ZtjEw94oWBNZ9w/XC73raGXE9t10//XHJfKz2QCM=" crossorigin="anonymous"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.3/dist/sweetalert2.all.min.js" integrity="sha256-xkymBp70qMSHnInLEXDWb34pyON8sBGMA1S84vQILx4=" crossorigin="anonymous"></script>
@@ -31,14 +32,10 @@
 
     <script>
 
- 
-
         const projectId = {{ project.id }}
         const eventService = new EventService();
         const calendarManagerInstance = new CalendarManager(eventService, projectId);
         calendarManagerInstance.initialize();
-        console.log(projectId)
-
         
     </script>
 
