@@ -3,8 +3,19 @@
 {% block title %}Calendrier{% endblock %}
 
 {% block body %}
-    <button id="btnClick">Cliquez-moi</button>
-    <div id="calendar-holder"></div>
+
+    <main class="container">
+        <div class="row">
+            <div class="col">
+            <h2>{{ project.name }}</h2>
+                <button id="btnClick">Cliquez-moi</button>
+                <div id="calendar-holder"></div>
+
+
+            </div>
+        </div>
+    </main>
+
 {% endblock %}
 
 {% block javascripts %}
@@ -15,11 +26,19 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 
     <script src="{{ asset('js/CalendarManager.js') }}"></script>
+    <script src="{{ asset('js/services/EventService.js') }}"></script>
 
 
     <script>
-        let calendarManagerInstance = new CalendarManager();
+
+ 
+
+        const projectId = {{ project.id }}
+        const eventService = new EventService();
+        const calendarManagerInstance = new CalendarManager(eventService, projectId);
         calendarManagerInstance.initialize();
+        console.log(projectId)
+
         
     </script>
 

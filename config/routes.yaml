@@ -12,7 +12,7 @@ collaborator_new:
         id: '\d+'
 
 
-load.events:
-    path: /load-events
-    controller: App\Controller\CalendarController::loadEvents
-    methods: GET|POST
+# load.events:
+#     path: /load-events
+#     controller: App\Controller\CalendarController::loadEvents
+#     methods: GET|POST

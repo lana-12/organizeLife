@@ -73,6 +73,8 @@
 			<div class="col">
 				<section class="bg-secondary text-white p-3 m-3">
 					<h4 class="text-center">Evènement : </h4>
+						<a href="{{ path('calendar', {id: project.id }) }}" class="btn btn-primary " >Calendrier</a>
+
 						{% if project.events is not empty %}
 
 							{% for events in project.events %}

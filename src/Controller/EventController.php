@@ -15,7 +15,7 @@ class EventController extends AbstractController
     #[Route('/event', name: 'event')]
     public function index(EntityManagerInterface $em, ProjectRepository $projectRepository, TypeEventRepository $typeEventRepo): Response
     {
-        $idProject = $projectRepository->find(9);
+        $idProject = $projectRepository->find(2);
         $idType= $typeEventRepo->find(1);
         $event = new Event();
         $event->setTitle('Midi');
@@ -28,9 +28,9 @@ class EventController extends AbstractController
 
         $event->setDescription("Allez le chercher à midi ");
 
-        // $em->persist($event);
-        // $em->flush();
-        // $this->addFlash('success', 'L event a été créé avec succes');
+        $em->persist($event);
+        $em->flush();
+        $this->addFlash('success', 'L event a été créé avec succes');
 
 
         return $this->render('event/index.html.twig', [
