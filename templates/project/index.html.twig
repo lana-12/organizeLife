@@ -3,8 +3,11 @@
 {% block title %} OrgalizeLife | Projets {% endblock %}
 
 {% block body %}
+<h3>Ici</h3>
     <div class="">
         {% if projects %}
+
+        {# Array associatif pour mapper les noms de route aux fichiers Twig  #}
             {% set routeName = app.request.attributes.get('_route') %}
 
             {% include {
