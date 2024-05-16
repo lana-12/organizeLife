@@ -10,6 +10,7 @@
 	<section class="container">
 
 		<h2 class="my-4">Gérer</h2>
+    {{ dump(app.request.attributes.get('_route') ) }}
 
 	{% if project %}
 		<h3 class="text-center my-4">{{ project.name }} - id: {{ project.id }}</h3>
