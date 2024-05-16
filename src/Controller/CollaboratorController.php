@@ -34,9 +34,9 @@ class CollaboratorController extends AbstractController
     {
         // $collaborators = $this->collaborator->getCollaboratorsByProject($id);
 
-        return $this->render('collaborator/index.html.twig', [
-            // 'collaborators' => $collaborators,
-        ]);
+        // return $this->render('collaborator/index.html.twig', [
+        //     // 'collaborators' => $collaborators,
+        // ]);
 
         return $this->render('collaborator/index.html.twig', [
         ]);
@@ -67,7 +67,6 @@ class CollaboratorController extends AbstractController
         // Retrieve project by id paramater url
         $project = $this->projectRepo->find($id);
 
-
         // Gestion of the CollaboratorDTO
         $collaboratorDTO = new CollaboratorDTO();
         $form = $this->createForm(CollaboratorType::class, $collaboratorDTO);
@@ -83,15 +82,10 @@ class CollaboratorController extends AbstractController
             ]);
         }
 
-
-
-
-
-
-
-
         return $this->render('collaborator/formNewCollaborator.html.twig', [
             'collaboratorform' => $form,
+            'project' => $project,
+
         ]);    
     
     }

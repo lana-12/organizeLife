@@ -20,6 +20,13 @@ services:
     App\Service\TextFormatterService:
         arguments: []
 
+    App\EventSubscriber\CalendarSubscriber:
+        arguments:
+            $eventRepository: '@App\Repository\EventRepository'
+            $router: '@router'
+        tags:
+            - { name: 'kernel.event_subscriber' }
+
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name

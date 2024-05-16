@@ -10,3 +10,9 @@ collaborator_new:
     methods: GET|POST
     requirements:
         id: '\d+'
+
+
+# load.events:
+#     path: /load-events
+#     controller: App\Controller\CalendarController::loadEvents
+#     methods: GET|POST

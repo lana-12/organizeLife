@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Nouveau Projet {% endblock %}
+{% block title %}Nouveau Collaborateur {% endblock %}
 
 
 {% block body %}
@@ -14,23 +14,22 @@
         {% endif %} #}
 
     </section>
-            <h2 class="mt-4 center blue fs-1"> nouveau coll</h2>
+            <h2 class="mt-4 center blue fs-1">Nouveau collaborateur</h2>
 
     <section class="bg-secondary text-white p-3 m-3">
     {# {{ dump(app.user) }} #}
-    <h3 class="text-center">Administrateur : </h3>
-        <p>{{ app.user.firstname }}</p>
-        <p>{{ app.user.lastname }}</p>
-        <p>{{ app.user.email }}</p>
+    <h3 class="text-center">Projet : </h3>
+        <p>{{ project.name }}</p>
+        <p>{{ project.description }}</p>
+        <p>Collaborateur : </p>
+            <ul>
+            {% for collaborator in project.collaborator %}
+                <li>{{ collaborator.firstname }}</li>
+                        
+            {% endfor %}
+            </ul>
+
     </section>
-
-        {# <div class="d-flex ">
-            {{ form_row(projectForm.name) }}
-        </div>
-
-        <div>
-            {{ form_row(projectForm.description) }}
-        </div> #}
     
     <main class="container mt-3">
 		<div class="row">
@@ -40,14 +39,8 @@
         {{ form_errors(collaboratorform) }}
         {{ form_start(collaboratorform,  { 'attr': {'class': 'formProfil'} }) }}
 
-			<fieldset class="mb-3">
-				<div>
-                    {{ form_rest(collaboratorform) }}
-                </div>
-
-			
-
         {{ form_end(collaboratorform) }}
+        
 			</div>
 		</div>
 	</main>
