@@ -14,6 +14,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class EventType extends AbstractType
 {
@@ -22,28 +24,58 @@ class EventType extends AbstractType
         $defaultDate = new \DateTimeImmutable();
 
         $builder
-            ->add('title')
+            ->add('title', TextType::class,[
+                'label'=> 'Titre', 
+                'attr'=>[
+                    'class'=>'form-control',
+                ],
+                'required' => true,
+
+            ])
             ->add('date_event', DateType::class,[
-                
+                'label'=> 'Date', 
+                'attr'=>[
+                    'class'=>'form-control',
+                ],
+                'required' => true,
                 'widget' => 'single_text',
                 'input'  => 'datetime_immutable',
-                'data' => $defaultDate,
+                'data' => $options['start_date'] ? new \DateTimeImmutable($options['start_date']) : null,
+                // 'data' => $defaultDate,
             ])
             ->add('hour_event', TimeType::class, [
+                'label'=> 'Heure', 
+                'attr'=>[
+                    'class'=>'form-control',
+                ],
+                'required' => true,
                 'widget' => 'single_text',
                 'input' => 'datetime',
             ])
-    //             'attr' => [
-    //     'class' => 'nameClass' ],
-            ->add('description')
+            ->add('description', TextareaType::class, [
+                'label'=> 'Description', 
+                'attr'=>[
+                    'class'=>'form-control',
+                ],
+            ])
             
             ->add('typeEvent', EntityType::class, [
+                'label'=> 'Type', 
+                'attr'=>[
+                    'class'=>'form-control',
+                ],
+                'required' => true,
                 'class' => TypeEvent::class,
                 'choice_label' => 'name',
             ])
 
 
             ->add('user', EntityType::class, [
+                'label'=> 'Collaborateur', 
+                'attr'=>[
+                    'class'=>'form-control',
+                ],
+                'required' => true,
                 'class' => User::class,
                 'choice_label' => 'firstname',
                 'query_builder' => function (EntityRepository $er) use ($options) {
@@ -61,6 +93,7 @@ class EventType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Event::class,
             'projectId' => null,
+            'start_date' => null,
         ]);
     }
 }

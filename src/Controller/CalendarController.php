@@ -60,7 +60,7 @@ class CalendarController extends AbstractController
             $projectId = $project->getId();  
         
             $events = $this->eventService->getEventsForProject($projectId);
-        
+     
             return $this->json([
                 'formatEvent' => $events,
             ]);        

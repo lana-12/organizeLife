@@ -23,8 +23,11 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script src="{{ asset('js/CalendarManager.js') }}"></script>
     <script src="{{ asset('js/services/EventService.js') }}"></script>
+
 
 
     <script>
@@ -33,6 +36,8 @@
         const eventService = new EventService();
         const calendarManagerInstance = new CalendarManager(eventService, projectId);
         calendarManagerInstance.initialize();
+        const today = Date();
+        console.log(today)
         
     </script>
 
