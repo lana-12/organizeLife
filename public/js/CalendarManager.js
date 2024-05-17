@@ -13,22 +13,6 @@ class CalendarManager {
             let calendarEl = document.getElementById('calendar-holder');
             this.myCalendar = new FullCalendar.Calendar(calendarEl, {
 
-                // customButtons: {
-                //     multiMonth: {
-                //         text: 'Multi Mois',
-                //         views: {
-                //             multiMonthYear: {
-                //                 type: 'dayGrid',
-                //                 duration: { months: 4 },
-                //                 buttonText: 'Multi Mois'
-                //             }
-                //         },
-                //         click: function() {
-                //             this.myCalendar.changeView('multiMonthYear');
-                //         }
-                //     }
-                // },
-
                 buttonText: {
                     prev: 'Précédent',
                     next: 'Suivant',
@@ -44,7 +28,7 @@ class CalendarManager {
                 headerToolbar: {
                     start: 'prev,next today',
                     center: 'title',
-                    end: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+                    end: 'dayGridMonth timeGridWeek timeGridDay listWeek'
                 },
                 
                 events: [],
@@ -52,29 +36,48 @@ class CalendarManager {
                 selectable: true,
                 editable: true,
                 select: (arg) => {
-                    let title = prompt('Nom de l\'événement :');
-                    if (title) {
-                        this.myCalendar.addEvent({
-                            title: title,
-                            start: arg.startStr,
-                            end: arg.endStr,
-                            description: ''
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0);
+                    const selectedDate = new Date(arg.startStr);
+        
+                    if (today <= selectedDate) {
+                        Swal.fire({
+                            title: 'Voulez-vous créer un événement ?',
+                            showCancelButton: true,
+                            confirmButtonText: 'Oui',
+                            cancelButtonText: 'Non'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                const startDate = arg.startStr;
+                                const endDate = arg.endStr;
+                                window.location.href = `/event/nouveau/${this.projectId}?start=${startDate}&end=${endDate}`;
+                            }
                         });
+                    } else {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Cette date est déjà passée !!",
+                            text: "Merci de choisir une autre date",
+                          });
+                        
                     }
                 },
             });
-
+            
             this.loadEventsFromServer();
             this.myCalendar.render();
 
 
         });
+    
     }
+
 
     async loadEventsFromServer() {
 
         try {
             const events = await this.eventService.getEvents(this.projectId);
+            console.log('events ',events)
             events.forEach((event) => {
                 this.myCalendar.addEvent({
                     title: event.title,
