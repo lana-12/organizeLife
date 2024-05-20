@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Project;
 use App\Form\ProjectType;
+use App\Service\CheckService;
 use App\Repository\ProjectRepository;
 use App\Service\AccessControlService;
 use App\Service\TextFormatterService;
@@ -26,6 +27,8 @@ class ProjectController extends AbstractController
         private EntityManagerInterface $em,
         private Security $security,
         private TextFormatterService $textFormatter,
+        private CheckService $checkService,
+
     
     ){}
 
@@ -54,7 +57,8 @@ class ProjectController extends AbstractController
             return $this->redirectToRoute('home');
         }
 
-        if(!in_array("ROLE_ADMIN", $user->getRoles(), true )){
+       // Check if user is Admin (CheckService)
+       if(!CheckService::checkAdminAccess($user)){
             $this->addFlash('danger', "Vous ne disposez pas des droits pour accéder à ce service");
             return $this->redirectToRoute('home');
         } 
@@ -82,21 +86,23 @@ class ProjectController extends AbstractController
     #[Route('/nouveau', name: 'project.new')]
     public function newProject(Request $request): Response
     {
+          /**
+         * @var $user
+         */
+        $admin = $this->security->getUser();
 
         if(!$this->security->getUser()){
             $this->addFlash('danger', "Vous devez être connecté(e) pour accéder à ce service");
             return $this->redirectToRoute('home');
         }
 
-        if(!in_array("ROLE_ADMIN", $this->security->getUser()->getRoles(), true )){
+        // Check if user is Admin (CheckService)
+        if(!CheckService::checkAdminAccess($admin)){
             $this->addFlash('danger', "Vous ne disposez pas des droits pour accéder à ce service");
             return $this->redirectToRoute('home');
         } 
 
-        /**
-         * @var $user
-         */
-        $admin = $this->security->getUser();
+
 
         $project = new Project();
 
@@ -154,7 +160,8 @@ class ProjectController extends AbstractController
             return $this->redirectToRoute('home');
         }
 
-        if(!in_array("ROLE_ADMIN", $admin->getRoles(), true )){
+        // Check if user is Admin (CheckService)
+        if(!CheckService::checkAdminAccess($admin)){
             $this->addFlash('danger', "Vous ne disposez pas des droits pour accéder à ce service");
             return $this->redirectToRoute('home');
         } 
@@ -199,8 +206,7 @@ class ProjectController extends AbstractController
                 'editMode'=> $project->getId() !== null,
 
             ]);
-    }   
-       
+        }   
     }
 
 
@@ -210,10 +216,12 @@ class ProjectController extends AbstractController
     #[Route('/supprimer/{id}', name: 'project.delete')]
     public function deleteProject(?Project $project)
     {
-        $this->em->remove($project);
-        $this->em->flush();
-        $this->addFlash('success', 'Le project a été supprimer avec succes');
-        return $this->redirectToRoute('admin.index', [], Response::HTTP_SEE_OTHER);
+        if($project){
+            $this->em->remove($project);
+            $this->em->flush();
+            $this->addFlash('success', 'Le project a été supprimé avec success');
+            return $this->redirectToRoute('admin.index', [], Response::HTTP_SEE_OTHER);
+        }
     }
 
     

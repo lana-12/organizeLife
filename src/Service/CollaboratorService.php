@@ -30,19 +30,18 @@ class CollaboratorService extends AbstractController
         private UserPasswordHasherInterface $userPasswordHasher
 
         
-        
         )
     {}
 
-
-
-    
     public function createCollaborator(CollaboratorDTO $collaboratorDTO, Project $project): void
     {
         // Gestion of the Collaborator
         $collaborator = new User();
-        $collaborator->setFirstname($collaboratorDTO->getFirstname());
-        $collaborator->setLastname($collaboratorDTO->getLastname());
+
+        // Use of a service => TextFormatterService
+        $collaborator->setFirstname(TextFormatterService::formatUcFirst($collaboratorDTO->getFirstname()));
+        $collaborator->setLastname(TextFormatterService::formatUcFirst($collaboratorDTO->getLastname()));
+        
         $collaborator->setEmail($collaboratorDTO->getEmail());
         $collaborator->setRoles(['ROLE_USER', 'ROLE_COLLABORATOR']);
 

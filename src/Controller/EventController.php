@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Event;
 use App\Form\EventType;
+use App\Service\CheckService;
 use App\Repository\EventRepository;
 use App\Repository\ProjectRepository;
 use App\Repository\TypeEventRepository;
@@ -21,15 +22,19 @@ class EventController extends AbstractController
         private EventRepository $eventRepo,
         private EntityManagerInterface $em,
         private Security $security,
+        private CheckService $checkService,
+
     
     ){}
+
+
     #[Route('/event/nouveau/{id}', name: 'event.new')]
     public function new(Request $request, int $id, ProjectRepository $projectRepo)
     {
 
         //TODO: Verif si connected + admin + project(ok) existe  => OK
-        // Mettre form-control sur EventType + add constraints on the entity Event
-        // Faire un service pour les checks
+        // Mettre form-control sur EventType=>OK + add constraints on the entity Event
+        // Faire un service pour les checks (check admin=OK, )
 
         /**
          * @var User 
@@ -42,8 +47,8 @@ class EventController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
-        // Check if user is Admin
-        if(!in_array("ROLE_ADMIN", $user->getRoles(), true )){
+        // Check if user is Admin (CheckService)
+        if(!CheckService::checkAdminAccess($user)){
             $this->addFlash('danger', "Vous ne disposez pas des droits pour accéder à ce service");
             return $this->redirectToRoute('home');
         } 
@@ -58,17 +63,18 @@ class EventController extends AbstractController
         $event = new Event();
         $event->setProject($projectId);
 
-        $startDate = $request->query->get('start');
-        $today= date('d-m-Y');
-        // dd($today);
 
-        if(strtotime($startDate) < strtotime($today)) {
-            $this->addFlash('danger', 'Cette date est déjà passée !!');
-            return $this->redirectToRoute('calendar', ['id' => $event->getProject()->getId()]);
+        $startDate="";
+        // Retrieving the querystring for the date selected
+        if($request->query->get('start')) {
+            $startDate = $request->query->get('start');
+            $today= date('d-m-Y');
+
+            if(strtotime($startDate) < strtotime($today)) {
+                $this->addFlash('danger', 'Cette date est déjà passée !!');
+                return $this->redirectToRoute('calendar', ['id' => $event->getProject()->getId()]);
+            }
         }
-        // if ($startDate) {
-        //     $event->setDateEvent(new \DateTimeImmutable($startDate));
-        // }
 
         $form = $this->createForm(EventType::class, $event, [
             'projectId' => $id,
@@ -81,7 +87,6 @@ class EventController extends AbstractController
             if($request->getMethod() === "POST"){
 
                 $eventData = $form->getData();
-            
                 
                 $this->em->persist($eventData);
                 $this->em->flush();

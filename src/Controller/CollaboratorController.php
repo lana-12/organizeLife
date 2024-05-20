@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Entity\Project;
 use App\DTO\CollaboratorDTO;
+use App\Service\CheckService;
 use App\Form\CollaboratorType;
 use App\Service\CollaboratorService;
 use App\Repository\ProjectRepository;
@@ -59,11 +60,12 @@ class CollaboratorController extends AbstractController
             return $this->redirectToRoute('home');
         }
 
-        if(!in_array("ROLE_ADMIN", $user->getRoles(), true )){
+        // Check if user is Admin (CheckService)
+        if(!CheckService::checkAdminAccess($user)){
             $this->addFlash('danger', "Vous ne disposez pas des droits pour accéder à ce service");
             return $this->redirectToRoute('home');
         } 
-
+        
         // Retrieve project by id paramater url
         $project = $this->projectRepo->find($id);
 
