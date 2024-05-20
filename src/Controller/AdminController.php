@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Repository\ProjectRepository;
 use App\Repository\UserRepository;
+use App\Service\CheckService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,10 +18,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class AdminController extends AbstractController
 {
     public function __construct(
+
         private UserRepository $userRepo,
         private EntityManagerInterface $em,
         private Security $security,
-        private ProjectRepository $projectRepo
+        private ProjectRepository $projectRepo,
+        private CheckService $checkService,
     ){}
 
 
@@ -38,8 +41,8 @@ class AdminController extends AbstractController
             return $this->redirectToRoute('home');
         }
 
-        // Check if user is Admin
-        if(!in_array("ROLE_ADMIN", $user->getRoles(), true )){
+        // Check if user is Admin (CheckService)
+        if(!CheckService::checkAdminAccess($user)){
             $this->addFlash('danger', "Vous ne disposez pas des droits pour accéder à ce service");
             return $this->redirectToRoute('home');
         } 

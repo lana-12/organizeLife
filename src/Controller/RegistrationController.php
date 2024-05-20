@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Security\UserAuthenticator;
+use App\Service\TextFormatterService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,8 +29,9 @@ class RegistrationController extends AbstractController
 
             if($request->getMethod() === "POST"){
 
-                $user->setFirstname(ucfirst($form->get('firstname')->getData()) );
-                $user->setLastname(ucfirst($form->get('lastname')->getData()) );
+                // Use of a service => TextFormatterService
+                $user->setFirstname(TextFormatterService::formatUcFirst($form->get('firstname')->getData()));
+                $user->setLastname(TextFormatterService::formatUcFirst($form->get('lastname')->getData()));
 
                 $user->setRoles(
                     ['ROLE_USER', 'ROLE_ADMIN']);

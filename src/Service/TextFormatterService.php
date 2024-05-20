@@ -14,4 +14,10 @@ class TextFormatterService
         return $threeLetters;
     }
 
+
+    
+    public static function formatUcFirst(string $text): string
+    {
+        return ucfirst(strtolower($text));
+    }
 }
