@@ -1,0 +1,7 @@
+// Media query 
+// Tjs commencer à styliser en Mobilfirst
+@mixin media-breakpoint($size) {
+    @media screen and (min-width: map-get($breakpoints, $size)) {
+        @content;
+    }
+}

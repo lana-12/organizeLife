@@ -1,5 +1,15 @@
 // Color of the application
-
+$orange: #fe890dea;
+$green1: #035644;
+$green2: #276f5b;
 
 
 // Size screen 
+$breakpoints :(
+    xs: 0,
+    sm: 576px,
+    md: 768px,
+    lg: 992px,
+    xl: 1200px,
+    xxl: 1400px,
+);
