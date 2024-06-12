@@ -4,6 +4,7 @@
         "@babel/preset-env": "^7.16.0",
         "@symfony/webpack-encore": "^4.0.0",
         "core-js": "^3.23.0",
+        "file-loader": "^6.2.0",
         "regenerator-runtime": "^0.13.9",
         "sass": "^1.75.0",
         "sass-loader": "^14.2.0",
@@ -23,6 +24,7 @@
         "@fullcalendar/core": "^6.1.11",
         "@fullcalendar/daygrid": "^6.1.11",
         "@sweetalert2/theme-dark": "^5.0.16",
+        "aos": "^2.3.4",
         "sweetalert2": "^11.11.0"
     }
 }

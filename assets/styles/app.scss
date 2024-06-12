@@ -1,17 +1,21 @@
 
+// app.scss
+@import "~aos/dist/aos.css";
 
 
 // Folder generals
 @import "./generals/variables.scss";
-// @import "./generals/class.scss";
+@import "./generals/classes.scss";
 @import "./generals/mixins.scss";
 @import "./generals/reset.scss";
 @import "./generals/body.scss";
 
 // Folder components
+@import "./components/header.scss";
+@import "./components/nav.scss";
+@import "./components/hero.scss";
 
 
 // Folder layout
-@import "./layout/project.scss";
 @import "./layout/user.scss";
 

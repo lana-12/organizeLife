@@ -3,6 +3,14 @@
 
 {% block body %}
 
+    <section id="hero" class="d-flex align-items-center">
+        <div class="container text-center position-relative" data-aos="fade-in" data-aos-delay="200">
+            <h2>OrganizeLife, votre allié pour une vie mieux organisée</h2>
+            <h3>Transformez le chaos quotidien en une expérience harmonieuse avec notre application intuitive</h3>
+            <a href="#about" class="btn-get-started scrollto">Commencez dès maintenant</a>
+        </div>
+    </section>
+
     <main>
         <h2>Home</h2>
 
@@ -47,6 +55,15 @@
 {{ dump(app.request.attributes.get('_controller') ) }}
 
 {# {% if app.request.attributes.get('_route') == 'project.index' %} #}
-
+ <script>
+    window.addEventListener('load', () => {
+        AOS.init({
+            duration: 1000,
+            easing: 'ease-in-out',
+            once: true,
+            mirror: false
+        });
+    });
+</script>
 
 {% endblock %}
