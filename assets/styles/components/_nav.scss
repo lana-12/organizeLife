@@ -1,0 +1,27 @@
+.navbar {
+    // a mettre dans une media query
+    // background-color: #fff;
+    // width: 80%;
+    // margin-right: 20px;
+    .navbar-nav{
+        .nav-item{
+            .nav-link{
+                color: $white;
+                &.active {
+                    color: black;
+                    text-decoration: underline black;
+                }
+                &:hover{
+                    color: black;
+
+                }
+                
+
+            }
+
+        }
+
+    }
+}
+
+
