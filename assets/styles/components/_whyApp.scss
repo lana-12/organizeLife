@@ -3,9 +3,9 @@
     .content-why-app {
         margin-top: 50px;
         padding: 30px;
-        background: #009970;
+        background: $green;
         border-radius: 4px;
-        color: #fff;
+        color: $white;
 
         h3 {
             font-weight: 700;
@@ -20,13 +20,13 @@
             display: inline-block;
             background: rgba(255, 255, 255, 0.1);
             padding: 6px 30px 8px 30px;
-            color: #fff;
+            color: $white;
             border-radius: 50px;
             transition: all ease-in-out 0.4s;
         
             &:hover {
-            color: #009970;
-            background: #fff;
+            color: $green;
+            background: $white;
             }
           }
     }
@@ -36,7 +36,7 @@
         .icon-box {
             text-align: center;
             border-radius: 10px;
-            background: #fff;
+            background: $white;
             box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
             padding: 40px 30px;
             width: 100%;
@@ -44,7 +44,7 @@
 
             i {
                 font-size: 40px;
-                color: #009970;
+                color: $green;
                 margin-bottom: 30px;
             }
 
@@ -60,7 +60,7 @@
             }
 
             &:hover {
-                box-shadow: 0px 5px 25px rgba(0, 0, 0, 0.15);
+                box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.534);
               }
         }
     }
