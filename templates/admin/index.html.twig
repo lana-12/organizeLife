@@ -4,7 +4,6 @@
 
 {% block body %}
 
-<h2>EspacePerso</h2>
 
 {# TODO: Verifier if isConnected and  ROLE_ADMIN  #}
 {# TODO: A voir comment faire pour boxespacePerso OK + boxProject => faire des includes #}
@@ -16,19 +15,37 @@ function Supp(link) {
     }
 }#}
 
+{# a revoir pour les if si je fais un page admin et collaborateur ou la meme #}
 
-    <div class="container">
-               
-        <div class="row my-5">
+    {% if admin %}
+
+        {% include "user/_boxEspacePerso.html.twig"  %}
+
+    {% else %}
+
+        <section class="container mt-4">
+
+            <div class="alert alert-danger alert-dismissible" role="alert ">
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+
+                <div class="alert-message">
+                    <p>Vous devez avoir un compte d'administrateur pour accéder à cette page</p>
+                </div>
+
+            </div>
+
+        </section>
+
+    {% endif %}
+
+    <section class="container ">
+            
+    
+     <div class="row my-5">
             <divclass="col">
                     {# {{ dump(admin) }} #}
 
-                {% if admin %}
-                    {% include "user/_boxEspacePerso.html.twig"  %}
-
-                {% else %}
-                    <p>Pas de compte</p>
-                {% endif %}
+                
             </div>
         </div>
 
@@ -65,6 +82,6 @@ function Supp(link) {
                 </div>
             </div>
         </div>
-
-    </div>
+       
+    </section>
 {% endblock %}
