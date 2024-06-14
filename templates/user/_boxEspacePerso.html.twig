@@ -1,27 +1,53 @@
 
 {% if app.user %}
 
-    <div class="boxEspacePerso ">
-        <h2 class="" >Vos Données Personelles</h2>
+    <section class="heroUser d-flex align-items-center">
+        <div class="container text-center position-relative" data-aos="zoom-in" data-aos-delay="100">
 
-        <div class="d-flex justify-content-around " >
-            <p>Prénom : {{ app.user.firstname | capitalize }}</p>
-            <p>Nom : {{ app.user.lastname | capitalize }}</p>
+            <div class="row ">
+                <div class="col d-flex justify-content-center">
+                    {# <div class="pic">
+                        <img src="assets/img/team/team-1.jpg" class="img-fluid" alt="">
+                    </div> #}
+                    <div class="boxEspacePerso ">
+                        <h2 class="" >Vos Données Personelles</h2>
+
+                        <div class="d-flex justify-content-around " >
+                            <h3>Prénom : {{ app.user.firstname | capitalize }}</h3>
+                            <h4>Nom : {{ app.user.lastname | capitalize }}</h4>
+                        </div>
+                            <h5>Email : {{ app.user.email }}</h5>
+                            {# <p>Votre Rôle : {{ role }}</p> #}
+                            
+                            <a href="#" class="btn-user ">Modifier mes données</a>
+    
+                    </div>
+                </div>
+            </div>
         </div>
 
-            <p>Email : {{ app.user.email }}</p>
-            {# <p>Votre Rôle : {{ role }}</p> #}
-            
-        <div class="d-flex justify-content-around  " >
-            <a href="#" class="btn btn-warning " >Modifier</a>
-            <a href="#" class="btn btn-primary " >Gérer</a>
+    </section>
 
-        </div>
-    </div>
 
 {% else %}
     
 
+    <section class="container mt-4">
+        <div class="alert alert-danger alert-dismissible " role="alert ">
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+
+            <div class="alert-message">
+                <p>Vous devez être connecté</p>
+                <p>Déjà inscrit(e) ? 
+                    <a href="{{ path('app_login') }}">Me connecter </a>
+                </p>
+                <p>Pas encore inscrit(e) ? 
+                    <a href="{{ path('register') }}"> M'inscrire</a>
+                </p>
+            </div>
+        </div>
+    </section>
+    
 
 
 
