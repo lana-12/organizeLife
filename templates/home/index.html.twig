@@ -3,7 +3,7 @@
 
 {% block body %}
 
-    <section id="hero" class="d-flex align-items-center">
+    <section id="hero" class="hero d-flex align-items-center">
         <div class="container text-center position-relative" data-aos="fade-in" data-aos-delay="300">
             <h2>OrganizeLife, votre allié pour une vie mieux organisée</h2>
             <h3>Transformez le chaos quotidien en une expérience harmonieuse avec notre application intuitive</h3>
@@ -20,7 +20,7 @@
 
                     <div class="content-why-app">
                         <h3>Pourquoi choisir OrganizeLife pour votre gestion quotidienne ?</h3>
-                        <p>
+                        <p class="">
                             OrganizeLife offre une expérience de gestion simple et intuitive, conçue pour répondre aux besoins uniques de votre famille et de votre vie professionnelle. Voici quelques raisons pour lesquelles vous devriez choisir OrganizeLife :
                         </p>
                         <ul>
@@ -58,7 +58,7 @@
                                 <div class="icon-box mt-4 mt-xl-0">
                                     <i class="bi bi-calendar"></i>
                                     <h4>Visualisation Clair</h4>
-                                    <p>Consultez votre planning en un coup d'œil pour rester organisé et informé de toutes vos activités.</p>
+                                    <p class="pt-4">Consultez votre planning en un coup d'œil pour rester organisé et informé de toutes vos activités.</p>
                                 </div>
                             </div>
                         </div>
@@ -67,10 +67,9 @@
             </div>
         </div>
     </section>
-    
     <!-- End  the Why this app section -->
 
-    <!-- ======= Cta Section ======= -->
+    <!--  Cta Section  -->
     <section id="cta" class="cta">
         <div class="container" data-aos="fade-in">
             <div class="text-center">
@@ -79,65 +78,75 @@
             <a class="cta-btn" href="#contact">Demandez une consultation gratuite</a>
             </div>
         </div>
-    </section><!-- End Cta Section -->
+    </section>
+    <!-- End Cta Section -->
 
 
 
 
 <!-- Start Section How It Works -->
-    <section id="services" class="services section-bg">
+    <section id="services" class="services ">
         <div class="container">
             <div class="row">
+
                 <div class="col-lg-4">
-                    <div class="section-title" data-aos="fade-right">
-                    <h2>Comment ça marche ?</h2>
-                    <hr class="separator"/>
-                    <p>Découvrez comment notre service vous aide à gérer vos projets de manière efficace et collaborative en quelques étapes simples et rapides.</p>
+                    <div class="services-intro" data-aos="fade-right">
+                        <h2>Comment ça marche ?</h2>
+                        <p>Découvrez comment notre service vous aide à gérer vos projets de manière efficace et collaborative en quelques étapes simples et rapides.</p>
+                        <p class="text-center">
+                            <a href="#" class="services-btn">Commencer</a>
+                        </p>                      
                     </div>
                 </div>
+
                 <div class="col-lg-8">
-                    <div class="row justify-content-center">
-                    <div class="col-md-6 d-flex align-items-stretch mt-4 mt-md-0">
-                        <div class="step-box" data-aos="zoom-in" data-aos-delay="100">
-                            <div class="icon">
-                                <i class="bi bi-person-check"></i>
+                    
+                    <div class="row justify-content-center ">
+
+                        <div class="col-md-6 d-flex align-items-stretch mt-4 mt-md-0">
+                            <div class="step-box" data-aos="zoom-in" data-aos-delay="100">
+                                <div class="icon">
+                                    <i class="bi bi-person-check"></i>
+                                </div>
+                                <h4>Inscription Rapide</h4>
                             </div>
-                            <h4>Inscription Rapide</h4>
                         </div>
-                    </div>
-                    <div class="col-md-6 d-flex align-items-stretch mt-4 mt-md-0">
-                        <div class="step-box" data-aos="zoom-in" data-aos-delay="200">
-                            <div class="icon">
-                                <i class="bi bi-file-earmark"></i>
+                        <div class="col-md-6 d-flex align-items-stretch mt-4 mt-md-0">
+                            <div class="step-box" data-aos="zoom-in" data-aos-delay="200">
+                                <div class="icon">
+                                    <i class="bi bi-file-earmark"></i>
+                                </div>
+                                <h4>Création de Projet</h4>
                             </div>
-                            <h4>Création de Projet</h4>
                         </div>
-                    </div>
-                    <div class="col-md-6 d-flex align-items-stretch mt-4">
-                        <div class="step-box" data-aos="zoom-in" data-aos-delay="300">
-                            <div class="icon">
-                                <i class="bi bi-people"></i>
+                        <div class="col-md-6 d-flex align-items-stretch mt-4">
+                            <div class="step-box" data-aos="zoom-in" data-aos-delay="300">
+                                <div class="icon">
+                                    <i class="bi bi-people"></i>
+                                </div>
+                                <h4>Ajout de Collaborateurs</h4>
                             </div>
-                            <h4>Ajout de Collaborateurs</h4>
                         </div>
-                    </div>
-                    <div class="col-md-6 d-flex align-items-stretch mt-4">
-                        <div class="step-box" data-aos="zoom-in" data-aos-delay="400">
-                            <div class="icon">
-                                <i class="bi bi-calendar-event"></i>
+                        <div class="col-md-6 d-flex align-items-stretch mt-4">
+                            <div class="step-box" data-aos="zoom-in" data-aos-delay="400">
+                                <div class="icon">
+                                    <i class="bi bi-calendar-event"></i>
+                                </div>
+                                <h4>Planification d'Événements</h4>
                             </div>
-                            <h4>Planification d'Événements</h4>
                         </div>
-                    </div>
-                    <div class="col-md-6 d-flex align-items-stretch mt-4">
-                        <div class="step-box" data-aos="zoom-in" data-aos-delay="500">
-                            <div class="icon">
-                                <i class="bi bi-eye"></i>
+                        <div class="col-md-6 d-flex align-items-stretch mt-4">
+                            <div class="step-box" data-aos="zoom-in" data-aos-delay="500">
+                                <div class="icon">
+                                    <i class="bi bi-eye"></i>
+                                </div>
+                                <h4>Visualisation du Planning</h4>
                             </div>
-                            <h4>Visualisation du Planning</h4>
                         </div>
+
                     </div>
-                    </div>
+
+
                 </div>
             </div>
         </div>

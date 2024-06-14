@@ -1,7 +1,6 @@
 .why-app {
 
     .content-why-app {
-        margin-top: 50px;
         padding: 30px;
         background: $green;
         border-radius: 4px;
@@ -21,7 +20,9 @@
             background: rgba(255, 255, 255, 0.1);
             padding: 6px 30px 8px 30px;
             color: $white;
+            font-size: 15px;
             border-radius: 50px;
+            border: $white solid;
             transition: all ease-in-out 0.4s;
         
             &:hover {
