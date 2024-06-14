@@ -13,13 +13,10 @@
 // Folder components
 @import "./components/header.scss";
 @import "./components/nav.scss";
-@import "./components/hero.scss";
-@import "./components/whyApp.scss";
-@import "./components/callToAction.scss";
-@import "./components/howItWorks.scss";
 @import "./components/footer.scss";
 
 
 // Folder layout
+@import "./layout/home.scss";
 @import "./layout/user.scss";
 
