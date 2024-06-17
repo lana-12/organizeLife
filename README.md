@@ -22,4 +22,6 @@ symfony serve:stop
 
 npm run watch
 
+rm -rf public/build/*
+
 ```

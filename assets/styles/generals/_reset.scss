@@ -4,20 +4,38 @@
     padding: 0;
 }
 
-a {
-    color: inherit;
-    text-decoration: none;
+// a {
+//     color: inherit;
+//     text-decoration: none;
 
-    &:hover {
-        // color: $greenDark;
-        text-decoration: none;
-        // font-weight: bolder;
-        // font-size: 2rem;
-    }
-}
+//     &:hover {
+//         // color: $greenDark;
+//         text-decoration: none;
+//         // font-weight: bolder;
+//         // font-size: 2rem;
+//     }
+// }
 
 ul {
     list-style: none;
 }
 
+// a {
+//     color: $green;
+//     text-decoration: none;
+//   }
+  
+//   a:hover {
+//     color: #00cc95;
+//     text-decoration: none;
+//   }
+  
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "Raleway", sans-serif;
+  }
 

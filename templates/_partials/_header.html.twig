@@ -1,0 +1,13 @@
+  <header id="header" class="fixed-top d-flex align-items-center">
+    <div class="container">
+      <div class="header-container d-flex align-items-center justify-content-between">
+        <div class="logo">
+          <h1 class="text-light"><a href="{{ path('home') }}"><span>OrganizeLife</span></a></h1>
+
+        </div>
+
+            {% block nav %} {% include "_partials/_navbar.html.twig" %}{% endblock %}
+
+      </div>
+    </div>
+  </header>
