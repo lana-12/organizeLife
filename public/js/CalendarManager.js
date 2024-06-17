@@ -13,22 +13,25 @@ class CalendarManager {
             let calendarEl = document.getElementById('calendar-holder');
             this.myCalendar = new FullCalendar.Calendar(calendarEl, {
 
-                buttonText: {
-                    prev: 'Précédent',
-                    next: 'Suivant',
-                    today: 'Aujourd\'hui',
-                    month: 'Mois',
-                    week: 'Semaine',
-                    day: 'Jour',
-                    list: 'Liste',
-                },
+                // Display btn left
+                // buttonText: {
+                //     prev: 'Précédent',
+                //     next: 'Suivant',
+                //     today: 'Aujourd\'hui',
+                //     month: 'Mois',
+                //     // week: 'Semaine',
+                //     // day: 'Jour',
+                //     // list: 'Liste',
+                // },
                 
                 initialView: 'dayGridMonth',
                 locale: 'fr',
+                timeZone: 'Europe/Paris',
                 headerToolbar: {
                     start: 'prev,next today',
                     center: 'title',
-                    end: 'dayGridMonth timeGridWeek timeGridDay listWeek'
+                    // end: 'dayGridMonth timeGridWeek timeGridDay listWeek'
+                    end: 'dayGridMonth timeGridWeek'
                 },
                 
                 events: [],

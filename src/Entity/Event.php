@@ -19,10 +19,16 @@ class Event
     private ?string $title = null;
 
     #[ORM\Column(type: Types::DATE_IMMUTABLE)]
-    private ?\DateTimeImmutable $date_event = null;
+    private ?\DateTimeImmutable $date_event_start = null;
+
+    #[ORM\Column(type: Types::DATE_IMMUTABLE)]
+    private ?\DateTimeImmutable $date_event_end = null;
 
     #[ORM\Column(type: Types::TIME_IMMUTABLE)]
-    private ?\DateTimeImmutable $hour_event = null;
+    private ?\DateTimeImmutable $hour_event_start = null;
+
+    #[ORM\Column(type: Types::TIME_IMMUTABLE)]
+    private ?\DateTimeImmutable $hour_event_end = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
@@ -35,6 +41,8 @@ class Event
 
     #[ORM\ManyToOne(inversedBy: 'events')]
     private ?User $user = null;
+
+  
 
     public function getId(): ?int
     {
@@ -53,29 +61,54 @@ class Event
         return $this;
     }
 
-    public function getDateEvent(): ?\DateTimeImmutable
+    public function getDateEventStart(): ?\DateTimeImmutable
     {
-        return $this->date_event;
+        return $this->date_event_start;
     }
 
-    public function setDateEvent(\DateTimeImmutable $date_event): static
+    public function setDateEventStart(\DateTimeImmutable $date_event_start): static
     {
-        $this->date_event = $date_event;
+        $this->date_event_start = $date_event_start;
 
         return $this;
     }
 
-    public function getHourEvent(): ?\DateTimeImmutable
+    public function getDateEventEnd(): ?\DateTimeImmutable
     {
-        return $this->hour_event;
+        return $this->date_event_end;
     }
 
-    public function setHourEvent(\DateTimeImmutable $hour_event): static
+    public function setDateEventEnd(\DateTimeImmutable $date_event_end): static
     {
-        $this->hour_event = $hour_event;
+        $this->date_event_end = $date_event_end;
 
         return $this;
     }
+
+    public function getHourEventStart(): ?\DateTimeImmutable
+    {
+        return $this->hour_event_start;
+    }
+
+    public function setHourEventStart(\DateTimeImmutable $hour_event_start): static
+    {
+        $this->hour_event_start = $hour_event_start;
+
+        return $this;
+    }
+
+    public function getHourEventEnd(): ?\DateTimeImmutable
+    {
+        return $this->hour_event_end;
+    }
+
+    public function setHourEventEnd(\DateTimeImmutable $hour_event_end): static
+    {
+        $this->hour_event_end = $hour_event_end;
+
+        return $this;
+    }
+
 
     public function getDescription(): ?string
     {
@@ -124,4 +157,5 @@ class Event
 
         return $this;
     }
+
 }

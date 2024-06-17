@@ -5,3 +5,27 @@
         @content;
     }
 }
+
+
+
+
+@mixin btnCustom($bgc, $fgc, $bgcH,
+$fgcH) {
+    margin-top: 10px;
+    display: inline-block;
+    // background: rgba(255, 255, 255, 0.1);
+    background: $bgc;
+    padding: 6px 30px 8px 30px;
+    color: $fgc;
+    font-size: 15px;
+    border-radius: 50px;
+    border: $white solid;
+    border: $bgc;
+    transition-property: background-color, color, border;
+    transition: all ease-in-out 0.4s;
+    &:hover {
+        color: $fgcH;
+        background: $bgcH;
+        border: $green solid 1px;
+    } 
+}
