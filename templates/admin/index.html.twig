@@ -67,45 +67,79 @@ function Supp(link) {
         </div>
 
       </div>
-    </section><!-- End Counts Section -->
+    </section>
+    
+    <!-- End Counts Section -->
 
+<!-- Start Section projects -->
+    <section id="projects" class=" projects">
+        <div class="container">
+            <div class="row">
 
-    <section class="container ">
-            
+                <div class="col-lg-4">
+                    <div class="" data-aos="fade-right">
+                        <h2 class="titleUnderline">Vos Projets</h2>
+                        <p class="text-center">
+                            <a href="{{ path('project.new') }}" class="btn btnCustom " >Nouveau</a>
+                        </p>                      
+                    </div>
+                </div>
 
-        <div class="row">
-            <divclass="col">
-                <div class="boxProjects ">
-                    <h2 class="" >Vos Projets</h2>
-                    <a href="{{ path('project.new') }}" class="btn btn-primary " >Nouveau</a>
-                {% if projects %}
-                        {# {{ dump(projects) }} #}
-                       {% for project in projects %}
-                          {# {{ dump(project) }} #}
-                            <div class="boxProject">
-                                <div class="" >
-                                    <p >{{ project.name | capitalize }}</p>
-                                </div>                                    
-                                <div class="" >
-                                    <a href="{{ path('project.show', {id: project.id , slug: project.slug }) }}" class="btn btn-success " >Gérer</a>
+                <div class="col-lg-8">
+                    
+                    <div class="row justify-content-center ">
 
-                                    <a href="{{ path('project.edit', {id: project.id , slug: project.slug }) }}" class="btn btn-warning " >Modifier</a>
+                      {% if projects %}
+                          {# {{ dump(projects) }} #}
+                        {% for project in projects %}
+                            {# {{ dump(project) }} #}
 
-                                    <a href="{{ path('project.delete', {id: project.id , slug: project.slug }) }}" class="btn btn-danger " >Supprimer</a>
+                            <div class="col-md-6 d-flex align-items-stretch mt-4 mt-md-0">
+                              <div class="boxWhite" data-aos="zoom-in" data-aos-delay="100">
+                                  <div class="" >
+                                      <p >{{ project.name | capitalize }}</p>
+                                  </div>  
+                                  
+                                  <div class="d-flex justify-content-around flex-wrap" >
+                                      <a href="{{ path('project.show', {id: project.id , slug: project.slug }) }}" class="btn btn-success m-3 " >Gérer</a>
 
+                                      <a href="{{ path('project.edit', {id: project.id , slug: project.slug }) }}" class="btn btn-warning m-3" >Modifier</a>
+
+                                      <a href="{{ path('project.delete', {id: project.id , slug: project.slug }) }}" class="btn btn-danger m-3 " >Supprimer</a>
+
+                                  </div>
+
+                              </div>
+                            </div>
+        
+                          {% endfor %}
+
+                        {% else %}
+
+                          <section class="container mt-4">
+
+                            <div class="alert alert-danger alert-dismissible" role="alert ">
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+
+                                <div class="alert-message">
+                                    <p>Pas de projet <a href="{{ path('project.new') }}" class="text-white " alt="Créer un projet" title="Créer un projet"> Nouveau</a></p>
                                 </div>
-                            </div>                       
-                                 
-                        {% endfor %}
 
-                {% else %}
-                    <p>Pas de projet <a href="{{ path('project.new') }}" class="text-white " alt="Créer un projet" title="Créer un projet"> Nouveau</a></p>
+                            </div>
 
-                {% endif %}
+                          </section>
+                      {% endif %}
+                        
+                        
+                    </div>
                 </div>
             </div>
         </div>
-       
     </section>
+
+
+    <!-- End Section projects -->
+
+  
 
 {% endblock %}

@@ -32,19 +32,34 @@ class EventType extends AbstractType
                 'required' => true,
 
             ])
-            ->add('date_event', DateType::class,[
-                'label'=> 'Date', 
+            ->add('date_event_start', DateType::class,[
+                'label'=> 'Date de début', 
                 'attr'=>[
                     'class'=>'form-control',
                 ],
                 'required' => true,
                 'widget' => 'single_text',
                 'input'  => 'datetime_immutable',
-                'data' => $options['start_date'] ? new \DateTimeImmutable($options['start_date']) : null,
+                // Valeur by default  => $defaultDate else start_date
+                'data' => $options['start_date'] ? new \DateTimeImmutable($options['start_date']) : $defaultDate,
                 // 'data' => $defaultDate,
             ])
-            ->add('hour_event', TimeType::class, [
-                'label'=> 'Heure', 
+
+            ->add('date_event_end', DateType::class,[
+                'label'=> 'Date de fin', 
+                'attr'=>[
+                    'class'=>'form-control',
+                ],
+                'required' => true,
+                'widget' => 'single_text',
+                'input'  => 'datetime_immutable',
+                // Valeur by default  => $defaultDate else start_date
+                'data' => $options['start_date'] ? new \DateTimeImmutable($options['start_date']) : $defaultDate,
+                // 'data' => $defaultDate,
+            ])
+
+            ->add('hour_event_start', TimeType::class, [
+                'label'=> 'Heure de début', 
                 'attr'=>[
                     'class'=>'form-control',
                 ],
@@ -52,6 +67,19 @@ class EventType extends AbstractType
                 'widget' => 'single_text',
                 'input' => 'datetime',
             ])
+
+            ->add('hour_event_end', TimeType::class, [
+                'label'=> 'Heure de fin', 
+                'attr'=>[
+                    'class'=>'form-control',
+                ],
+                'required' => true,
+                'widget' => 'single_text',
+                'input' => 'datetime',
+            ])
+
+
+
             ->add('description', TextareaType::class, [
                 'label'=> 'Description', 
                 'attr'=>[
@@ -94,6 +122,7 @@ class EventType extends AbstractType
             'data_class' => Event::class,
             'projectId' => null,
             'start_date' => null,
+            'end_date' => null,
         ]);
     }
 }

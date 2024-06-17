@@ -65,9 +65,12 @@ class EventController extends AbstractController
 
 
         $startDate="";
+        $startEnd = "";
         // Retrieving the querystring for the date selected
-        if($request->query->get('start')) {
+
+        if($request->query->get('start') && $request->query->get('end')) {
             $startDate = $request->query->get('start');
+            $startEnd = $request->query->get('end');
             $today= date('d-m-Y');
 
             if(strtotime($startDate) < strtotime($today)) {
@@ -85,6 +88,7 @@ class EventController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             if($request->getMethod() === "POST"){
+                dd($form->getData());
 
                 $eventData = $form->getData();
                 
