@@ -1,6 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Nouveau Projet {% endblock %}
+
+{% block title %}
+ {% if editMode %}
+            Modifiez votre Projet 
+        {% else %}
+            Nouveau Projet
+        {% endif %}
+   | {{ parent() }}
+{% endblock %}
 
 
 {% block body %}

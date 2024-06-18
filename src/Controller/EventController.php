@@ -88,7 +88,7 @@ class EventController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             if($request->getMethod() === "POST"){
-                dd($form->getData());
+                // dd($form->getData());
 
                 $eventData = $form->getData();
                 
