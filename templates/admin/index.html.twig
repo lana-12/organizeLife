@@ -1,25 +1,25 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Espace Perso | {{ parent() }}{% endblock %}
+   {# {% block javascripts %}
+   {{ parent() }}
+        {{ encore_entry_script_tags('script') }}
+    {% endblock %} #}
 
 {% block body %}
 
 
 {# TODO: Verifier if isConnected and  ROLE_ADMIN  #}
 {# TODO: A voir comment faire pour boxespacePerso OK + boxProject => faire des includes #}
-{# TODO: Mettre confirm() on the btn-Delete  => onclick='Supp(this.href); return(false);' + script js => 
-function Supp(link) {
-    console.log('j ai cliquer');
-    if (confirm('Confirmez la suppression du projet ?')) {
-        document.location.href = link;
-    }
-}#}
 
 {# a revoir pour les if si je fais un page admin et collaborateur ou la meme #}
 
+  {% if app.user %}
     {% if admin %}
 
         {% include "user/_boxEspacePerso.html.twig"  %}
+                   
+
 
     {% else %}
 
@@ -37,7 +37,7 @@ function Supp(link) {
         </section>
 
     {% endif %}
-{# {{ dump(counts) }} #}
+
       <!-- ======= Counts Section ======= -->
     <section id="counts" class="counts">
       <div class="container">
@@ -67,7 +67,7 @@ function Supp(link) {
     
     <!-- End Counts Section -->
 
-<!-- Start Section projects -->
+    <!-- Start Section projects -->
     <section id="projects" class=" projects">
         <div class="container">
             <div class="row">
@@ -90,7 +90,7 @@ function Supp(link) {
                         {% for project in projects %}
                             {# {{ dump(project) }} #}
 
-                            <div class="col-md-6 d-flex align-items-stretch mt-4 mt-md-0">
+                            <div class="col-md-6 d-flex align-items-stretch mt-4 ">
                               <div class="boxWhite" data-aos="zoom-in" data-aos-delay="100">
                                   <div class="" >
                                       <p >{{ project.name | capitalize }}</p>
@@ -101,7 +101,7 @@ function Supp(link) {
 
                                       <a href="{{ path('project.edit', {id: project.id , slug: project.slug }) }}" class="btn btn-warning m-3" >Modifier</a>
 
-                                      <a href="{{ path('project.delete', {id: project.id , slug: project.slug }) }}" class="btn btn-danger m-3 " >Supprimer</a>
+                                      <a href="{{ path('project.delete', {id: project.id , slug: project.slug }) }}" class="btn btn-danger m-3 " onclick="Supp(this.href); return(false);" >Supprimer</a>
 
                                   </div>
 
@@ -137,6 +137,27 @@ function Supp(link) {
 
     <!-- End Section projects -->
 
-  
+  {% else %}
+
+        <section class="container mt-4">
+
+            <div class="alert alert-danger alert-dismissible" role="alert ">
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+
+                <div class="alert-message">
+                    <p>Vous devez être connecté pour pourvoir accéder à cette page</p>
+                    <p>Déjà inscrit(e) ? 
+                      <a href="{{ path('app_login') }}">Me connecter </a>
+                    </p>
+                    <p>Pas encore inscrit(e) ? 
+                        <a href="{{ path('register') }}"> M'inscrire</a>
+                    </p>
+                </div>
+
+            </div>
+
+        </section>
+  {% endif %}
+
 
 {% endblock %}

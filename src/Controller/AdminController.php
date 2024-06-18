@@ -47,18 +47,23 @@ class AdminController extends AbstractController
             return $this->redirectToRoute('home');
         } 
 
-
         $adminId = $user->getId();
         $projects = $this->projectRepo->findByProjectsByAdminId($adminId);
-        $counts = $this->projectRepo->getAdminStatistics($adminId);
-// dd($counts);
 
         if ($projects) {
+            
+            $counts = [
+                "projectsCount" => $this->projectRepo->countProjectByAdmin($adminId),                
+                "collaboratorsCount" => $this->projectRepo->countCollaboratorsByAdminId($adminId),
+                "eventsCount" => $this->projectRepo->countEventsByAdminId($adminId),
+            ];
+    
             return $this->render('admin/index.html.twig', [
                 'admin' => $user,
                 'projects' => $projects,
                 'role' => 'Admin',
                 'counts' => $counts,
+                
             ]);
         } else {
             $this->addFlash('danger', "Vous n'avez aucun projet");

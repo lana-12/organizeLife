@@ -6,46 +6,45 @@
 {% block body %}
 
 
-<h2>M'inscrire</h2>
 
-    <main class="container mt-3">
-		<div class="row">
-			<div class="col ">
-                {{ form_errors(registrationForm) }}
-                {{ form_start(registrationForm) }}
+    <section class="container mt-3 mt-md-5">
+        <h2 class="titleUnderline">M'inscrire</h2>
+            <div class="row">
+                <div class="col ">
+                    {{ form_errors(registrationForm) }}
+                    {{ form_start(registrationForm) }}
 
-                <div class="d-flex justify-content-around">
-                    {{ form_row(registrationForm.firstname) }}
-                    {{ form_row(registrationForm.lastname) }}
-                </div>
 
-                <div>
-                    {{ form_row(registrationForm.email) }}
-                </div>
+                    <div class="d-md-flex justify-content-md-around">
+                        {{ form_row(registrationForm.firstname) }}
+                        {{ form_row(registrationForm.lastname) }}
+                    </div>
 
-                <div>
-                {{ form_row(registrationForm.plainPassword, {
-                        label: 'Mot de Passe'
-                    }) }}
-                </div>
 
-                <div>
-                    {{ form_row(registrationForm.agreeTerms) }}
-                </div>
-
-                <div>
-                    {{ form_row(registrationForm.save) }}
-                </div>
-
-                {# <button type="submit" class="btn">Register</button> #}
-                {# {{ form_rest(registrationForm) }} #}
                 
-                {{ form_end(registrationForm) }}
+                        {{ form_row(registrationForm.email) }}
+                        {{ form_row(registrationForm.plainPassword, {
+                                label: 'Mot de Passe'
+                            }) }}
+                    
 
-                <p>Déjà inscrit(e) ? <a href="{{ path('app_login') }}">Me connecter </a></p>
+                    <div>
+                        {{ form_row(registrationForm.agreeTerms) }}
+                    </div>
 
+                    <div>
+                        {{ form_row(registrationForm.save) }}
+                    </div>
+
+                    {# <button type="submit" class="btn">Register</button> #}
+                    {# {{ form_rest(registrationForm) }} #}
+                    
+                    {{ form_end(registrationForm) }}
+
+                    <p>Déjà inscrit(e) ? <a href="{{ path('app_login') }}">Me connecter </a></p>
+
+                </div>
             </div>
-        </div>
-    </main>
+    </section>
 
 {% endblock %}
