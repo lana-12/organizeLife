@@ -1,8 +1,19 @@
-// body {
-//     background-color: $green1;
-//     color: white;
-// }
 body {
     font-family: "Open Sans", sans-serif;
     color: #444444;
+}
+
+.flashMessage {
+    position: fixed; 
+    top: 100px; 
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000; 
+    padding: 15px;
+    background-color: #f8d7da; 
+    border: 1px solid #f5c6cb; 
+    border-radius: 4px;
+    width: 80%; 
+    max-width: 90%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }

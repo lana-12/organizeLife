@@ -23,13 +23,21 @@ class RegistrationFormType extends AbstractType
         $builder
             ->add('lastname', TextType::class, [
                 'label'=> 'Nom',
-                // 'constraint'=>
+                'attr'=>[
+                    'class'=>'form-control',
+                ],
             ])
             ->add('firstname', TextType::class, [
                 'label' => 'Prénom',
+                'attr'=>[
+                    'class'=>'form-control',
+                ],
             ])
             ->add('email', EmailType::class, [
                 'label' => 'Email',
+                'attr'=>[
+                    'class'=>'form-control',
+                ],
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Champ obligatoire',
@@ -52,6 +60,9 @@ class RegistrationFormType extends AbstractType
             // instead of being set onto the object directly,
             // this is read and encoded in the controller
                 'label' => 'Mot de passe',
+                'attr'=>[
+                    'class'=>'form-control',
+                ],
                 'mapped' => false,
                 'attr' => ['autocomplete' => 'new-password'],
                 'constraints' => [
