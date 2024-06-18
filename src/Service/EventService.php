@@ -20,8 +20,8 @@ class EventService
         foreach ($events as $event) {
             $formattedEvents[] = [
                 'title' => $event->getTitle(),
-                'date_event' => $event->getDateEvent()->format('Y-m-d'),
-                'hour_event' => $event->getHourEvent()->format('H:i:s'),
+                'date_event' => $event->getDateEventStart()->format('Y-m-d'),
+                'hour_event' => $event->getHourEventStart()->format('H:i:s'),
                 'description' => $event->getDescription(),
                 'project' => [
                     'id' => $event->getProject()->getId(),
@@ -49,8 +49,8 @@ class EventService
         foreach ($events as $event) {
             $formattedEvents[] = [
                 'title' => $event->getTitle(),
-                'date_event' => $event->getDateEvent()->format('Y-m-d'),
-                'hour_event' => $event->getHourEvent()->format('H:i:s'),
+                'date_event' => $event->getDateEventStart()->format('Y-m-d'),
+                'hour_event' => $event->getHourEventStart()->format('H:i:s'),
                 'description' => $event->getDescription(),
             ];
         }
