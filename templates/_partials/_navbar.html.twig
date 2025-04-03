@@ -1,22 +1,16 @@
 <nav class="navbar navbar-expand-lg " id="navbar">
     <div class="container-fluid"> 
-
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-
             <ul class="navbar-nav  mb-2 mb-lg-0">
-
-        {% if app.user %}
-
-            {% if 'ROLE_ADMIN' in app.user.roles %}
 
                 <li class="nav-item">
                     <a class="nav-link {{ app.current_route == 'home' ? 'active text-muted' : '' }}" aria-current="page" href="{{ path('home') }}">Accueil</a>
                 </li>
-
+        {% if app.user %}
+            {% if 'ROLE_ADMIN' in app.user.roles %}
                 <li class="nav-item">
                     <a class="nav-link {{ app.current_route starts with 'admin.' ? 'active text-muted' : '' }}" href="{{ path('admin.index') }}">Espace Perso</a>
                 </li>
@@ -45,19 +39,12 @@
 
         {% else %}
                 <li class="nav-item">
-                    <a class="nav-link {{ app.current_route == 'home' ? 'active text-muted' : '' }}" aria-current="page" href="{{ path('home') }}">Accueil</a>
-                </li>
-        
-                <li class="nav-item">
                     <a class="nav-link {{ app.current_route starts with 'app_login' ? 'active text-muted' : '' }}" href="{{ path('app_login') }}">Connexion</a>
                 </li>  
 
                 <li class="nav-item">
-                    <a class="nav-link {{ app.current_route starts with 'register' ? 'active text-muted' : '' }}" href="{{ path('register') }}">Inscription</a>
+                    <a class="nav-link " data-bs-toggle="modal" data-bs-target="#staticBackdrop">Inscription</a>
                 </li>  
-
-
-
         {% endif %}
 
                 

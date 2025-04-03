@@ -21,6 +21,7 @@ php -S localhost:8000 -t public
 
 symfony serve:stop
 
+npm run build
 npm run watch
 
 rm -rf public/build/*
