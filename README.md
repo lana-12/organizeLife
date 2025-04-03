@@ -13,6 +13,7 @@ OrganizeLife est conçu pour vous aider à transformer le chaos quotidien en une
 git clone https://github.com/lana-12/organizeLife
 
 composer install
+npm install
 
 symfony serve:start
 # en http

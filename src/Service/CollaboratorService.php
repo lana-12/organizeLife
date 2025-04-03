@@ -8,6 +8,7 @@ use App\DTO\CollaboratorDTO;
 use App\Form\CollaboratorType;
 use App\Repository\UserRepository;
 use App\Security\UserAuthenticator;
+use App\Service\TextFormatterService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
