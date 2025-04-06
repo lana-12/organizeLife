@@ -5,7 +5,6 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav  mb-2 mb-lg-0">
-
                 <li class="nav-item">
                     <a class="nav-link {{ app.current_route == 'home' ? 'active text-muted' : '' }}" aria-current="page" href="{{ path('home') }}">Accueil</a>
                 </li>
@@ -16,27 +15,17 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link {{ app.current_route starts with 'project.' ? 'active text-muted' : '' }}" href="{{ path('project.index') }}">Projets</a>
-                </li>
-
-                 {# <li><a class="getstarted " href="#">Get Started</a></li> #}
-
-                <li class="nav-item">
                     <a class="nav-link {{ app.current_route starts with 'app_logout' ? 'active text-muted' : '' }}" href="{{ path('app_logout') }}">Déconnexion</a>
                 </li>
-
             {# {% else 'ROLE_COLLABORATOR' in app.user.roles %}
 
                     <li class="nav-item">
                     <a class="nav-link {{ app.current_route starts with 'project.' ? 'active text-muted' : '' }}" href="{{ path('project.index') }}">Projets</a>
                 </li>
-
                 <li class="nav-item">
                     <a class="nav-link {{ app.current_route starts with 'app_logout' ? 'active text-muted' : '' }}" href="{{ path('app_logout') }}">Déconnexion</a>
                 </li>    #}
-
             {% endif %}
-
         {% else %}
                 <li class="nav-item">
                     <a class="nav-link {{ app.current_route starts with 'app_login' ? 'active text-muted' : '' }}" href="{{ path('app_login') }}">Connexion</a>
@@ -46,29 +35,6 @@
                     <a class="nav-link " data-bs-toggle="modal" data-bs-target="#staticBackdrop">Inscription</a>
                 </li>  
         {% endif %}
-
-                
-                
-
-                
-                {# <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Dropdown
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li>
-                            <a class="dropdown-item" href="#">Action</a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="#">Another action</a>
-                        </li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li>
-                            <a class="dropdown-item" href="#">Something else here</a>
-                        </li>
-                    </ul>
-                </li> #}
-                
             </ul>
         </div>
     </div>

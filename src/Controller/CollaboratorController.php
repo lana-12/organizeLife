@@ -49,10 +49,10 @@ class CollaboratorController extends AbstractController
     public function new(Request $request, int $id): Response
     {
 
-         /**
-         * @var $user
-         */
-        $user = $this->security->getUser();
+        /**
+         * @var User $user
+        */
+        $user = $this->getUser();
         $admin = $user->getId();
 
         if(!$this->security->getUser()){
