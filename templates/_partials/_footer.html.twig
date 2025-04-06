@@ -15,42 +15,36 @@
                         <h4>Navigation</h4>
                             <ul>
                                 {% if app.user %}
-
                                     {% if 'ROLE_ADMIN' in app.user.roles %}
-                                        
-                                            <li>
-                                                <i class="bi bi-chevron-right"></i> <a class=" {{ app.current_route == 'home' ? 'active text-muted' : '' }}" aria-current="page" href="{{ path('home') }}">Accueil</a>
-                                            
-                                            </li>
+                                    <li>
+                                        <i class="bi bi-chevron-right"></i> <a class=" {{ app.current_route == 'home' ? 'active text-muted' : '' }}" aria-current="page" href="{{ path('home') }}">Accueil</a>
+                                    </li>
+                                    <li >
+                                        <i class="bi bi-chevron-right"></i> 
+                                        <a class=" {{ app.current_route starts with 'admin.' ? 'active text-muted' : '' }}" href="{{ path('admin.index') }}">Espace Perso</a>
+                                    </li>
+                                    {# <li >
+                                        <i class="bi bi-chevron-right"></i> 
+                                        <a class="{{ app.current_route starts with 'project.' ? 'active text-muted' : '' }}" href="{{ path('project.index') }}">Projets</a>
+                                    </li> #}
+                                    {# <li><a class="getstarted " href="#">Get Started</a></li> #}
+
+                                    <li >
+                                        <i class="bi bi-chevron-right"></i> 
+                                        <a class="{{ app.current_route starts with 'app_logout' ? 'active text-muted' : '' }}" href="{{ path('app_logout') }}">Déconnexion</a>
+                                    </li>
+
+                                {# {% else 'ROLE_COLLABORATOR' in app.user.roles %}
 
                                         <li >
                                             <i class="bi bi-chevron-right"></i> 
-                                            <a class=" {{ app.current_route starts with 'admin.' ? 'active text-muted' : '' }}" href="{{ path('admin.index') }}">Espace Perso</a>
-                                        </li>
+                                        <a class=" {{ app.current_route starts with 'project.' ? 'active text-muted' : '' }}" href="{{ path('project.index') }}">Projets</a>
+                                    </li>
 
-                                        <li >
-                                            <i class="bi bi-chevron-right"></i> 
-                                            <a class="{{ app.current_route starts with 'project.' ? 'active text-muted' : '' }}" href="{{ path('project.index') }}">Projets</a>
-                                        </li>
-
-                                        {# <li><a class="getstarted " href="#">Get Started</a></li> #}
-
-                                        <li >
-                                            <i class="bi bi-chevron-right"></i> 
-                                            <a class="{{ app.current_route starts with 'app_logout' ? 'active text-muted' : '' }}" href="{{ path('app_logout') }}">Déconnexion</a>
-                                        </li>
-
-                                    {# {% else 'ROLE_COLLABORATOR' in app.user.roles %}
-
-                                            <li >
-                                                <i class="bi bi-chevron-right"></i> 
-                                            <a class=" {{ app.current_route starts with 'project.' ? 'active text-muted' : '' }}" href="{{ path('project.index') }}">Projets</a>
-                                        </li>
-
-                                        <li >
-                                            <i class="bi bi-chevron-right"></i> 
-                                            <a class=" {{ app.current_route starts with 'app_logout' ? 'active text-muted' : '' }}" href="{{ path('app_logout') }}">Déconnexion</a>
-                                        </li>    #}
+                                    <li >
+                                        <i class="bi bi-chevron-right"></i> 
+                                        <a class=" {{ app.current_route starts with 'app_logout' ? 'active text-muted' : '' }}" href="{{ path('app_logout') }}">Déconnexion</a>
+                                    </li>    #}
 
                                     {% endif %}
 
@@ -67,15 +61,11 @@
 
                                         <li >
                                             <i class="bi bi-chevron-right"></i> 
-                                            <a class=" {{ app.current_route starts with 'register' ? 'active text-muted' : '' }}" href="{{ path('register') }}">Inscription</a>
+                                            {# <a class=" {{ app.current_route starts with 'register' ? 'active text-muted' : '' }}" href="{{ path('register') }}">Inscription</a> #}
+                                            <a type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Inscription</a>
                                         </li>  
-
-
                                 {% endif %}
                             </ul>
-
-
-                       
                     </div>
                 </div>
                 

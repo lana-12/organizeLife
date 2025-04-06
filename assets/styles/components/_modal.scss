@@ -1,0 +1,10 @@
+
+// Modal Register Start
+.modal {
+    .btnCustom {
+        @include btnCustom($green, $white, $color, black);
+
+        
+    }
+}
+// Modal Register End 

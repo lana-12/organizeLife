@@ -1,0 +1,50 @@
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title titleUnderline" id="staticBackdropLabel">M'inscrire</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+
+	<div class="row">
+		<div class="col">
+			<form id="registrationForm" method="POST" action="{{ path('register') }}">
+				<div class="d-md-flex justify-content-md-around">
+					<div class="mb-3">
+						<label for="firstname" class="form-label">Prénom</label>
+						<input type="text" class="form-control" id="firstname" name="firstname" required>
+					</div>
+					<div class="mb-3">
+						<label for="lastname" class="form-label">Nom</label>
+						<input type="text" class="form-control" id="lastname" name="lastname" required>
+					</div>
+				</div>
+				<div class="mb-3">
+					<label for="email" class="form-label">Email</label>
+					<input type="email" class="form-control" id="email" name="email" required>
+				</div>
+				<div class="mb-3">
+					<label for="password" class="form-label">Mot de Passe</label>
+					<input type="password" class="form-control" id="password" name="password" required>
+				</div>
+				<div class="form-check mb-3">
+					<input type="checkbox" class="form-check-input" id="agreeTerms" name="agreeTerms" required>
+					<label class="form-check-label" for="agreeTerms">J'accepte les termes et conditions</label>
+				</div>
+				<div class="mb-3 text-center">
+					<button type="submit" class="btn btnCustom">S'inscrire</button>
+				</div>
+			</form>
+
+			<p>Déjà inscrit(e) ?
+				<a href="{{ path('app_login') }}">Me connecter</a>
+			</p>
+		</div>
+	</div>
+
+			</div>
+		</div>
+	</div>
+</div>

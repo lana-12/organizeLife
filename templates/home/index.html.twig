@@ -7,8 +7,12 @@
         <div class="container text-center position-relative" data-aos="fade-in" data-aos-delay="300">
             <h2>OrganizeLife, votre allié pour une vie mieux organisée</h2>
             <h3>Transformez le chaos quotidien en une expérience harmonieuse avec notre application intuitive</h3>
-            <a href="{{ path('register') }}" class="btn-get-started ">Inscription rapide</a>
-            <a href="{{ path('project.new') }}" class="btn-get-started ">Commencez dès maintenant</a>
+            {% if app.user  %}
+                <a href="{{ path('project.new') }}" class="btn-get-started ">Commencez dès maintenant</a>
+            {% else %}
+                <a href="{{ path('project.new') }}" class="btn-get-started ">Commencez dès maintenant</a>
+                <button class="btn-get-started" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Inscription rapide</button>
+            {% endif %}
         </div>
     </section>
 
@@ -82,10 +86,7 @@
     </section>
     <!-- End Cta Section -->
 
-
-
-
-<!-- Start Section How It Works -->
+    <!-- Start Section How It Works -->
     <section id="services" class="services ">
         <div class="container">
             <div class="row">
@@ -95,13 +96,13 @@
                         <h2>Comment ça marche ?</h2>
                         <p>Découvrez comment notre service vous aide à gérer vos projets de manière efficace et collaborative en quelques étapes simples et rapides.</p>
                         <p class="text-center">
-                            <a href="{{ path('register') }}" class="services-btn">Commencer</a>
+                            <button class="services-btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Commencer</button>
                         </p>                      
                     </div>
                 </div>
+                {% include "_partials/_modalregister.html.twig" %}
 
                 <div class="col-lg-8">
-                    
                     <div class="row justify-content-center ">
 
                         <div class="col-md-6 d-flex align-items-stretch mt-4 mt-md-0">
@@ -152,17 +153,15 @@
             </div>
         </div>
     </section>
-
-
     <!-- End Section How It Works -->
 
 
-
+{# 
 {{ dump(app) }}
 {{ dump(app.user) }}
 {{ dump(app.current_route) }}
 {{ dump(app.request.attributes.get('_route')) }}
-{{ dump(app.request.attributes.get('_controller') ) }}
+{{ dump(app.request.attributes.get('_controller') ) }} #}
 
 {# {% if app.request.attributes.get('_route') == 'project.index' %} #}
  

@@ -1,163 +1,86 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Espace Perso | {{ parent() }}{% endblock %}
-   {# {% block javascripts %}
-   {{ parent() }}
-        {{ encore_entry_script_tags('script') }}
-    {% endblock %} #}
 
 {% block body %}
 
 
-{# TODO: Verifier if isConnected and  ROLE_ADMIN  #}
-{# TODO: A voir comment faire pour boxespacePerso OK + boxProject => faire des includes #}
-
-{# a revoir pour les if si je fais un page admin et collaborateur ou la meme #}
-
-  {% if app.user %}
-    {% if admin %}
-
-        {% include "user/_boxEspacePerso.html.twig"  %}
-                   
-
-
-    {% else %}
-
-        <section class="container mt-4">
-
-            <div class="alert alert-danger alert-dismissible" role="alert ">
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-
-                <div class="alert-message">
-                    <p>Vous devez avoir un compte d'administrateur pour accéder à cette page</p>
-                </div>
-
+  <section class="heroUser d-flex align-items-center">
+    <div class="container position-relative">
+      <div class="row">
+        {% include "admin/_boxespacepersoadmin.html.twig"  %}
+        {# Partie droite : Explication si aucun projet #}
+        {% if projects is empty %}
+          <div class="col-lg-6 d-flex align-items-center" data-aos="zoom-in" data-aos-delay="400">
+            <div class="boxWhite p-4 w-100">
+              <h3>Aucun projet pour le moment</h3>
+              <p>Commencez par créer un nouveau projet pour gérer vos collaborateurs et événements.</p>
+              <a href="{{ path('project.new') }}" class="btn btnCustom mt-3">Créer un projet</a>
             </div>
-
-        </section>
-
-    {% endif %}
-
-      <!-- ======= Counts Section ======= -->
-    <section id="counts" class="counts">
-      <div class="container">
-
-        <div class="row counters ">
-        
-          <div class="col-lg-4 col-6 text-center">
-            <span data-purecounter-start="150" data-purecounter-end="{{ counts.projectsCount|e }}" data-purecounter-duration="1" class="purecounter"></span>
-            <p>Projets</p>
           </div>
 
-          <div class="col-lg-4 col-6 text-center">  
-            <span data-purecounter-start="150" data-purecounter-end="{{ counts.collaboratorsCount|e }}" data-purecounter-duration="1" class="purecounter"></span>
-            <p>Collaborateurs</p>
-          </div>
-
-          <div class="col-lg-4 col-12 text-center">
-            <span data-purecounter-start="150" data-purecounter-end="{{ counts.eventsCount|e }}" data-purecounter-duration="1" class="purecounter"></span>
-            <p>Evènements</p>
-          </div>
-
-
-        </div>
-
-      </div>
-    </section>
-    
-    <!-- End Counts Section -->
-
-    <!-- Start Section projects -->
-    <section id="projects" class=" projects">
-        <div class="container">
+        {% else %}
+        <!-- Start Section projects -->
+        <div class="col-lg-6">
+          <section id="projects" class=" projects">
             <div class="row">
-
-                <div class="col-lg-4">
-                    <div class="" data-aos="fade-right">
-                        <h2 class="titleUnderline">Vos Projets</h2>
-                        <p class="text-center">
-                            <a href="{{ path('project.new') }}" class="btn btnCustom " >Nouveau</a>
-                        </p>                      
-                    </div>
-                </div>
-
-                <div class="col-lg-8">
-                    
-                    <div class="row justify-content-center ">
-
-                      {% if projects %}
-                          {# {{ dump(projects) }} #}
-                        {% for project in projects %}
-                            {# {{ dump(project) }} #}
-
-                            <div class="col-md-6 d-flex align-items-stretch mt-4 ">
-                              <div class="boxWhite" data-aos="zoom-in" data-aos-delay="100">
-                                  <div class="" >
-                                      <p >{{ project.name | capitalize }}</p>
-                                  </div>  
-                                  
-                                  <div class="d-flex justify-content-around flex-wrap" >
-                                      <a href="{{ path('project.show', {id: project.id , slug: project.slug }) }}" class="btn btn-success m-3 " >Gérer</a>
-
-                                      <a href="{{ path('project.edit', {id: project.id , slug: project.slug }) }}" class="btn btn-warning m-3" >Modifier</a>
-
-                                      <a href="{{ path('project.delete', {id: project.id , slug: project.slug }) }}" class="btn btn-danger m-3 " onclick="Supp(this.href); return(false);" >Supprimer</a>
-
-                                  </div>
-
-                              </div>
-                            </div>
-        
-                          {% endfor %}
-
-                        {% else %}
-
-                          <section class="container mt-4">
-
-                            <div class="alert alert-danger alert-dismissible" role="alert ">
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-
-                                <div class="alert-message">
-                                    <p>Pas de projet en cours </p>
-                                    <p><a href="{{ path('project.new') }}" class=" " alt="Créer un projet" title="Créer un projet"> Nouveau</a></p>
-                                </div>
-
-                            </div>
-
-                          </section>
-                      {% endif %}
-                        
-                        
-                    </div>
+                <div class="col-lg-6">
+                  <div class="" data-aos="fade-right">
+                    <h2 class="titleUnderline">Vos Projets</h2>
+                    <p class="text-center">
+                      <a href="{{ path('project.new') }}" class="btn btnCustom ">Nouveau</a>
+                    </p>
+                  </div>
                 </div>
             </div>
+
+                <div class="col-lg-6">
+                  <div class="row justify-content-center ">
+
+                    {% if projects %}
+                      {# {{ dump(projects) }} #}
+                      {% for project in projects %}
+                        {# {{ dump(project) }} #}
+
+                        <div class="col-md-6 d-flex align-items-stretch mt-4 ">
+                          <div class="boxWhite" data-aos="zoom-in" data-aos-delay="100">
+                            <div class="">
+                              <p>{{ project.name | capitalize }}</p>
+                            </div>
+
+                            <div class="d-flex justify-content-around flex-wrap">
+                              <a href="{{ path('project.show', {id: project.id , slug: project.slug }) }}" class="btn btn-success m-3 ">Gérer</a>
+
+                              <a href="{{ path('project.edit', {id: project.id , slug: project.slug }) }}" class="btn btn-warning m-3">Modifier</a>
+
+                              <a href="{{ path('project.delete', {id: project.id , slug: project.slug }) }}" class="btn btn-danger m-3 " onclick="Supp(this.href); return(false);">Supprimer</a>
+
+                            </div>
+
+                          </div>
+                        </div>
+
+                      {% endfor %}
+                    {% endif %}
+
+
+                  </div>
+                </div>
+            <div class="row">
+            
+            </div>
+          </section>
         </div>
-    </section>
+        <!-- End Section projects -->
+        {% endif %}
+      </div>
+    </div>
+  </section>
 
-
-    <!-- End Section projects -->
-
-  {% else %}
-
-        <section class="container mt-4">
-
-            <div class="alert alert-danger alert-dismissible" role="alert ">
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-
-                <div class="alert-message">
-                    <p>Vous devez être connecté pour pourvoir accéder à cette page</p>
-                    <p>Déjà inscrit(e) ? 
-                      <a href="{{ path('app_login') }}">Me connecter </a>
-                    </p>
-                    <p>Pas encore inscrit(e) ? 
-                        <a href="{{ path('register') }}"> M'inscrire</a>
-                    </p>
-                </div>
-
-            </div>
-
-        </section>
-  {% endif %}
-
+  <!-- Counts Section -->
+  <div class="my-5">
+    {% include "_partials/_counts.html.twig"  %}
+  </div>
+  <!-- End Counts Section -->
 
 {% endblock %}
