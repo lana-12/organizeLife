@@ -32,19 +32,5 @@ class SecurityController extends AbstractController
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
 
-    #[Route('/connect/google', name: 'connect_google_start')]
-    public function connectGoogle(ClientRegistry $clientRegistry): RedirectResponse
-    {
-        // Start Processus connexion with Google
-        return $clientRegistry
-            ->getClient('google')
-            ->redirect([], []);
-    }
 
-    #[Route('/connect/google/check', name: 'connect_google_check')]
-    public function connectGoogleCheck(Request $request): void
-    {
-        // Manage by GoogleAuthentificator
-        throw new \Exception('Cette méthode est gérée par GoogleAuthenticator');
-    }
 }
