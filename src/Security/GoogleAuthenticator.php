@@ -53,6 +53,7 @@ class GoogleAuthenticator extends OAuth2Authenticator
             new UserBadge($email, function($userIdentifier) use ($googleUser) {
                 $user = $this->em->getRepository(User::class)->findOneBy(['email' => $userIdentifier]);
 
+                
                 if (!$user) {
                     $user = new User();
                     $user->setEmail($googleUser->getEmail());
