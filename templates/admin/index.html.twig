@@ -8,6 +8,12 @@
   <section class="heroUser d-flex align-items-center">
     <div class="container position-relative">
       <div class="row">
+        {% if app.user.isFromGoogle and app.user.password is empty %}
+          <div class="alert alert-warning mt-5 text-center">
+            Vous avez créé(e) votre compte avec Google.<br>
+            <a href="{{ path('set_password') }}">Cliquez ici pour définir un mot de passe</a>.
+          </div>
+        {% endif %}
         {% include "admin/_boxespacepersoadmin.html.twig"  %}
         {# Partie droite : Explication si aucun projet #}
         {% if projects is empty %}

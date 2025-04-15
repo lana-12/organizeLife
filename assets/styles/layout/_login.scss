@@ -1,6 +1,10 @@
 .login {
-
-    
-
-
+    .boxWhite{
+        text-align: start;
+        max-width: 500px;
+        margin: auto;
+        .btnCustom {
+            @include btnCustom($green, $white, $color, black);
+        }
+    }
 }

@@ -4,16 +4,16 @@
 
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
-use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
-use KnpU\OAuth2ClientBundle\Security\Authenticator\OAuth2Authenticator;
 use League\OAuth2\Client\Provider\GoogleUser;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
-use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
+use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use KnpU\OAuth2ClientBundle\Security\Authenticator\OAuth2Authenticator;
+use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
+use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
 
 class GoogleAuthenticator extends OAuth2Authenticator
 {
@@ -60,9 +60,11 @@ class GoogleAuthenticator extends OAuth2Authenticator
                     $user->setLastname($googleUser->getLastName() ?? '');
                     $user->setRoles(['ROLE_USER', 'ROLE_ADMIN']);
                     $user->setPassword('');
+                    $user->setIsFromGoogle(true);
                     $this->em->persist($user);
                     $this->em->flush();
                 }
+                // $this->session->getFlashBag()->add('notice', 'Bienvenue ! Un compte a été créé avec votre compte Google. Veuillez définir un mot de passe.');
                 return $user;
             })
         );
@@ -71,7 +73,10 @@ class GoogleAuthenticator extends OAuth2Authenticator
 
     public function onAuthenticationSuccess(Request $request, $token, string $firewallName): RedirectResponse
     {
-        return new RedirectResponse($this->router->generate('home')); 
+        if ($token->getUser()->isFromGoogle() && empty($token->getUser()->getPassword())) {
+            return new RedirectResponse($this->router->generate('set_password'));
+        }
+        return new RedirectResponse($this->router->generate('home'));
     }
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): RedirectResponse
