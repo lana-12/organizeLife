@@ -9,11 +9,13 @@
     <div class="container position-relative">
       <div class="row">
         {% if app.user.isFromGoogle and app.user.password is empty %}
-          <div class="alert alert-warning mt-5 text-center">
-            Vous avez créé(e) votre compte avec Google.<br>
+          <div class="alert alert-warning mt-5 text-center alert-dismissible fade show" role="alert">
+            Vous avez créé(e) votre compte avec Google. Si vous ne définissez pas un mot de passe, vous devrez toujours vous connecter avec Google.<br>
             <a href="{{ path('set_password') }}">Cliquez ici pour définir un mot de passe</a>.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>
         {% endif %}
+
         {% include "admin/_boxespacepersoadmin.html.twig"  %}
         {# Partie droite : Explication si aucun projet #}
         {% if projects is empty %}

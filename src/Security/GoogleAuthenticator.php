@@ -65,7 +65,6 @@ class GoogleAuthenticator extends OAuth2Authenticator
                     $this->em->persist($user);
                     $this->em->flush();
                 }
-                // $this->session->getFlashBag()->add('notice', 'Bienvenue ! Un compte a été créé avec votre compte Google. Veuillez définir un mot de passe.');
                 return $user;
             })
         );
@@ -74,10 +73,10 @@ class GoogleAuthenticator extends OAuth2Authenticator
 
     public function onAuthenticationSuccess(Request $request, $token, string $firewallName): RedirectResponse
     {
-        if ($token->getUser()->isFromGoogle() && empty($token->getUser()->getPassword())) {
-            return new RedirectResponse($this->router->generate('set_password'));
-        }
-        return new RedirectResponse($this->router->generate('home'));
+        // if ($token->getUser()->isFromGoogle() && empty($token->getUser()->getPassword())) {
+        //     return new RedirectResponse($this->router->generate('set_password'));
+        // }
+        return new RedirectResponse($this->router->generate('admin.index'));
     }
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): RedirectResponse
