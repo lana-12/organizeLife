@@ -28,18 +28,18 @@ class UserAuthenticator extends AbstractLoginFormAuthenticator
 
     public function authenticate(Request $request): Passport //return un passport
     {
-        // Request l eamil saisi
+        // Request Email entered
         $email = $request->request->get('email', '');
 
         $request->getSession()->set(SecurityRequestAttributes::LAST_USERNAME, $email);
 
         return new Passport(
-            // Utilisateur a authentifié
+            // User have authenticator
             new UserBadge($email),
-            // Recupère le password
+            // Retrieve password
             new PasswordCredentials($request->request->get('password', '')),
             [                
-                // Recupère le token
+                // Retrieve  token
                 new CsrfTokenBadge('authenticate', $request->request->get('_csrf_token')),
                 new RememberMeBadge(),
             ]
