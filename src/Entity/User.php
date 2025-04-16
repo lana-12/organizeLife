@@ -57,6 +57,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Event::class, mappedBy: 'user')]
     private Collection $events;
 
+    #[ORM\Column(type: 'boolean')]
+    private bool $isFromGoogle = false;
+
+
     public function __construct()
     {
         $this->projects = new ArrayCollection();
@@ -250,6 +254,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             }
         }
 
+        return $this;
+    }
+
+    public function isFromGoogle(): bool
+    {
+        return $this->isFromGoogle;
+    }
+
+    public function setIsFromGoogle(bool $isFromGoogle): self
+    {
+        $this->isFromGoogle = $isFromGoogle;
         return $this;
     }
 
