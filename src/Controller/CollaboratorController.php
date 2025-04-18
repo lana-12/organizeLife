@@ -21,12 +21,10 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class CollaboratorController extends AbstractController
 {
     public function __construct(
-        
         private CollaboratorService $collaboratorService,
         private ProjectRepository $projectRepo,
         private EntityManagerInterface $em,
         private Security $security
-    
     ){}
 
     
@@ -34,7 +32,6 @@ class CollaboratorController extends AbstractController
     public function index(int $id,): Response
     {
         // $collaborators = $this->collaborator->getCollaboratorsByProject($id);
-
         // return $this->render('collaborator/index.html.twig', [
         //     // 'collaborators' => $collaborators,
         // ]);
@@ -49,9 +46,7 @@ class CollaboratorController extends AbstractController
     public function new(Request $request, int $id): Response
     {
 
-        /**
-         * @var User $user
-        */
+        /** @var \App\Entity\User $user */
         $user = $this->getUser();
         $admin = $user->getId();
 
@@ -83,7 +78,6 @@ class CollaboratorController extends AbstractController
                 'slug' => $project->getSlug(),
             ]);
         }
-
         return $this->render('collaborator/formNewCollaborator.html.twig', [
             'collaboratorform' => $form,
             'project' => $project,

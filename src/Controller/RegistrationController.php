@@ -20,12 +20,10 @@ class RegistrationController extends AbstractController
     #[Route('/register', name: 'register')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, UserAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
     {
-
         $data = json_decode($request->getContent(), true);
         if (!$data) {
             return new JsonResponse(['success' => false, 'message' => 'Données invalides'], Response::HTTP_BAD_REQUEST);
         }
-
         try {
             $user = new User();
             $user->setFirstname(TextFormatterService::formatUcFirst($data['firstname']));
@@ -35,10 +33,8 @@ class RegistrationController extends AbstractController
                 $userPasswordHasher->hashPassword(
                     $user, 
                     $data['password']));
-            
             $user->setRoles(
                 ['ROLE_USER', 'ROLE_ADMIN']);
-
             $entityManager->persist($user);
             $entityManager->flush();
 

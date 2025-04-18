@@ -19,23 +19,18 @@ class ContactController extends AbstractController
     #[Route('/', name: 'contact')]
     public function contact(Request $request, MailerService $mailer): Response
     {
-
-        
         $data = new ContactDTO();
-
         // Decommenter pour utiliser pour les test
         // $data->name = "Vivi";
         // $data->email = "vivi@vivi.com";
         // $data->subject = "Demande de contact";
         // $data->message= "Voici mon message";
             
-
         $form= $this->createForm(ContactType::class, $data);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
             foreach ($data->collaborators as $collaborator) {
-
                 // TODO : A revoir de grouper les emails, ex Cc, au lieu que chaque collaborateur recoivent un email
                 $mailer->sendEmail(
                     $collaborator->getEmail(),
@@ -44,14 +39,10 @@ class ContactController extends AbstractController
                     'emails/contact.html.twig',
                     ['data' => $data]
                 );
-
             }
-         
             $this->addFlash('success', "Votre message a bien été envoyé");
-
             return $this->redirectToRoute('contact');
         }
-
         return $this->render('contact/contact.html.twig', [
             'formContact' => $form,
         ]);

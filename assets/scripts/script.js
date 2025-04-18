@@ -39,7 +39,7 @@ window.onload= () => {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    const modal = bootstrap.Modal.getInstance(document.getElementById('staticBackdrop'));
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('registerModal'));
                     modal.hide();
                     window.location.href = "/";
                 } else {

@@ -17,15 +17,9 @@ class EventTypeController extends AbstractController
     {
 
     //     $type = new TypeEvent();
-        
     //     $type->setName('Vacances');
-
-
     //     $em->persist($type);
     //     $em->flush();
-    
-    // // do anything else you need here, like send an email
-
     // $this->addFlash('success', 'Le Type a été créé avec succes');
 
     return $this->render('event_type/index.html.twig', [

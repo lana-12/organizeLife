@@ -62,11 +62,6 @@ class AdminController extends AbstractController
                 "eventsCount" => $this->projectRepo->countEventsByAdminId($adminId),
             ];
         } 
-        
-        // else {
-        //     $this->addFlash('danger', "Vous n'avez aucun projet");
-        // }
-
         return $this->render('admin/index.html.twig', $templateData);
     }
 }
