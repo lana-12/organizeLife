@@ -1,0 +1,89 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Politique de confidentialité |
+	{{ parent() }}
+{% endblock %}
+{% block body %}
+	<div class="legal">
+		<div class="container">
+			<h2>Politique de confidentialité</h2>
+			<p class="text-muted">Dernière mise à jour : 17 Avril 2025</p>
+			<p>
+				Le site organizeLife respecte la vie privée de ses utilisateurs et s’engage à protéger les données personnelles conformément au Règlement Général sur la Protection des Données (RGPD). 
+				    Cette politique vous explique quelles données sont collectées, comment elles sont utilisées, et quels sont vos droits.
+			</p>
+			<ol>
+				<li>
+					<strong>Données collectées</strong>
+					<p>
+						Lors de l’utilisation du site, nous collectons et stockons uniquement les données nécessaires au bon fonctionnement de la plateforme.
+					</p>
+					<p>Les données enregistrées en base peuvent inclure :</p>
+					<ul>
+						<li>Nom</li>
+						<li>Prénom</li>
+						<li>Adresse email</li>
+						<li>Mot de passe (uniquement si vous le définissez, et toujours de manière hachée)</li>
+						<li>Projets créés par l’utilisateur</li>
+						<li>Collaborateurs liés à un projet (nom, prénom, email, mot de passe)</li>
+						<li>Événements associés aux projets</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Création de compte et authentification</strong>
+					<p>Vous avez deux possibilités pour accéder à la plateforme :</p>
+					<ul>
+						<li>
+							<strong>Connexion via Google :</strong>
+							Seules les informations suivantes sont récupérées : nom, prénom et adresse email.Aucun mot de passe Google n’est collecté ni stocké. Un compte est automatiquement créé avec ces informations. Vous pouvez définir un mot de passe personnel par la suite si vous souhaitez vous connecter sans Google.
+						</li>
+						<li>
+							<strong>Inscription manuelle :</strong>
+							Vous renseignez manuellement votre nom, prénom, adresse email et un mot de passe. Le mot de passe est haché avant d’être stocké dans la base de données.
+						</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Finalité des traitements</strong>
+					<p>Les données sont utilisées exclusivement pour :</p>
+					<ul>
+						<li>Gérer les comptes utilisateurs</li>
+						<li>Gérer les projets et les événements</li>
+						<li>Permettre la collaboration entre utilisateurs</li>
+						<li>Garantir le bon fonctionnement de la plateforme</li>
+					</ul>
+					<p>Les données ne sont jamais vendues, cédées ni utilisées à des fins commerciales.</p>
+				</li>
+				<li>
+					<strong>Hébergement et sécurité</strong>
+					<p>
+						Les données sont hébergées chez
+						<strong>Servange.fr</strong>, un prestataire situé en France.Des mesures de sécurité techniques et organisationnelles sont mises en œuvre pour protéger les données (hachage des mots de passe, accès restreint, journalisation, etc.).
+					</p>
+				</li>
+				<li>
+					<strong>Vos droits (RGPD)</strong>
+					<p>
+						Vous avez le droit de :
+					</p>
+					<ul>
+						<li>Consulter les données vous concernant</li>
+						<li>Demander leur rectification ou leur suppression</li>
+						<li>Demander la suppression de votre compte</li>
+						<li>Retirer votre consentement à tout moment</li>
+					</ul>
+					<p>
+						Pour toute demande liée à vos droits, vous pouvez nous contacter à l’adresse suivante :
+						<a href="mailto:organizelife34@gmail.com" target="_blank" rel="noopener noreferrer">organizelife34@gmail.com</a>
+					</p>
+				</li>
+				<li>
+					<strong>Modifications</strong>
+					<p>
+						Cette politique peut évoluer. Toute modification substantielle sera communiquée via la plateforme.
+					</p>
+				</li>
+			</ol>
+		</div>
+	</div>
+{% endblock %}

@@ -1,0 +1,44 @@
+.legal {
+    width: 100%;
+    padding: 90px 20px;
+    h2 {
+        font-size: 34px;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+    p {
+        font-size: 16px;
+        line-height: 1.6;
+    }
+    ol {
+        counter-reset: section;
+        padding-left: 1rem;
+        >li {
+            margin-bottom: 30px;
+            strong {
+                display: block;
+                margin-bottom: 10px;
+                font-size: 18px;
+                font-weight: 600;
+            }
+            p, ul {
+                margin-top: 5px;
+            }
+            ul {
+                padding-left: 1.2rem;
+                li {
+                    list-style-type: disc;
+                    margin-bottom: 5px;
+                }
+            }
+        }
+    }
+    @include media-breakpoint("md") {
+        h2 {
+            font-size: 30px;
+        }
+        p, li {
+            font-size: 17px;
+        }
+    }
+}

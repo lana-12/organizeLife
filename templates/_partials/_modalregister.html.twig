@@ -31,16 +31,19 @@
 				</div>
 				<div class="form-check mb-3">
 					<input type="checkbox" class="form-check-input" id="agreeTerms" name="agreeTerms" required>
-					<label class="form-check-label" for="agreeTerms">J'accepte les termes et conditions</label>
+					<label class="form-check-label" for="agreeTerms">
+						J'accepte les
+						<a href="{{ path('legal.conditions.utilisation') }}" target="_blank" rel="noopener noreferrer">termes et conditions</a>.
+					</label>
 				</div>
 				<div class="mb-3 text-center">
 					<button type="submit" class="btn btnCustom">S'inscrire</button>
 				</div>
 			</form>
 
-			<p>Déjà inscrit(e) ?
+			{# <p>Déjà inscrit(e) ?
 				<a href="{{ path('app_login') }}">Me connecter</a>
-			</p>
+			</p> #}
 		</div>
 	</div>
 

@@ -15,9 +15,16 @@ use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Routing\RouterInterface;
 
 class RegistrationFormType extends AbstractType
 {
+    private $router;
+
+    public function __construct(RouterInterface $router)
+    {
+        $this->router = $router;
+    }
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -50,9 +57,11 @@ class RegistrationFormType extends AbstractType
                 ])
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
+            'label' => 'J\'accepte les <a href="' . $this->router->generate('legal.conditions.generales') . '" target="_blank" rel="noopener noreferrer">Conditions Générales d\'Utilisation</a>',
+                'label_html' => true,
                 'constraints' => [
                     new IsTrue([
-                        'message' => 'You should agree to our terms.',
+                        'message' => 'Vous devez accepter les conditions pour vous inscrire.',
                     ]),
                 ],
             ])

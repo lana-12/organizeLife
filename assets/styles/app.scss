@@ -15,12 +15,12 @@
 @import "./components/nav.scss";
 @import "./components/footer.scss";
 @import "./components/modal.scss";
-@import "./components/admin/count.scss";
-
 
 // Folder layout
+@import "./layout/legal.scss";
 @import "./layout/home.scss";
+@import "./layout/admin.scss";
 @import "./layout/login.scss";
-@import "./layout/user.scss";
 @import "./layout/project.scss";
+@import "./layout/collaborator.scss";
 

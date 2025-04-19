@@ -1,24 +1,36 @@
-// .boxProjects {
-//     background-color: grey;
-//     display: flex;
-//     flex-direction: column;
-//     justify-content: center;
-//     padding: 10px 15px;
-//     border-radius: 5px;
+/*------
+# project/_show.html
+---------*/
+.projetShow {
+    width: 100%;
+    background: url("../../img/callToAction.png") center center;
+    background-size: cover;
+    padding: 60px 0;
+    h2 {
+        padding: 30px 30px
+    }
+    .boxWhite {
+        max-width: 500px;
+        height: 220px;
+        margin: 20px 0;
+    }
+}
 
-// }
-// .boxProject {
-//     background-color: $orange;
-//     display: flex;
-//     flex-direction: row;
-//     align-items: center;
-//     justify-content: space-around;
-//     margin: 10px;
-//     padding: 10px;
-//     border-radius: 5px;
+/*------
+# project/_showProject.html
+---------*/
+.projectForm {
+    width: 100%;
+    padding: 60px 0;
+    // padding: 80px 0;
+    .projectBoxAdmin {
+        margin-bottom: 50px
+    }
 
-// }
-
+    .btnCustom {
+        @include btnCustom($green, black, $color, black);
+    }
+}
 
 .projects {
     .btnCustom {

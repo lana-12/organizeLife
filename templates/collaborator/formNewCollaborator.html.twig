@@ -2,48 +2,39 @@
 
 {% block title %}Nouveau Collaborateur {% endblock %}
 
-
 {% block body %}
 
-    <section>
-    
-        {# {% if editMode %}
-            <h2 class="mt-4 center blue fs-1"> Modifier</h2>
-        {% else %}
-            <h2 class="mt-4 center blue fs-1"> Nouveau</h2>
-        {% endif %} #}
+<div class="collaboratorForm">
+    <section class="container">
+        <div class="row">
+            <div class="col-12 col-lg-6 boxWhite my-4 ">
+                <h2 class="text-start">Projet :
+                </h2>
+                <p>{{ project.name }}</p>
+                <p>{{ project.description }}</p>
+                <p>Collaborateur :
+                </p>
+                <ul>
+                    <li>
+                        {% if project.collaborator is not empty %}
+                            {% for collaborator in project.collaborator %}
+                                {{ collaborator.firstname }}
+                            {% endfor %}
+                        {% else %}
+                            Aucun Collaborateur
+                        {% endif %}
+                    </li>
+                </ul>
+            </div>
 
+            <div class="col-12 col-lg-6 boxWhite">
+                <h3 class="mt-4 center  fs-1">Nouveau collaborateur</h3>
+                {{ form_errors(collaboratorform) }}
+                {{ form_start(collaboratorform,  { 'attr': {'class': 'formProfil'} }) }}
+                {{ form_end(collaboratorform) }}
+            </div>
+
+        </div>
     </section>
-            <h2 class="mt-4 center blue fs-1">Nouveau collaborateur</h2>
-
-    <section class="bg-secondary text-white p-3 m-3">
-    {# {{ dump(app.user) }} #}
-    <h3 class="text-center">Projet : </h3>
-        <p>{{ project.name }}</p>
-        <p>{{ project.description }}</p>
-        <p>Collaborateur : </p>
-            <ul>
-            {% for collaborator in project.collaborator %}
-                <li>{{ collaborator.firstname }}</li>
-                        
-            {% endfor %}
-            </ul>
-
-    </section>
-    
-    <main class="container mt-3">
-		<div class="row">
-			<div class="col ">
-			
-
-        {{ form_errors(collaboratorform) }}
-        {{ form_start(collaboratorform,  { 'attr': {'class': 'formProfil'} }) }}
-
-        {{ form_end(collaboratorform) }}
-        
-			</div>
-		</div>
-	</main>
-
-
+</div>
 {% endblock %}
