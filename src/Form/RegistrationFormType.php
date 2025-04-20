@@ -31,13 +31,13 @@ class RegistrationFormType extends AbstractType
             ->add('lastname', TextType::class, [
                 'label'=> 'Nom',
                 'attr'=>[
-                    'class'=>'form-control',
+                    'class'=>'form-control ',
                 ],
             ])
             ->add('firstname', TextType::class, [
                 'label' => 'Prénom',
                 'attr'=>[
-                    'class'=>'form-control',
+                    'class'=>'form-control ',
                 ],
             ])
             ->add('email', EmailType::class, [
@@ -57,8 +57,7 @@ class RegistrationFormType extends AbstractType
                 ])
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
-            'label' => 'J\'accepte les <a href="' . $this->router->generate('legal.conditions.generales') . '" target="_blank" rel="noopener noreferrer">Conditions Générales d\'Utilisation</a>',
-                'label_html' => true,
+                'label' => 'J\'accepte les Conditions Générales d\'Utilisation',
                 'constraints' => [
                     new IsTrue([
                         'message' => 'Vous devez accepter les conditions pour vous inscrire.',
@@ -89,6 +88,9 @@ class RegistrationFormType extends AbstractType
             ])
             ->add('save', SubmitType::class, [
                 'label'=> 'S\'inscrire',
+                'attr'=>[
+                    'class'=>'btnCustom text-center',
+                ],
             ])
 
         ;

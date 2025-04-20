@@ -2,13 +2,13 @@
 
 {% block title %}Inscription {% endblock %}
 {% block body %}
-    <section class="container mt-3 mt-md-5">
-        <h2 class="titleUnderline">M'inscrire</h2>
+    <section class="container mt-3 mt-md-5 login">
             <div class="row">
-                <div class="col ">
+                <div class="col boxWhite ">
+                    <h2 class="titleUnderline">M'inscrire</h2>
                     {{ form_errors(registrationForm) }}
                     {{ form_start(registrationForm) }}
-                    <div class="d-md-flex justify-content-md-around">
+                    <div class="d-md-flex justify-content-md-around ">
                         {{ form_row(registrationForm.firstname) }}
                         {{ form_row(registrationForm.lastname) }}
                     </div>
@@ -17,8 +17,13 @@
                                 label: 'Mot de Passe'
                             }) }}
                     <div>
-                        {{ form_row(registrationForm.agreeTerms) }}
-                    </div>
+                        <label class="form-check-label">
+                            {{ form_label(registrationForm.agreeTerms) }}
+                            <a href="{{ path('legal.conditions.utilisation') }}" target="_blank" rel="noopener noreferrer">
+                                Conditions Générales d'Utilisation
+                            </a>
+                        </label>
+                        {{ form_widget(registrationForm.agreeTerms) }}</div>
                     <div>
                         {{ form_row(registrationForm.save) }}
                     </div>
