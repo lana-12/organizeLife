@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+	Modifiez vos données
+	{{ parent() }}
+{% endblock %}
+{% block body %}
+	<div class="user">
+        <section class="container formUserEdit">
+			<div class="row">
+				<div class="col-12 boxWhite">
+					<h2 class="">{{ titlePage }}</h2>
+					{{ form_errors(formEditUser) }}
+					{{ form_start(formEditUser) }}
+                    {{ form_rest(formEditUser) }}
+                    <button type="submit" class="btn btnCustom mx-auto ">Modifier</button>
+					{{ form_end(formEditUser) }}
+				</div>
+			</div>
+		</section>
+	</div>
+{% endblock %}

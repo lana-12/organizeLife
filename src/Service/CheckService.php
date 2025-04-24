@@ -2,20 +2,19 @@
 
 namespace App\Service;
 
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
-class CheckService {
-   
+class CheckService 
+{
+    private AuthorizationCheckerInterface $authorizationChecker;
 
-
-    public static function checkAdminAccess($user)
+    public function __construct(AuthorizationCheckerInterface $authorizationChecker)
     {
-        $role = $user->getRoles();
-        if (!in_array("ROLE_ADMIN", $role, true)) {
-           
-        return false;
-    }
-    
-    return true;
+        $this->authorizationChecker = $authorizationChecker;
     }
 
+    public function checkAdminAccess(): bool
+    {
+        return $this->authorizationChecker->isGranted('ROLE_ADMIN');
+    }
 }

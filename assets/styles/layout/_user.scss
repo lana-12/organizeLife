@@ -1,0 +1,13 @@
+.user {
+    padding: 60px 0;
+    .formUserEdit {
+        margin-top: 50px;
+        .boxWhite{
+            max-width: 500px;
+            margin: auto;
+            .btnCustom {
+                @include btnCustom($green, black, $color, black);
+            }
+        }
+    }
+}
