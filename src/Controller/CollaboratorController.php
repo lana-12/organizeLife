@@ -27,7 +27,6 @@ class CollaboratorController extends AbstractController
         private Security $security
     ){}
 
-    
     #[Route('/project/{id}', name: 'collaborator.index')]
     public function index(int $id,): Response
     {
@@ -40,10 +39,8 @@ class CollaboratorController extends AbstractController
         ]);
     }
 
-
-
     #[Route('/ajouter/{id}', name: 'collaborator.new', requirements: ['id' => '\d+', ])]
-    public function new(Request $request, int $id): Response
+    public function new(Request $request, int $id, CheckService $checkService): Response
     {
 
         /** @var \App\Entity\User $user */
@@ -56,7 +53,7 @@ class CollaboratorController extends AbstractController
         }
 
         // Check if user is Admin (CheckService)
-        if(!CheckService::checkAdminAccess($user)){
+        if(!$checkService->checkAdminAccess()){
             $this->addFlash('danger', "Vous ne disposez pas des droits pour accéder à ce service");
             return $this->redirectToRoute('home');
         } 

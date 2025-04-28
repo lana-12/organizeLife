@@ -54,7 +54,7 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
 
-                ])
+            ])
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
                 'label' => 'J\'accepte les Conditions Générales d\'Utilisation',
@@ -70,9 +70,9 @@ class RegistrationFormType extends AbstractType
                 'label' => 'Mot de passe',
                 'attr'=>[
                     'class'=>'form-control',
+                    'autocomplete' => 'new-password'
                 ],
                 'mapped' => false,
-                'attr' => ['autocomplete' => 'new-password'],
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Champ obligatoire',
