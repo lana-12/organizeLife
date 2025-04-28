@@ -52,7 +52,7 @@ class ProjectController extends AbstractController
         }
 
        // Check if user is Admin (CheckService)
-       if(!CheckService::checkAdminAccess($user)){
+       if(!$this->checkService->checkAdminAccess()){
             $this->addFlash('danger', "Vous ne disposez pas des droits pour accéder à ce service");
             return $this->redirectToRoute('home');
         } 
@@ -89,7 +89,7 @@ class ProjectController extends AbstractController
         }
 
         // Check if user is Admin (CheckService)
-        if(!CheckService::checkAdminAccess($admin)){
+        if(!$this->checkService->checkAdminAccess()){
             $this->addFlash('danger', "Vous ne disposez pas des droits pour accéder à ce service");
             return $this->redirectToRoute('home');
         } 
@@ -143,7 +143,7 @@ class ProjectController extends AbstractController
         }
 
         // Check if user is Admin (CheckService)
-        if(!CheckService::checkAdminAccess($admin)){
+        if(!$this->checkService->checkAdminAccess()){
             $this->addFlash('danger', "Vous ne disposez pas des droits pour accéder à ce service");
             return $this->redirectToRoute('home');
         } 
