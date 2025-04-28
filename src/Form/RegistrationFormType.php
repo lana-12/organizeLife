@@ -15,22 +15,29 @@ use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Routing\RouterInterface;
 
 class RegistrationFormType extends AbstractType
 {
+    private $router;
+
+    public function __construct(RouterInterface $router)
+    {
+        $this->router = $router;
+    }
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('lastname', TextType::class, [
                 'label'=> 'Nom',
                 'attr'=>[
-                    'class'=>'form-control',
+                    'class'=>'form-control ',
                 ],
             ])
             ->add('firstname', TextType::class, [
                 'label' => 'Prénom',
                 'attr'=>[
-                    'class'=>'form-control',
+                    'class'=>'form-control ',
                 ],
             ])
             ->add('email', EmailType::class, [
@@ -47,12 +54,13 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
 
-                ])
+            ])
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
+                'label' => 'J\'accepte les Conditions Générales d\'Utilisation',
                 'constraints' => [
                     new IsTrue([
-                        'message' => 'You should agree to our terms.',
+                        'message' => 'Vous devez accepter les conditions pour vous inscrire.',
                     ]),
                 ],
             ])
@@ -62,9 +70,9 @@ class RegistrationFormType extends AbstractType
                 'label' => 'Mot de passe',
                 'attr'=>[
                     'class'=>'form-control',
+                    'autocomplete' => 'new-password'
                 ],
                 'mapped' => false,
-                'attr' => ['autocomplete' => 'new-password'],
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Champ obligatoire',
@@ -80,6 +88,9 @@ class RegistrationFormType extends AbstractType
             ])
             ->add('save', SubmitType::class, [
                 'label'=> 'S\'inscrire',
+                'attr'=>[
+                    'class'=>'btnCustom text-center',
+                ],
             ])
 
         ;

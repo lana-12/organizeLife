@@ -1,20 +1,50 @@
-section {
+.section {
     padding: 60px 0;
     overflow: hidden;
   }
-
+.txtShadow {
+  text-shadow: 1px 1px 2px #fff, 0 0 1em #fff, 0 0 0.2em #fff;
+}
+/*--------------------------------------------------------------
+# Box custom Start
+--------------------------------------------------------------*/
 .boxWhite {
   text-align: center;
   border-radius: 10px;
   background: $white;
   box-shadow: 20px 20px 15px rgba(0, 0, 0, 0.1);
-  color: black;
+  color: dark ;
   padding: 40px 40px;
   width: 100%;
   transition: 0.3s;
   &:hover {
     box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.534);
   }
+}
+
+.boxEspacePerso{
+  background: rgba(0, 0, 0, 0.6);
+  border: $green solid;
+  box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  margin-bottom: 50px;
+  border-radius: 10px;
+  text-align: center;
+  max-width: 500px;
+}
+/*--------------------------------------------------------------
+# Box custom End
+--------------------------------------------------------------*/
+
+/*--------------------------------------------------------------
+# Title custom Start
+--------------------------------------------------------------*/
+.titleCustom {
+  font-size: 30px;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
 }
 
 .titleUnderline {
@@ -37,10 +67,42 @@ section {
     }
   }
 
-
+/*--------------------------------------------------------------
+# Title custom End
+--------------------------------------------------------------*/
 
 /*--------------------------------------------------------------
-# Back to top button
+# Button custom Start
+--------------------------------------------------------------*/
+.btn-user {
+  font-family: "Poppins", sans-serif;
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 16px;
+  letter-spacing: 1px;
+  display: inline-block;
+  padding: 8px 28px;
+  border-radius: 50px;
+  transition: 0.5s;
+  margin: 10px;
+  border: 2px solid $white;
+  background: $green;
+  color: $white;
+  text-decoration: none;
+
+  &:hover {
+    background: transparent;
+    border: 2px solid $white;
+  }
+
+}
+
+/*--------------------------------------------------------------
+# Button custom End
+--------------------------------------------------------------*/
+
+/*--------------------------------------------------------------
+# Back to top button Start
 --------------------------------------------------------------*/
 .back-to-top {
   position: fixed;
@@ -71,3 +133,6 @@ section {
   visibility: visible;
   opacity: 1;
 }
+/*--------------------------------------------------------------
+# Back to top button End
+--------------------------------------------------------------*/

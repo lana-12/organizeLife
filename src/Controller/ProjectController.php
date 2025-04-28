@@ -22,16 +22,12 @@ class ProjectController extends AbstractController
 
 {
     public function __construct(
-        
         private ProjectRepository $projectRepo,
         private EntityManagerInterface $em,
         private Security $security,
         private TextFormatterService $textFormatter,
         private CheckService $checkService,
-
-    
     ){}
-
 
     #[Route('/', name: 'project.index')]
     public function index(Request $request): Response
@@ -47,9 +43,7 @@ class ProjectController extends AbstractController
     public function show(?Project $project): Response
     {
 
-        /**
-         * @var $user
-         */
+        /** @var \App\Entity\User $user */
         $user = $this->security->getUser();
 
         if(!$this->security->getUser()){
@@ -58,7 +52,7 @@ class ProjectController extends AbstractController
         }
 
        // Check if user is Admin (CheckService)
-       if(!CheckService::checkAdminAccess($user)){
+       if(!$this->checkService->checkAdminAccess()){
             $this->addFlash('danger', "Vous ne disposez pas des droits pour accéder à ce service");
             return $this->redirectToRoute('home');
         } 
@@ -69,7 +63,6 @@ class ProjectController extends AbstractController
         }
 
         if($user->getId() === $project->getAdmin()->getId()){
-            
             return $this->render('project/_show.html.twig', [
                 'project' => $project,
             ]);
@@ -86,10 +79,9 @@ class ProjectController extends AbstractController
     #[Route('/nouveau', name: 'project.new')]
     public function newProject(Request $request): Response
     {
-          /**
-         * @var $user
-         */
-        $admin = $this->security->getUser();
+        /** @var \App\Entity\User $user */
+        $user = $this->getUser();
+        $admin = $user;
 
         if(!$this->security->getUser()){
             $this->addFlash('danger', "Vous devez être connecté(e) pour accéder à ce service");
@@ -97,35 +89,26 @@ class ProjectController extends AbstractController
         }
 
         // Check if user is Admin (CheckService)
-        if(!CheckService::checkAdminAccess($admin)){
+        if(!$this->checkService->checkAdminAccess()){
             $this->addFlash('danger', "Vous ne disposez pas des droits pour accéder à ce service");
             return $this->redirectToRoute('home');
         } 
 
-
-
         $project = new Project();
-
         $form = $this->createForm(ProjectType::class, $project);
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {
             if($request->getMethod() === "POST"){
-
                 // Retrieve all data in the form 
                 $project = $form->getData();
-                
                 // $admin = $this->security->getUser();
                 $project->setAdmin($admin);
-
-
-                // TODO: Prévoir un nombre limiter de caractère ou fair un DTO pour le slug
+                // TODO: Prévoir un nombre limiter de caractère ou faire un DTO pour le slug
                 // Retrieve NameAdmin strtolower() 
 
                 $formattedSlug = $this->textFormatter->formatSlug($project->getName());
                 $project->setSlug($formattedSlug);
-                
-                // dd($project);
 
                 $this->em->persist($project);
                 $this->em->flush();
@@ -148,12 +131,11 @@ class ProjectController extends AbstractController
      * Edit Project 
      */
     #[Route('/edit/{slug}-{id}', name: 'project.edit', requirements: ['id' => '\d+', 'slug' => '[A-zÀ-ú0-9-]+'] )]
-    public function editProject(?Project $project, Request $request): Response
+    public function editProject(?Project $project, Request $request)
     {
-        /**
-         * @var $user
-         */
-        $admin = $this->security->getUser();
+        /** @var \App\Entity\User $user */
+        $user = $this->getUser();
+        $admin = $user;
 
         if(!$this->security->getUser()){
             $this->addFlash('danger', "Vous devez être connecté(e) pour accéder à ce service");
@@ -161,7 +143,7 @@ class ProjectController extends AbstractController
         }
 
         // Check if user is Admin (CheckService)
-        if(!CheckService::checkAdminAccess($admin)){
+        if(!$this->checkService->checkAdminAccess()){
             $this->addFlash('danger', "Vous ne disposez pas des droits pour accéder à ce service");
             return $this->redirectToRoute('home');
         } 
@@ -175,8 +157,6 @@ class ProjectController extends AbstractController
             if(!$project){
                 $project = new Project();
             }
-
-
             $form = $this->createForm(ProjectType::class, $project);
             $form->handleRequest($request);
             
@@ -184,11 +164,8 @@ class ProjectController extends AbstractController
                 if($request->getMethod() === "POST"){
     
                     $project = $form->getData();
-
-
                     $formattedSlug = $this->textFormatter->formatSlug($project->getName());
                     $project->setSlug($formattedSlug);
-        
                     $this->em->persist($project);
                     $this->em->flush();
                 
@@ -199,7 +176,6 @@ class ProjectController extends AbstractController
                 return $this->redirectToRoute('admin.index');
                 }
             }
-
             return $this->render('project/_formProject.html.twig', [
                 'project' => $project,
                 'projectForm' => $form,

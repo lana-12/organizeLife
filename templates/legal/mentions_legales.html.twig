@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mentions Légales |
+	{{ parent() }}
+{% endblock %}
+
+{% block body %}
+	<div class="legal">
+		<div class="container">
+			<h2>Mentions légales</h2>
+			<p class="text-muted">Dernière mise à jour : 17 Avril 2025</p>
+			<p>
+				Conformément aux dispositions des articles 6-III et 19 de la Loi n°2004-575 du 21 juin 2004 pour la Confiance dans l'économie numérique, dite L.C.E.N., il est porté à la connaissance des utilisateurs et visiteurs du site organizeLife les présentes mentions légales.
+			</p>
+			<ul>
+				<li>
+					<strong>Éditeur du site :</strong><br>
+					Le site organizeLife est édité par un particulier.
+				</li>
+				<li>
+					<strong>Responsable de la publication :</strong><br>
+					Virginie GIACOMETTI
+				</li>
+				<li>
+					<strong>Contact :</strong><br>
+					<a href="mailto:organizelife34@gmail.com">organizelife34@gmail.com</a>
+				</li>
+				<li>
+					<strong>Hébergement :</strong><br>
+					Le site est hébergé par :<br>
+					Servange.fr<br>
+					<small>
+						<a href="https://www.servange.fr" target="_blank" rel="noopener noreferrer">www.servange.fr</a>
+					</small>
+				</li>
+				<li>
+					<strong>Données personnelles :</strong><br>
+					Aucune donnée personnelle n’est collectée à l’insu de l’utilisateur. Seule l’adresse email est utilisée dans le cadre de l’authentification et de l’utilisation du service.<br>
+					Pour plus d’informations, consultez notre
+					<a href="{{ path('legal.politique.confidentialite') }}" target="_blank" rel="noopener noreferrer">politique de confidentialité</a>.
+				</li>
+				<li>
+					<strong>Propriété intellectuelle :</strong><br>
+					Tous les éléments du site organizeLife (textes, images, structure, code) sont la propriété exclusive de son auteur, sauf mentions contraires, et ne peuvent être utilisés sans autorisation préalable.
+				</li>
+				<li>
+					<strong>Conditions d’utilisation :</strong><br>
+					L’utilisation du site implique l’acceptation pleine et entière des
+					<a href="{{ path('legal.conditions.utilisation') }}" target="_blank" rel="noopener noreferrer">conditions générales d’utilisation</a>
+					consultables à tout moment sur le site.
+				</li>
+			</ul>
+		</div>
+	</div>
+{% endblock %}
+

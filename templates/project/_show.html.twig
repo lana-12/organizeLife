@@ -5,112 +5,81 @@
 {% endblock %}
 
 {% block body %}
-	{# {{ dump(app.user) }} #}
-
-	<section class="container">
-
-		<h2 class="my-4">Gérer</h2>
-    {{ dump(app.request.attributes.get('_route') ) }}
-
-	{% if project %}
-		<h3 class="text-center my-4">{{ project.name }} - id: {{ project.id }}</h3>
-
-			<div class="d-flex justify-content-end " >
-
-				<a href="{{ path('project.edit', {id: project.id , slug: project.slug }) }}" class="btn btn-warning  me-3" >Modifier</a>
-
-				<a href="{{ path('project.delete', {id: project.id , slug: project.slug }) }}" class="btn btn-danger " >Supprimer</a>
-
-			</div>
-
-		
-		<div class="row">
+<div class="projetShow ">
+	<div class="container">
+		<section class="row ">
 			<div class="col">
-				<section class="bg-secondary text-white p-3 m-3">
-					<h4 class="text-center">Administrateur : </h4>
+				<h2 class="titleCustom txtShadow">Gestion du Projet : </h2>
+				{# {{ dump(app.request.attributes.get('_route') ) }} #}
+			</div>
+		</section>
+		<div class="row ">
+			<div class="col-12 col-lg-6 d-lg-flex justify-content-lg-center">
+				<section class="boxWhite ">
+					<p>{{ project.description }}</p>
+					<p class="text-muted">Créer le
+						{{project.createdAt | date("d/m/Y") }}</p>
+
+					<div class="d-flex justify-content-center ">
+						<a href="{{ path('project.edit', {id: project.id , slug: project.slug }) }}" class="btn btn-warning  me-3">Modifier</a>
+						<a href="{{ path('project.delete', {id: project.id , slug: project.slug }) }}" class="btn btn-danger ">Supprimer</a>
+					</div>
+				</section>
+			</div>
+			<div class="col-12 col-lg-6 d-lg-flex justify-content-lg-center">
+				<section class="boxWhite">
+					<h3 class="">Administrateur :
+					</h3>
 					<p>{{ app.user.firstname }}</p>
 					<p>{{ app.user.lastname }}</p>
 					<p>{{ app.user.email }}</p>
 				</section>
 			</div>
 		</div>
-
-		<div class="row">
-			<div class="col">
-				<section class="bg-secondary text-white p-3 m-3">
-					<h4 class="text-center">Projet : </h4>
-					<p>{{ project.description }}</p>
-					<p class="text-muted">Créer le {{project.createdAt | date("d/m/Y") }}</p>
-				</section>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="col">
-				<section class="bg-secondary text-white p-3 m-3">
-
+		<div class="row ">
+			<div class="col-12 col-lg-6 d-lg-flex justify-content-lg-center">
+				<section class="boxWhite ">
 					<div class="d-flex justify-content-between ">
-						<h4 class="text-center">Collaborateur : </h4>
-						<a href="{{ path('collaborator.new', {'id': project.id}) }}" class="btn btn-dark " >Ajouter</a>
+						<h4 class="text-center">Collaborateur :
+						</h4>
+						<a href="{{ path('collaborator.new', {'id': project.id}) }}" class="btn btn-dark ">Ajouter</a>
 					</div>
-
-
 					{% if project.collaborator is not empty %}
-
-                		{% for collaborator in project.collaborator %}
-                    		<p>Prénom : {{ collaborator.firstname }}</p>
-							
-
-                		{% endfor %}
-
+						{% for collaborator in project.collaborator %}
+							<p>Prénom :
+								{{ collaborator.firstname }}</p>
+						{% endfor %}
 					{% else %}
 						<p>Aucun collaborateur pour ce projet.</p>
 					{% endif %}
 				</section>
 			</div>
-		</div>
 
-		<div class="row">
-			<div class="col">
-				<section class="bg-secondary text-white p-3 m-3">
-					<h4 class="text-center">Evènement : </h4>
-						<a href="{{ path('calendar', {id: project.id }) }}" class="btn btn-primary " >Calendrier</a>
-						<a href="{{ path('event.new', {id: project.id }) }}" class="btn btn-primary " >Nouveau</a>
-
-						{% if project.events is not empty %}
-
-							{% for events in project.events %}
-								<p>{{ events.title }}</p>
-							{% endfor %}
-
-						{% else %}
-							<p>Aucun évènement pour ce projet.</p>
-						{% endif %}
+			<div class="col-12 col-lg-6 d-lg-flex justify-content-lg-center">
+				<section class="boxWhite">
+					<h4 class="text-center">Evènement :
+					</h4>
+					<a href="{{ path('calendar', {id: project.id }) }}" class="btn btn-primary ">Calendrier</a>
+					<a href="{{ path('event.new', {id: project.id }) }}" class="btn btn-primary ">Nouveau</a>
+					{% if project.events is not empty %}
+						{% for events in project.events %}
+							<p>{{ events.title }}</p>
+						{% endfor %}
+					{% else %}
+						<p>Aucun évènement pour ce projet.</p>
+					{% endif %}
 				</section>
 			</div>
 		</div>
 
-		<div class="">
-			{{ dump(project) }}
-			{{ dump(app.current_route) }}
-			{{ dump(app.request) }}
 
-		</div>
-		
+	</div>
+</div>
+{# <div class="">
+	{{ dump(project) }}
+	{{ dump(app.current_route) }}
+	{{ dump(app.request) }}
 
-	{% else %}
-		<div class="alert alert-danger alert-dismissible" role="alert ">
-			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-
-			<div class="alert-message">
-				<p>Pas de project</p>
-			</div>
-		</div>
-
-	{% endif %}
-		
-	</section
-
-	
+</div> #}
 {% endblock %}
 

@@ -32,7 +32,7 @@
                 </li>  
 
                 <li class="nav-item">
-                    <a class="nav-link " data-bs-toggle="modal" data-bs-target="#staticBackdrop">Inscription</a>
+                <a class="nav-link {{ app.current_route starts with 'register' ? 'active text-muted' : '' }}" href="{{ path('register') }}">Inscription</a>
                 </li>  
         {% endif %}
             </ul>

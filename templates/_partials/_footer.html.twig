@@ -3,13 +3,11 @@
         <div class="container">
             <div class="row d-flex flex-column flex-md-row align-items-center justify-content-center">
 
-                {# a remettre sur col-md-6 car j aurai régler le soucis de connecté ou pas #}
                 <div class="col-md-4 footer-contact d-flex justify-content-center">
                     <div class="pic">
                         <img src="{{ asset('/img/logo.png') }}" class="img-fluid" alt="">
                     </div>
                 </div>
-
                 <div class="col-md-4 footer-links d-flex justify-content-center">
                     <div>
                         <h4>Navigation</h4>
@@ -23,28 +21,11 @@
                                         <i class="bi bi-chevron-right"></i> 
                                         <a class=" {{ app.current_route starts with 'admin.' ? 'active text-muted' : '' }}" href="{{ path('admin.index') }}">Espace Perso</a>
                                     </li>
-                                    {# <li >
-                                        <i class="bi bi-chevron-right"></i> 
-                                        <a class="{{ app.current_route starts with 'project.' ? 'active text-muted' : '' }}" href="{{ path('project.index') }}">Projets</a>
-                                    </li> #}
-                                    {# <li><a class="getstarted " href="#">Get Started</a></li> #}
 
                                     <li >
                                         <i class="bi bi-chevron-right"></i> 
                                         <a class="{{ app.current_route starts with 'app_logout' ? 'active text-muted' : '' }}" href="{{ path('app_logout') }}">Déconnexion</a>
                                     </li>
-
-                                {# {% else 'ROLE_COLLABORATOR' in app.user.roles %}
-
-                                        <li >
-                                            <i class="bi bi-chevron-right"></i> 
-                                        <a class=" {{ app.current_route starts with 'project.' ? 'active text-muted' : '' }}" href="{{ path('project.index') }}">Projets</a>
-                                    </li>
-
-                                    <li >
-                                        <i class="bi bi-chevron-right"></i> 
-                                        <a class=" {{ app.current_route starts with 'app_logout' ? 'active text-muted' : '' }}" href="{{ path('app_logout') }}">Déconnexion</a>
-                                    </li>    #}
 
                                     {% endif %}
 
@@ -61,8 +42,7 @@
 
                                         <li >
                                             <i class="bi bi-chevron-right"></i> 
-                                            {# <a class=" {{ app.current_route starts with 'register' ? 'active text-muted' : '' }}" href="{{ path('register') }}">Inscription</a> #}
-                                            <a type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Inscription</a>
+                                            <a class=" {{ app.current_route starts with 'register' ? 'active text-muted' : '' }}" href="{{ path('register') }}">Inscription</a>
                                         </li>  
                                 {% endif %}
                             </ul>
@@ -79,7 +59,22 @@
                 &copy; Copyright <strong><span>OrganizeLife</span></strong>. All Rights Reserved
             </div>
         </div>
+        <div>
+            <ul class="list-unstyled d-md-flex">
+                <li class="mx-3">
+                    <a href="{{ path('legal.mentions.legales') }}" class="text-decoration-none">Mentions Légales</a>
+                </li>
+                <li class="mx-3">
+                    <a href="{{ path('legal.politique.confidentialite') }}" class="text-decoration-none">Politique de Confidentialité</a>
+                </li>
+                <li class="mx-3">
+                    <a href="{{ path('legal.conditions.utilisation') }}" class="text-decoration-none">Conditions d'Utilisation</a>
+                </li>
+                <li class="mx-3">
+                    <a href="mailto:giacomettivirginie@gmail.com" class="text-decoration-none">Contact</a>
+                </li>
+            </ul>
+        </div>
     </div>
 </footer>
 
-<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>

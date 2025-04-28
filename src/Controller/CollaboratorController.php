@@ -21,20 +21,16 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class CollaboratorController extends AbstractController
 {
     public function __construct(
-        
         private CollaboratorService $collaboratorService,
         private ProjectRepository $projectRepo,
         private EntityManagerInterface $em,
         private Security $security
-    
     ){}
 
-    
     #[Route('/project/{id}', name: 'collaborator.index')]
     public function index(int $id,): Response
     {
         // $collaborators = $this->collaborator->getCollaboratorsByProject($id);
-
         // return $this->render('collaborator/index.html.twig', [
         //     // 'collaborators' => $collaborators,
         // ]);
@@ -43,15 +39,11 @@ class CollaboratorController extends AbstractController
         ]);
     }
 
-
-
     #[Route('/ajouter/{id}', name: 'collaborator.new', requirements: ['id' => '\d+', ])]
-    public function new(Request $request, int $id): Response
+    public function new(Request $request, int $id, CheckService $checkService): Response
     {
 
-        /**
-         * @var User $user
-        */
+        /** @var \App\Entity\User $user */
         $user = $this->getUser();
         $admin = $user->getId();
 
@@ -61,7 +53,7 @@ class CollaboratorController extends AbstractController
         }
 
         // Check if user is Admin (CheckService)
-        if(!CheckService::checkAdminAccess($user)){
+        if(!$checkService->checkAdminAccess()){
             $this->addFlash('danger', "Vous ne disposez pas des droits pour accéder à ce service");
             return $this->redirectToRoute('home');
         } 
@@ -83,7 +75,6 @@ class CollaboratorController extends AbstractController
                 'slug' => $project->getSlug(),
             ]);
         }
-
         return $this->render('collaborator/formNewCollaborator.html.twig', [
             'collaboratorform' => $form,
             'project' => $project,

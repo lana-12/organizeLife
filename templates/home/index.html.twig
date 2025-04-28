@@ -11,13 +11,13 @@
                 <a href="{{ path('project.new') }}" class="btn-get-started ">Commencez dès maintenant</a>
             {% else %}
                 <a href="{{ path('project.new') }}" class="btn-get-started ">Commencez dès maintenant</a>
-                <a type="button" class="btn-get-started" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Inscription rapide</a>
+                <a href="{{ path('register') }}" type="button" class="btn-get-started">Inscription rapide</a>
             {% endif %}
         </div>
     </section>
 
     <!-- Start the Why this app section -->
-    <section id="why-app" class="why-app">
+    <section id="why-app" class="why-app section">
         <div class="container">
 
             <div class="row">
@@ -75,7 +75,7 @@
     <!-- End  the Why this app section -->
 
     <!--  Cta Section  -->
-    <section id="cta" class="cta">
+    <section id="cta" class="cta ">
         <div class="container" data-aos="fade-in">
             <div class="text-center">
             <h3>Rejoignez-nous et organisez votre vie dès aujourd'hui !</h3>
@@ -87,7 +87,7 @@
     <!-- End Cta Section -->
 
     <!-- Start Section How It Works -->
-    <section id="services" class="services ">
+    <section id="services" class="services section">
         <div class="container">
             <div class="row">
 
@@ -96,11 +96,11 @@
                         <h2>Comment ça marche ?</h2>
                         <p>Découvrez comment notre service vous aide à gérer vos projets de manière efficace et collaborative en quelques étapes simples et rapides.</p>
                         <p class="text-center">
-                            <button class="services-btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Commencer</button>
+                        <a href="{{ path('register') }}" type="button" class="services-btn">Commencer</a>
+
                         </p>                      
                     </div>
                 </div>
-                {% include "_partials/_modalregister.html.twig" %}
 
                 <div class="col-lg-8">
                     <div class="row justify-content-center ">

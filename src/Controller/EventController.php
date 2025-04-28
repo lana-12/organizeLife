@@ -17,16 +17,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class EventController extends AbstractController
 {
-    public function __construct(
-        
+    public function __construct( 
         private EventRepository $eventRepo,
         private EntityManagerInterface $em,
         private Security $security,
         private CheckService $checkService,
-
-    
     ){}
-
 
     #[Route('/event/nouveau/{id}', name: 'event.new')]
     public function new(Request $request, int $id, ProjectRepository $projectRepo)
@@ -36,10 +32,8 @@ class EventController extends AbstractController
         // Mettre form-control sur EventType=>OK + add constraints on the entity Event
         // Faire un service pour les checks (check admin=OK, )
 
-        /**
-         * @var User 
-         */
-        $user = $this->security->getUser();
+        /** @var \App\Entity\User $user */
+        $user = $this->getUser();
 
         // Check if user is logged in
         if(!$user){
@@ -48,13 +42,12 @@ class EventController extends AbstractController
         }
 
         // Check if user is Admin (CheckService)
-        if(!CheckService::checkAdminAccess($user)){
+        if(!$this->checkService->checkAdminAccess()){
             $this->addFlash('danger', "Vous ne disposez pas des droits pour accéder à ce service");
             return $this->redirectToRoute('home');
         } 
 
         $projectId = $projectRepo->find($id);
-
         if(!$projectId){
             $this->addFlash('danger', "Ce projet n'existe pas");
             return $this->redirectToRoute('admin.index');
@@ -62,8 +55,6 @@ class EventController extends AbstractController
         
         $event = new Event();
         $event->setProject($projectId);
-
-
         $startDate="";
         $startEnd = "";
         // Retrieving the querystring for the date selected
@@ -72,35 +63,26 @@ class EventController extends AbstractController
             $startDate = $request->query->get('start');
             $startEnd = $request->query->get('end');
             $today= date('d-m-Y');
-
             if(strtotime($startDate) < strtotime($today)) {
                 $this->addFlash('danger', 'Cette date est déjà passée !!');
                 return $this->redirectToRoute('calendar', ['id' => $event->getProject()->getId()]);
             }
         }
-
         $form = $this->createForm(EventType::class, $event, [
             'projectId' => $id,
             'start_date' => $startDate,
         ]);
-        
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             if($request->getMethod() === "POST"){
-                // dd($form->getData());
-
                 $eventData = $form->getData();
-                
                 $this->em->persist($eventData);
                 $this->em->flush();
                 $this->addFlash('success', 'L\'évènement a été créé avec succes');
-
                 return $this->redirectToRoute('calendar', ['id' => $event->getProject()->getId()]);
-                // dd($eventData);
             }
         }
-        
         return $this->render('event/create.html.twig', [
             'form' => $form,
         ]);

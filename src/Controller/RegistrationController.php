@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Security\UserAuthenticator;
 use App\Service\TextFormatterService;
+use Symfony\Component\Form\FormError;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,36 +21,37 @@ class RegistrationController extends AbstractController
     #[Route('/register', name: 'register')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, UserAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
     {
+        $form = $this->createForm(RegistrationFormType::class);
+        $form->handleRequest($request);
 
-        $data = json_decode($request->getContent(), true);
-        if (!$data) {
-            return new JsonResponse(['success' => false, 'message' => 'Données invalides'], Response::HTTP_BAD_REQUEST);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData(); 
+
+            $existingUser = $entityManager->getRepository(User::class)->findOneBy(['email' => $data->getEmail()]);
+            if ($existingUser) {
+                $form->get('email')->addError(new FormError('Cet email est déjà utilisé.'));
+            } else {
+                $user = new User();
+                $user->setFirstname(TextFormatterService::formatUcFirst($data->getFirstname()));
+                $user->setLastname(TextFormatterService::formatUcFirst($data->getLastname()));
+                $user->setEmail($data->getEmail());
+                $user->setPassword(
+                    $userPasswordHasher->hashPassword($user, $form->get('plainPassword')->getData())
+                );
+                $user->setRoles(['ROLE_USER', 'ROLE_ADMIN']);
+
+                $entityManager->persist($user);
+                $entityManager->flush();
+
+                // Authentifier l'utilisateur
+                return $userAuthenticator->authenticateUser($user, $authenticator, $request);
+            }
         }
 
-        try {
-            $user = new User();
-            $user->setFirstname(TextFormatterService::formatUcFirst($data['firstname']));
-            $user->setLastname(TextFormatterService::formatUcFirst($data['lastname']));
-            $user->setEmail($data['email']);
-            $user->setPassword(
-                $userPasswordHasher->hashPassword(
-                    $user, 
-                    $data['password']));
-            
-            $user->setRoles(
-                ['ROLE_USER', 'ROLE_ADMIN']);
-
-            $entityManager->persist($user);
-            $entityManager->flush();
-
-            // Authentifier l'utilisateur après inscription
-            $userAuthenticator->authenticateUser($user, $authenticator, $request);
-
-            return new JsonResponse(['success' => true, 'message' => 'Inscription réussie !'], Response::HTTP_OK);
-        } catch (\Exception $e) {
-            return new JsonResponse(['success' => false, 'message' => 'Erreur lors de l\'inscription'], Response::HTTP_INTERNAL_SERVER_ERROR);
-        }  
+        return $this->render('registration/register.html.twig', [
+            'registrationForm' => $form->createView(),
+        ]);
     }
-
-
+    
+    
 }

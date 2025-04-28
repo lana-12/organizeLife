@@ -16,22 +16,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 #[IsGranted('ROLE_ADMIN')] 
 class AdminController extends AbstractController
 {
-    private UserRepository $userRepo;
-    private EntityManagerInterface $em;
-    private ProjectRepository $projectRepo;
-    private CheckService $checkService;
-
     public function __construct(
-        UserRepository $userRepo,
-        EntityManagerInterface $em,
-        ProjectRepository $projectRepo,
-        CheckService $checkService
-    ) {
-        $this->userRepo = $userRepo;
-        $this->em = $em;
-        $this->projectRepo = $projectRepo;
-        $this->checkService = $checkService;
-    }
+        private UserRepository $userRepo,
+        private EntityManagerInterface $em,
+        private ProjectRepository $projectRepo,
+        private CheckService $checkService
+    ) {}
 
     #[Route('/espaceperso', name: 'admin.index')]
     public function index(): Response
@@ -42,7 +32,7 @@ class AdminController extends AbstractController
             $this->addFlash('danger', "Vous devez être connecté(e) pour accéder à ce service");
             return $this->redirectToRoute('home');
         }
-        if (!$this->checkService->checkAdminAccess($user)) {
+        if (!$this->checkService->checkAdminAccess()) {
             $this->addFlash('danger', "Vous ne disposez pas des droits pour accéder à ce service");
             return $this->redirectToRoute('home');
         }
@@ -62,11 +52,6 @@ class AdminController extends AbstractController
                 "eventsCount" => $this->projectRepo->countEventsByAdminId($adminId),
             ];
         } 
-        
-        // else {
-        //     $this->addFlash('danger', "Vous n'avez aucun projet");
-        // }
-
         return $this->render('admin/index.html.twig', $templateData);
     }
 }
