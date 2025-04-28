@@ -117,7 +117,7 @@ class ProjectController extends AbstractController
 
             $this->addFlash('success', 'Le project a été créé avec succes');
 
-            return $this->redirectToRoute('admin.index');
+            return $this->redirectToRoute('project.show', ['id'=>$project->getId(), 'slug'=>$project->getSlug() ]);
             }
         }
 
@@ -173,7 +173,7 @@ class ProjectController extends AbstractController
     
                 $this->addFlash('success', 'Le project a été modifié avec succes');
     
-                return $this->redirectToRoute('admin.index');
+            return $this->redirectToRoute('project.show', ['id'=>$project->getId(), 'slug'=>$project->getSlug() ]);
                 }
             }
             return $this->render('project/_formProject.html.twig', [

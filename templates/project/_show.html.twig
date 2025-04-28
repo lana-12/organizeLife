@@ -50,7 +50,7 @@
 								{{ collaborator.firstname }}</p>
 						{% endfor %}
 					{% else %}
-						<p>Aucun collaborateur pour ce projet.</p>
+							<p class="no-collaborators" data-url="{{ path('collaborator.new', {'id': project.id}) }}">Aucun collaborateur pour ce projet.</p>
 					{% endif %}
 				</section>
 			</div>
