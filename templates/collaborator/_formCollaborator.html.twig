@@ -15,9 +15,13 @@
 		<section class="container">
 			<div class="row">
 
-                <div class="col-12 col-lg-5 my-4">
-                    <section class="boxWhite">
+                <div class="col-12 col-lg-5 my-auto">
+                    <section class="boxWhite boxInfoProject">
+                    <div class="d-flex justify-content-between mb-5">
                         <h3>Infos Projet</h3>
+                        <a href="{{ path('project.show', {id: project.id , slug: project.slug }) }}" class="btn btn-success  " alt="Retour au projet" title="Retour au projet">Retour au projet</a>
+                    
+                    </div>
                         <p>
                             <strong>Nom :</strong>
                             {{ project.name }}</p>
@@ -30,8 +34,9 @@
                         <a href="{{ path('collaborator.new', {id: project.id}) }}" class="btn btn-dark mt-2">Ajouter un collaborateur</a>
                     </section>
                 </div>
+
                 <div class="col-12  boxWhite">
-                    <h3 class="mt-4 center  fs-1">
+                    <h3 class="mt-4 text-center  fs-1">
                         {% if editMode %}
                             Modifier un collaborateur
                         {% else %}
@@ -40,6 +45,14 @@
                     </h3>
                     {{ form_errors(collaboratorform) }}
                     {{ form_start(collaboratorform,  { 'attr': {'class': 'formCollaborator'} }) }}
+                    {{ form_rest(collaboratorform) }}
+                    <div class="d-flex justify-content-center">
+                        {% if editMode %}
+                            <button type="submit" class="btn btn-primary my-3 ">Modifier</button>
+                        {% else %}
+                            <button type="submit" class="btn btn-primary my-3 ">Enregistrer</button>
+                        {% endif %}
+                    </div>
                     {{ form_end(collaboratorform) }}
                 </div>
 			</div>
