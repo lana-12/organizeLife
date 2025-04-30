@@ -1,34 +1,33 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Espace Perso | {{ parent() }}{% endblock %}
+{% block title %} OrgalizeLife | Collaborators {% endblock %}
 
 {% block body %}
 
-<h2>EspacePerso</h2>
+<div class="">
+	{% if projects %}
+		{# Array associatif pour mapper les noms de route aux fichiers Twig  #}
+		{% set routeName = app.request.attributes.get('_route') %}
 
-{# TODO: Verifier if isConnected and  ROLE_ADMIN  #}
-{# TODO: A voir comment faire pour boxespacePerso + boxProject de faire des includes #}
-{# TODO: Mettre confirm() on the btn-Delete #}
+		{% include {
+                'collaborator.manage': './__manageCollaborator.html.twig',
+                'collaborator.new': './_formCollaborator.html.twig',
+                'collaborator.edit': './_formCollaborator.html.twig',
+                'collaborator.index': '../home/index.html.twig'
 
+            }[routeName] ?? '' %}
 
-    <div class="container">
-        
-        <div class="row my-5">
-            <divclass="col">
+	{% else %}
+		<div class="alert alert-danger alert-dismissible" role="alert">
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 
-                {% include "user/_boxEspacePerso.html.twig"  %}
+			<div class="alert-message">
+				<p>Pas de project en cours ...</p>
+				<a href="{{ path('project.new') }}">Nouveau</a>
+			</div>
+		</div>
+	{% endif %}
 
-            </div>
-        </div>
+</div>
 
-
-        <div class="row">
-            <divclass="col">
-                <div class=" ">
-                   
-                </div>
-            </div>
-        </div>
-
-    </div>
 {% endblock %}
