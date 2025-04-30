@@ -13,8 +13,12 @@ use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+
+#[Route(path: '/event')]
+#[IsGranted('ROLE_ADMIN')] 
 class EventController extends AbstractController
 {
     public function __construct( 
@@ -24,14 +28,9 @@ class EventController extends AbstractController
         private CheckService $checkService,
     ){}
 
-    #[Route('/event/nouveau/{id}', name: 'event.new')]
+    #[Route('/nouveau/{id}', name: 'event.new')]
     public function new(Request $request, int $id, ProjectRepository $projectRepo)
     {
-
-        //TODO: Verif si connected + admin + project(ok) existe  => OK
-        // Mettre form-control sur EventType=>OK + add constraints on the entity Event
-        // Faire un service pour les checks (check admin=OK, )
-
         /** @var \App\Entity\User $user */
         $user = $this->getUser();
 
@@ -83,8 +82,11 @@ class EventController extends AbstractController
                 return $this->redirectToRoute('calendar', ['id' => $event->getProject()->getId()]);
             }
         }
-        return $this->render('event/create.html.twig', [
-            'form' => $form,
+        return $this->render('event/_formEvent.html.twig', [
+            'eventForm' => $form,
         ]);
     }
+
+
+    
 }

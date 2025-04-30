@@ -33,6 +33,8 @@ class CalendarManager {
                     // end: 'dayGridMonth timeGridWeek timeGridDay listWeek'
                     end: 'dayGridMonth timeGridWeek'
                 },
+                height: 700,
+                width: 800,
                 
                 events: [],
                 
@@ -53,7 +55,10 @@ class CalendarManager {
                             if (result.isConfirmed) {
                                 const startDate = arg.startStr;
                                 const endDate = arg.endStr;
-                                window.location.href = `/event/nouveau/${this.projectId}?start=${startDate}&end=${endDate}`;
+                                const url = `/event/nouveau/${this.projectId}?start=${startDate}&end=${endDate}`
+                                console.log(url)
+                                
+                                window.location.href = url;
                             }
                         });
                     } else {

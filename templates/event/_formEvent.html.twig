@@ -1,11 +1,11 @@
-{# {% extends 'base.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block title %}
-	{% if editMode %}
-		Modifiez votre Projet
-	{% else %}
-		Nouveau Projet
-	{% endif %}
+	{# {% if editMode %}
+		Modifiez votre event
+	{% else %} #}
+		Nouveau event
+	{# {% endif %} #}
 	|
 	{{ parent() }}
 {% endblock %}
@@ -14,27 +14,15 @@
 	<div class="eventForm">
 		<section class="container">
 			<div class="row">
-				<div class="col-12">
-					{% if editMode %}
+				<div class="col-12 boxWhite ">
+					{# {% if editMode %}
 						<h2 class="mt-4 center  fs-1">
 							Modifier</h2>
-					{% else %}
+					{% else %} #}
 						<h2 class="mt-4 center  fs-1">
-							Créer votre projet</h2>
-					{% endif %}
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-12 col-lg-6 projectBoxAdmin">
-					<section class="boxEspacePerso text-white p-3 m-3">
-						<h3 class="text-center">Administrateur :
-						</h3>
-						<p>{{ app.user.firstname }}</p>
-						<p>{{ app.user.lastname }}</p>
-						<p>{{ app.user.email }}</p>
-					</section>
-				</div>
-				<div class="col-12 col-lg-6 ">
+							Créer votre évènement</h2>
+					{# {% endif %} #}
+
 					{{ form_errors(eventForm) }}
 					{{ form_start(eventForm,  { 'attr': {'class': 'formEvent'} }) }}
 					<fieldset class="mb-3">
@@ -43,15 +31,15 @@
 						</div>
 					</fieldset>
 					<div class="d-flex justify-content-center">
-						{% if editMode %}
+						{# {% if editMode %}
 							<button type="submit" class="btn btnCustom my-3 ">Modifier</button>
-						{% else %}
+						{% else %} #}
 							<button type="submit" class="btn btnCustom my-3 mx-auto">Enregistrer</button>
-						{% endif %}
+						{# {% endif %} #}
 					</div>
 					{{ form_end(eventForm) }}
 				</div>
 			</div>
 		</section>
 	</div>
-{% endblock %} #}
+{% endblock %}

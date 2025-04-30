@@ -5,30 +5,29 @@
 {% endblock %}
 
 {% block body %}
-	<h3>Ici</h3>
+
 	<div class="">
-		{# {% if events %} #}
+		{% if events %}
 			{# Array associatif pour mapper les noms de route aux fichiers Twig  #}
 			{% set routeName = app.request.attributes.get('_route') %}
 
-			{# {% include {
-                'project.show': './_show.html.twig',
-                'project.new': './_formProject.html.twig',
-                'project.edit': './_formProject.html.twig',
-                'project.index': '../home/index.html.twig'
+			{% include {
+                
+                'event.new': './_fromEvent.html.twig',
+                
 
-            }[routeName] ?? '' %} #}
+            }[routeName] ?? '' %}
 
-		{# {% else %}
+		{% else %}
 			<div class="alert alert-danger alert-dismissible" role="alert">
 				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 
 				<div class="alert-message">
-					<p>Pas de project en cours ...</p>
-					<a href="{{ path('project.new') }}">Nouveau</a>
+					<p>Pas d'évènement en cours ...</p>
+					<a href="{{ path('admin.index') }}">Espace perso</a>
 				</div>
 			</div>
-		{% endif %} #}
+		{% endif %}
 
 	</div>
 {% endblock %}

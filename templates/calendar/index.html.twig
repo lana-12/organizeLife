@@ -4,14 +4,29 @@
 
 {% block body %}
 
-    <main class="container">
-        <section class="row">
-            <div class="col">
-            <h2>{{ project.name }}</h2>
-                <div id="calendar-holder"></div>
+    <div class="manageCalendar">
+        <div class="container">
+
+            <div class="row">
+                <section class="col-4">
+                    <div class="boxWhite boxProject">
+                        <h2>{{ project.name }}</h2>
+                        <p>Nbr Collaborateur : </p>
+                        <p>Nbr de taches pour le mois en cours</p>
+                        <p>...</p>
+                        
+                    </div>
+                </section>
+            
+                <section class="col-8">
+                    <div class="boxWhite">
+                        <div id="calendar-holder"></div>
+                    </div>
+                </section>
             </div>
-        </section>
-    </main>
+        
+        </div>
+    </div>
 
 {% endblock %}
 
