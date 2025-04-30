@@ -3,11 +3,12 @@
 namespace App\Repository;
 
 use App\Entity\User;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\Entity\Project;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
-use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 
 /**
  * @extends ServiceEntityRepository<User>
@@ -40,8 +41,6 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->getEntityManager()->flush();
     }
 
-    
-
     public function findAllUsersWithRoleUser()
     {
         return $this->createQueryBuilder('u')
@@ -52,8 +51,31 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->getResult();
     }
 
+    public function findCollaboratorsByProject(Project $project): array
+    {
+        return $this->createQueryBuilder('u')
+            ->join('u.projects', 'p')
+            ->where('p = :project')
+            ->andWhere('u.roles LIKE :role')
+            ->setParameter('project', $project)
+            ->setParameter('role', '%ROLE_COLLABORATOR%')
+            ->getQuery()
+            ->getResult();
 
+    }
 
+    public function countCollaboratorsByProject(Project $project): int
+    {
+        return (int) $this->createQueryBuilder('u')
+            ->select('COUNT(u.id)')
+            ->join('u.projects', 'p')
+            ->where('p = :project')
+            ->andWhere('u.roles LIKE :role')
+            ->setParameter('project', $project)
+            ->setParameter('role', '%ROLE_COLLABORATOR%')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 
     //    /**
     //     * @return User[] Returns an array of User objects

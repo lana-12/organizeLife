@@ -1,20 +1,35 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello EventController!{% endblock %}
+{% block title %}
+	OrgalizeLife | Events
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+	<h3>Ici</h3>
+	<div class="">
+		{# {% if events %} #}
+			{# Array associatif pour mapper les noms de route aux fichiers Twig  #}
+			{% set routeName = app.request.attributes.get('_route') %}
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+			{# {% include {
+                'project.show': './_show.html.twig',
+                'project.new': './_formProject.html.twig',
+                'project.edit': './_formProject.html.twig',
+                'project.index': '../home/index.html.twig'
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/home/virginie/Documents/workspace/organizeLife/src/Controller/EventController.php</code></li>
-        <li>Your template at <code>/home/virginie/Documents/workspace/organizeLife/templates/event/index.html.twig</code></li>
-    </ul>
-</div>
+            }[routeName] ?? '' %} #}
+
+		{# {% else %}
+			<div class="alert alert-danger alert-dismissible" role="alert">
+				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+
+				<div class="alert-message">
+					<p>Pas de project en cours ...</p>
+					<a href="{{ path('project.new') }}">Nouveau</a>
+				</div>
+			</div>
+		{% endif %} #}
+
+	</div>
 {% endblock %}
+

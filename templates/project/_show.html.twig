@@ -9,53 +9,55 @@
 	<div class="container">
 		<section class="row ">
 			<div class="col">
-				<h2 class="titleCustom txtShadow">Gestion du Projet : </h2>
+				<h2 class="titleCustom txtShadow">Gestion du Projet : {{ project.name }}</h2>
 				{# {{ dump(app.request.attributes.get('_route') ) }} #}
 			</div>
 		</section>
 		<div class="row ">
-			<div class="col-12 col-lg-6 d-lg-flex justify-content-lg-center">
-				<section class="boxWhite ">
-					<p>{{ project.description }}</p>
+			<div class="col-12 col-lg-6 d-lg-flex ">
+				<section class="boxWhite text-start ">
+					<p class="description-truncate">Description : {{ project.description|slice(0, 100) ~ '...' }}</p>
 					<p class="text-muted">Créer le
 						{{project.createdAt | date("d/m/Y") }}</p>
-
 					<div class="d-flex justify-content-center ">
-						<a href="{{ path('project.edit', {id: project.id , slug: project.slug }) }}" class="btn btn-warning  me-3">Modifier</a>
-						<a href="{{ path('project.delete', {id: project.id , slug: project.slug }) }}" class="btn btn-danger ">Supprimer</a>
+						<a href="{{ path('project.edit', {id: project.id , slug: project.slug }) }}" class="btn btn-warning  me-3" alt="Modifier un projet ?" title="Modifier un projet ?"><i class="bi bi-pen"></i></a>
+						<button data-url="{{ path('project.delete', {id: project.id , slug: project.slug }) }}" class="btn btn-danger btnDeleteProject" alt="Supprimer un projet ?" title="Supprimer un projet ?"><i class="bi bi-trash"></i></button>
 					</div>
 				</section>
 			</div>
-			<div class="col-12 col-lg-6 d-lg-flex justify-content-lg-center">
-				<section class="boxWhite">
-					<h3 class="">Administrateur :
+			<div class="col-12 col-lg-6 ">
+				<section class="boxWhite text-start">
+					<h3 class="mb-3">Administrateur :
 					</h3>
-					<p>{{ app.user.firstname }}</p>
-					<p>{{ app.user.lastname }}</p>
-					<p>{{ app.user.email }}</p>
+					<p>Prénom : {{ app.user.firstname }}</p>
+					<p>Nom : {{ app.user.lastname }}</p>
+					<p>Email : {{ app.user.email }}</p>
 				</section>
 			</div>
 		</div>
 		<div class="row ">
-			<div class="col-12 col-lg-6 d-lg-flex justify-content-lg-center">
+			<div class="col-12 col-lg-6  ">
 				<section class="boxWhite ">
-					<div class="d-flex justify-content-between ">
-						<h4 class="text-center">Collaborateur :
+					<div class="d-flex justify-content-between  mb-3">
+						<h4 class="">Collaborateur :
 						</h4>
 						<a href="{{ path('collaborator.new', {'id': project.id}) }}" class="btn btn-dark ">Ajouter</a>
 					</div>
-					{% if project.collaborator is not empty %}
-						{% for collaborator in project.collaborator %}
-							<p>Prénom :
-								{{ collaborator.firstname }}</p>
-						{% endfor %}
+
+					{% if totalCollaborators > 0 %}
+					<div class="d-flex justify-content-between ">
+						<div class="countersColl">
+							<span data-purecounter-start="150" data-purecounter-end="{{ totalCollaborators ?? 0 }}" data-purecounter-duration="1" class="purecounter"></span>
+						</div>						
+						<a href="{{ path('collaborator.manage', {id: project.id }) }}" class="btn btn-success ">Gérer</a>
+					</div>
+
 					{% else %}
-						<p>Aucun collaborateur pour ce projet.</p>
+						<p class="no-collaborators" data-url="{{ path('collaborator.new', {'id': project.id}) }}">Aucun collaborateur pour ce projet.</p>
 					{% endif %}
 				</section>
 			</div>
-
-			<div class="col-12 col-lg-6 d-lg-flex justify-content-lg-center">
+			<div class="col-12 col-lg-6  ">
 				<section class="boxWhite">
 					<h4 class="text-center">Evènement :
 					</h4>
@@ -71,8 +73,6 @@
 				</section>
 			</div>
 		</div>
-
-
 	</div>
 </div>
 {# <div class="">
