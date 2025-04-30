@@ -8,17 +8,13 @@
 {% block body %}
 	<div class="manageCollaborator">
 		<div class="container">
-			<section class="row">
-				<div class="col">
-					<h2 class="titleCustom txtShadow">Gestion des Collaborateurs du projet :
-						{{ project.name }}</h2>
-				</div>
-			</section>
-
 			<div class="row">
 				<div class="col-12 col-lg-5 my-4">
-					<section class="boxWhite">
-						<h3>Infos Projet</h3>
+					<section class="boxWhite boxInfoProject">
+						<div class="d-flex justify-content-between mb-5">
+							<h3>Infos Projet</h3>
+							<a href="{{ path('project.show', {id: project.id , slug: project.slug }) }}" class="btn btn-success  " alt="Retour au projet" title="Retour au projet">Retour au projet</a>
+						</div>
 						<p>
 							<strong>Nom :</strong>
 							{{ project.name }}</p>
@@ -31,10 +27,9 @@
 						<a href="{{ path('collaborator.new', {id: project.id}) }}" class="btn btn-dark mt-2">Ajouter un collaborateur</a>
 					</section>
 				</div>
-
-				<div class="col-12 col-lg-7 my-4">
-					<section class="boxWhite boxWhiteTwo">
-						<h3 class="mb-3">Liste des collaborateurs</h3>
+				<div class="col-12 col-lg-7 my-4 d-flex align-item-center">
+					<section class="boxWhite boxListCollaborator ">
+						<h3 class="mb-3">Gestion des collaborateurs</h3>
 
 						{% if project.collaborator is not empty %}
 							<div class="table-responsive">
@@ -52,7 +47,7 @@
 										{% for collaborator in project.collaborator %}
 											<tr>
 												<td class="text-center">
-													<a href="{{ path('collaborator.edit', {project: project.id, id: collaborator.id}) }}" class="btn btn-sm btn-warning me-1" alt="Modifier un collaborateur ?" title="Modifier un collaborateur ?">
+													<a href="{{ path('collaborator.edit', {project: project.id, id: collaborator.id}) }}" class="btn btn-sm btn-warning me-1 mb-lg-2" alt="Modifier un collaborateur ?" title="Modifier un collaborateur ?">
 														<i class="bi bi-pen"></i>
 													</a>
 													<button data-url="{{ path('collaborator.delete', {project: project.id, id: collaborator.id}) }}" class="btn btn-sm btn-danger btnDeleteCollaborator" alt="Supprimer un collaborateur ?" title="Supprimer un collaborateur ?">

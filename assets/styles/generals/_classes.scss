@@ -9,6 +9,14 @@
   white-space: normal;
   word-break: break-word;
 }
+.separator {
+  margin-top: 10px;
+  height: 2px;
+  width: 50%;
+  border: none;
+  background: $green;
+  margin: auto;
+}
 
 /*--------------------------------------------------------------
 # Box custom Start

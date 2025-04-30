@@ -1,18 +1,42 @@
-/*------
-# project/_show.html
----------*/
 .projetShow {
     width: 100%;
     background: url("../../img/callToAction.png") center center;
     background-size: cover;
-    padding: 60px 0;
-    h2 {
-        padding: 30px 30px
+    padding: 80px 0;
+
+    .project-layout {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+
+        .boxWhite {
+            max-width: 500px;
+            height: 220px;
+            margin: 20px auto;
+
+        }
+        .boxProjectAdmin {
+            height: auto;
+            h2, h3, p {
+                text-align: start;
+            }
+        }
+        .boxCollaborator {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
     }
-    .boxWhite {
-        max-width: 500px;
-        height: 220px;
-        margin: 20px auto;
+    @include media-breakpoint(lg) {
+        .project-layout {
+            flex-direction: row;
+            align-items: center;
+
+            >div {
+                flex: 1;
+            }
+        }
     }
 }
 
@@ -21,19 +45,24 @@
 ---------*/
 .projectForm {
     width: 100%;
-    padding: 60px 0;
-    // padding: 80px 0;
-    .projectBoxAdmin {
-        margin-bottom: 50px
-    }
+    padding: 100px 0;
+    background: url("../../img/hero-bg.jpg") center center;
+    background-size: cover;
 
-    .btnCustom {
-        @include btnCustom($green, black, $color, black);
+    .boxWhite {
+        max-width: 600px;
+        height: auto;
+        margin: 20px auto;
+        
+        .btnCustom {
+            @include btnCustom($green, black, $color, black);
+        }
     }
 }
+
 
 .projects {
     .btnCustom {
         @include btnCustom($green, $white, $color, black);
-            }
+    }
 }
