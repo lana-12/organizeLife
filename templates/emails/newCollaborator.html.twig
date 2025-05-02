@@ -1,0 +1,51 @@
+{% extends 'baseEmail.html.twig' %}
+
+{% block title %}
+Bienvenue chez OrganizeLife
+{% endblock %}
+
+{% block body %}
+
+	<main class="sendEmail">
+		<div class="container">
+			<h1>Bienvenue
+				{{ collaborator.firstname }}
+				{{ collaborator.lastname }}
+				!</h1>
+
+			<p>
+				Vous venez d'être ajouté(e) comme collaborateur sur le projet
+				<strong>{{ project.name }}</strong>.
+			</p>
+
+			<p>
+				Voici quelques informations utiles :
+			</p>
+
+			<ul>
+				<li>
+					<strong>Nom du projet :</strong>
+					{{ project.name }}</li>
+				<li>
+					<strong>Description :</strong>
+					{{ project.description }}</li>
+				<li>
+					<strong>Date de création :</strong>
+					{{ project.createdAt|date('d/m/Y') }}</li>
+			</ul>
+
+			<p>
+				Vous pouvez maintenant vous connecter à votre espace pour commencer à collaborer avec l'équipe.
+			</p>
+
+			<p>
+				À très bientôt !<br>
+				L'équipe OrganizeLife
+			</p>
+
+			<div class="footer">
+				Cet email a été généré automatiquement. Merci de ne pas y répondre.
+			</div>
+		</div>
+	</main>
+{% endblock %}

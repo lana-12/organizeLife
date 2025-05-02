@@ -10,31 +10,21 @@
 {% endblock %}
 
 {% block body %}
-<div class="projectForm">
+<div class="projectForm ">
     <section class="container">
         <div class="row">
-            <div class="col-12">
-                {% if editMode %}
-                <h2 class="mt-4 center  fs-1"> Modifier</h2>
-                {% else %}
-                <h2 class="mt-4 center  fs-1"> Créer votre projet</h2>
-                {% endif %}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12 col-lg-6 projectBoxAdmin">
-                <section class="boxEspacePerso text-white p-3 m-3">
-                    <h3 class="text-center">Administrateur : </h3>
-                    <p>{{ app.user.firstname }}</p>
-                    <p>{{ app.user.lastname }}</p>
-                    <p>{{ app.user.email }}</p>
-                </section>
-            </div>
-            <div class="col-12 col-lg-6 ">
+            <div class="col-12 ">
                 {{ form_errors(projectForm) }}
-                {{ form_start(projectForm,  { 'attr': {'class': 'formProfil'} }) }}
+                {{ form_start(projectForm,  { 'attr': {'class': 'boxWhite'} }) }}
                 <fieldset class="mb-3">
                     <div>
+                        {% if editMode %}
+                            <h2 class="mb-4 center  fs-1">
+                                Modifier</h2>
+                        {% else %}
+                            <h2 class="mb-4 center  fs-1">
+                                Créer votre projet</h2>
+                        {% endif %}
                         {{ form_rest(projectForm) }}
                     </div>
                 </fieldset>
@@ -46,7 +36,7 @@
                     {% endif %}
                 </div>
                 {{ form_end(projectForm) }}
-            </div>   
+            </div>  
         </div>
     </section>
 </div>

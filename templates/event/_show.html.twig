@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{# {{project.name}} #}
+{% endblock %}
+
+{% block body %}
+	<div class="eventShow ">
+		<div class="container">
+			<section class="row ">
+				<div class="col">
+					<h2 class="titleCustom txtShadow">Gestion des Events :
+					</h2>
+					{# {{ dump(app.request.attributes.get('_route') ) }} #}
+				</div>
+			</section>
+			{# <div class="row ">
+				<div class="col-12 col-lg-6 d-lg-flex justify-content-lg-center">
+					<section class="boxWhite ">
+						<p>{{ project.description }}</p>
+						<p class="text-muted">Créer le
+							{{project.createdAt | date("d/m/Y") }}</p>
+
+						<div class="d-flex justify-content-center ">
+							<a href="{{ path('project.edit', {id: project.id , slug: project.slug }) }}" class="btn btn-warning  me-3">Modifier</a>
+							<a href="{{ path('project.delete', {id: project.id , slug: project.slug }) }}" class="btn btn-danger ">Supprimer</a>
+						</div>
+					</section>
+				</div>
+				<div class="col-12 col-lg-6 d-lg-flex justify-content-lg-center">
+					<section class="boxWhite">
+						<h3 class="">Administrateur :
+						</h3>
+						<p>{{ app.user.firstname }}</p>
+						<p>{{ app.user.lastname }}</p>
+						<p>{{ app.user.email }}</p>
+					</section>
+				</div>
+			</div>
+			<div class="row ">
+				<div class="col-12 col-lg-6 d-lg-flex justify-content-lg-center">
+					<section class="boxWhite ">
+						<div class="d-flex justify-content-between ">
+							<h4 class="text-center">Collaborateur :
+							</h4>
+							<a href="{{ path('collaborator.new', {'id': project.id}) }}" class="btn btn-dark ">Ajouter</a>
+						</div>
+						{% if project.collaborator is not empty %}
+							{% for collaborator in project.collaborator %}
+								<p>Prénom :
+									{{ collaborator.firstname }}</p>
+							{% endfor %}
+						{% else %}
+							<p>Aucun collaborateur pour ce projet.</p>
+						{% endif %}
+					</section>
+				</div>
+
+				<div class="col-12 col-lg-6 d-lg-flex justify-content-lg-center">
+					<section class="boxWhite">
+						<h4 class="text-center">Evènement :
+						</h4>
+						<a href="{{ path('calendar', {id: project.id }) }}" class="btn btn-primary ">Calendrier</a>
+						<a href="{{ path('event.new', {id: project.id }) }}" class="btn btn-primary ">Nouveau</a>
+						{% if project.events is not empty %}
+							{% for events in project.events %}
+								<p>{{ events.title }}</p>
+							{% endfor %}
+						{% else %}
+							<p>Aucun évènement pour ce projet.</p>
+						{% endif %}
+					</section>
+				</div>
+			</div> #}
+
+
+		</div>
+	</div>
+	{# <div class="">
+		{{ dump(project) }}
+		{{ dump(app.current_route) }}
+		{{ dump(app.request) }}
+	
+	</div> #}
+{% endblock %}
+

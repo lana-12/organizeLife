@@ -19,9 +19,7 @@ use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 
 class CollaboratorService extends AbstractController
 {
-
     public function __construct(
-
         private CollaboratorDTO $collaboratorDTO,
         private UserRepository $userRepository,
         private UserAuthenticatorInterface $userAuthenticator, 
@@ -29,10 +27,7 @@ class CollaboratorService extends AbstractController
         private EntityManagerInterface $em,
         private Security $security,
         private UserPasswordHasherInterface $userPasswordHasher
-
-        
-        )
-    {}
+        ){}
 
     public function createCollaborator(CollaboratorDTO $collaboratorDTO, Project $project): void
     {
@@ -42,10 +37,8 @@ class CollaboratorService extends AbstractController
         // Use of a service => TextFormatterService
         $collaborator->setFirstname(TextFormatterService::formatUcFirst($collaboratorDTO->getFirstname()));
         $collaborator->setLastname(TextFormatterService::formatUcFirst($collaboratorDTO->getLastname()));
-        
         $collaborator->setEmail($collaboratorDTO->getEmail());
-        $collaborator->setRoles(['ROLE_USER', 'ROLE_COLLABORATOR']);
-
+        $collaborator->setRoles(['ROLE_COLLABORATOR']);
 
         $collaborator->addProject($project);
         $project->addCollaborator($collaborator);
@@ -59,33 +52,21 @@ class CollaboratorService extends AbstractController
             )
         );
         
-                $this->em->persist($collaborator);
-                $this->em->persist($project);
-                $this->em->flush();
+        $this->em->persist($collaborator);
+        $this->em->persist($project);
+        $this->em->flush();
     }
 
 
-    // public function getCollaboratorsByProject(int $projectId): array
-    // {
-    //     $collaborators = $this->userRepository->findByProjectId($projectId);
-
-    //     $collaboratorDTOs = [];
-
-    //     foreach ($collaborators as $collaborator) {
-    //         $collaboratorDTO = new CollaboratorDTO();
-    //         $collaboratorDTO->setId($collaborator->getId());
-    //         $collaboratorDTO->setFirstname($collaborator->getFirstname());
-    //         $collaboratorDTO->setLastname($collaborator->getLastname());
-    //         $collaboratorDTO->setEmail($collaborator->getEmail());
-
-    //         $collaboratorDTOs[] = $collaboratorDTO;
-    //     }
-
-    //     return $collaboratorDTOs;
-    // }
-
-
-
-    
+    public function buildCollaboratorDTOFromUser(User $user, Project $project): CollaboratorDTO
+    {
+        return new CollaboratorDTO(
+            $user->getFirstname(),
+            $user->getLastname(),
+            $user->getEmail(),
+            $user,
+            $project
+        );
+    }
 
 }

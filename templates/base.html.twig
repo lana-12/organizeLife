@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}OrganizeLife{% endblock %}</title>
@@ -13,6 +13,9 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
         <!-- AOS -->
         <link href="https://cdn.jsdelivr.net/npm/aos@2.3.1/dist/aos.css" rel="stylesheet">
+        <!-- SweetAlert2 -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
@@ -34,10 +37,11 @@
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
             {{ encore_entry_script_tags('main') }}
-            {{ encore_entry_script_tags('script') }}
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
             <script src="https://cdn.jsdelivr.net/npm/aos@2.3.1/dist/aos.js"></script>
             <script src="https://cdn.jsdelivr.net/npm/@srexi/purecounterjs/dist/purecounter_vanilla.js"></script>
+            <script src="{{ asset('build/script.js') }}"></script>
+
         {% endblock %}
         <script>
             window.addEventListener('load', () => {
