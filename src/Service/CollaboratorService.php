@@ -38,7 +38,7 @@ class CollaboratorService extends AbstractController
         $collaborator->setFirstname(TextFormatterService::formatUcFirst($collaboratorDTO->getFirstname()));
         $collaborator->setLastname(TextFormatterService::formatUcFirst($collaboratorDTO->getLastname()));
         $collaborator->setEmail($collaboratorDTO->getEmail());
-        $collaborator->setRoles(['ROLE_USER', 'ROLE_COLLABORATOR']);
+        $collaborator->setRoles(['ROLE_COLLABORATOR']);
 
         $collaborator->addProject($project);
         $project->addCollaborator($collaborator);

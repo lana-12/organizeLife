@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Dashboard des Collaborateurs |
+	{{ parent() }}
+{% endblock %}
+
+{% block body %}
+	<div class="manageCollaborator">
+		<div class="container">
+			<div class="row">
+				<div class="col-12  my-4">
+
+					<section class="boxWhite boxInfoProject">
+						<div class="d-flex justify-content-between mb-5">
+							<h3>Cette page est en cours de construction</h3>
+						</div>
+					</section>
+				</div>
+				<div class="col-12 col-lg-7 my-4 d-flex align-item-center">
+					{# <section class="boxWhite boxListCollaborator ">
+						<h3 class="mb-3">Gestion des collaborateurs</h3>
+
+						{% if project.collaborator is not empty %}
+							<div class="table-responsive">
+								<table class="table table-bordered table-hover align-middle">
+									<thead class="table-light">
+										<tr>
+											<th class="text-center">Actions</th>
+											<th>Prénom</th>
+											<th>Nom</th>
+											<th>Email</th>
+											<th>Tâches</th>
+										</tr>
+									</thead>
+									<tbody>
+										{% for collaborator in project.collaborator %}
+											<tr>
+												<td class="text-center">
+													<a href="{{ path('collaborator.edit', {project: project.id, id: collaborator.id}) }}" class="btn btn-sm btn-warning me-1 mb-lg-2" alt="Modifier un collaborateur ?" title="Modifier un collaborateur ?">
+														<i class="bi bi-pen"></i>
+													</a>
+													<button data-url="{{ path('collaborator.delete', {project: project.id, id: collaborator.id}) }}" class="btn btn-sm btn-danger btnDeleteCollaborator" alt="Supprimer un collaborateur ?" title="Supprimer un collaborateur ?">
+														<i class="bi bi-trash"></i>
+													</button>
+
+												</td>
+												<td>{{ collaborator.firstname }}</td>
+												<td>{{ collaborator.lastname }}</td>
+												<td>{{ collaborator.email }}</td>
+												<td>
+													{% if collaborator.tasks is defined and collaborator.tasks|length > 0 %}
+														{{ collaborator.tasks|length }}
+														tâche(s)
+													{% else %}
+														Aucune tâche
+													{% endif %}
+												</td>
+											</tr>
+										{% endfor %}
+									</tbody>
+								</table>
+							</div>
+						{% else %}
+							<p>Aucun collaborateur pour ce projet.</p>
+						{% endif %}
+					</section> #}
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
