@@ -15,7 +15,7 @@
 		<section class="container">
 			<div class="row">
 
-                <div class="col-12 col-lg-5 my-auto">
+                <div class="col-12 col-lg-4 my-auto">
                     <section class="boxWhite boxInfoProject">
                     <div class="d-flex justify-content-between mb-5">
                         <h3>Infos Projet</h3>
@@ -31,11 +31,15 @@
                         <p>
                             <strong>Nombre de collaborateurs :</strong>
                             {{ project.collaborator|length }}</p>
-                        <a href="{{ path('collaborator.new', {id: project.id}) }}" class="btn btn-dark mt-2">Ajouter un collaborateur</a>
+                            {% if editMode %}
+                                <a href="{{ path('collaborator.new', {id: project.id}) }}" class="btn btn-dark mt-2">Ajouter un collaborateur</a>
+                            {% else %}
+                                <a href="{{ path('collaborator.manage', {id: project.id }) }}" class="btn btn-success">Liste des collaborateurs</a>
+                            {% endif %}
                     </section>
                 </div>
 
-                <div class="col-12  boxWhite">
+                <div class="col-12 col-lg-8 mt-3 boxWhite">
                     <h3 class="mt-4 text-center  fs-1">
                         {% if editMode %}
                             Modifier un collaborateur

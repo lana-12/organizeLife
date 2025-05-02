@@ -17,7 +17,6 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/projets')]
-#[IsGranted('ROLE_ADMIN')] 
 class ProjectController extends AbstractController
 
 {
