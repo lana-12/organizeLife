@@ -1,0 +1,57 @@
+{# {% extends 'base.html.twig' %}
+
+{% block title %}
+	{% if editMode %}
+		Modifiez votre Projet
+	{% else %}
+		Nouveau Projet
+	{% endif %}
+	|
+	{{ parent() }}
+{% endblock %}
+
+{% block body %}
+	<div class="eventForm">
+		<section class="container">
+			<div class="row">
+				<div class="col-12">
+					{% if editMode %}
+						<h2 class="mt-4 center  fs-1">
+							Modifier</h2>
+					{% else %}
+						<h2 class="mt-4 center  fs-1">
+							Créer votre projet</h2>
+					{% endif %}
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-12 col-lg-6 projectBoxAdmin">
+					<section class="boxEspacePerso text-white p-3 m-3">
+						<h3 class="text-center">Administrateur :
+						</h3>
+						<p>{{ app.user.firstname }}</p>
+						<p>{{ app.user.lastname }}</p>
+						<p>{{ app.user.email }}</p>
+					</section>
+				</div>
+				<div class="col-12 col-lg-6 ">
+					{{ form_errors(eventForm) }}
+					{{ form_start(eventForm,  { 'attr': {'class': 'formEvent'} }) }}
+					<fieldset class="mb-3">
+						<div>
+							{{ form_rest(eventForm) }}
+						</div>
+					</fieldset>
+					<div class="d-flex justify-content-center">
+						{% if editMode %}
+							<button type="submit" class="btn btnCustom my-3 ">Modifier</button>
+						{% else %}
+							<button type="submit" class="btn btnCustom my-3 mx-auto">Enregistrer</button>
+						{% endif %}
+					</div>
+					{{ form_end(eventForm) }}
+				</div>
+			</div>
+		</section>
+	</div>
+{% endblock %} #}

@@ -37,12 +37,7 @@ class CollaboratorType extends AbstractType
                     'class'=>'form-control',
                 ],
             ])
-            ->add('save', SubmitType::class, [
-                'label'=> 'Enregistrer',
-                'attr'=>[
-                    'class'=>'btn btn-primary ' ,
-                ],
-            ])
+            
         ;
     }
 

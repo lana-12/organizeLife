@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{% if editMode %}
+		Modifier un Collaborateur
+	{% else %}
+        Nouveau collaborateur
+	{% endif %}
+	|
+	{{ parent() }}
+{% endblock %}
+
+{% block body %}
+	<div class="collaboratorForm">
+		<section class="container">
+			<div class="row">
+
+                <div class="col-12 col-lg-5 my-auto">
+                    <section class="boxWhite boxInfoProject">
+                    <div class="d-flex justify-content-between mb-5">
+                        <h3>Infos Projet</h3>
+                        <a href="{{ path('project.show', {id: project.id , slug: project.slug }) }}" class="btn btn-success  " alt="Retour au projet" title="Retour au projet">Retour au projet</a>
+                    
+                    </div>
+                        <p>
+                            <strong>Nom :</strong>
+                            {{ project.name }}</p>
+                        <p class="description-truncate">
+                            <strong>Description :</strong>
+                            {{ project.description|slice(0, 100) ~ '...' }}</p>
+                        <p>
+                            <strong>Nombre de collaborateurs :</strong>
+                            {{ project.collaborator|length }}</p>
+                        <a href="{{ path('collaborator.new', {id: project.id}) }}" class="btn btn-dark mt-2">Ajouter un collaborateur</a>
+                    </section>
+                </div>
+
+                <div class="col-12  boxWhite">
+                    <h3 class="mt-4 text-center  fs-1">
+                        {% if editMode %}
+                            Modifier un collaborateur
+                        {% else %}
+                            Nouveau collaborateur
+                        {% endif %}
+                    </h3>
+                    {{ form_errors(collaboratorform) }}
+                    {{ form_start(collaboratorform,  { 'attr': {'class': 'formCollaborator'} }) }}
+                    {{ form_rest(collaboratorform) }}
+                    <div class="d-flex justify-content-center">
+                        {% if editMode %}
+                            <button type="submit" class="btn btn-primary my-3 ">Modifier</button>
+                        {% else %}
+                            <button type="submit" class="btn btn-primary my-3 ">Enregistrer</button>
+                        {% endif %}
+                    </div>
+                    {{ form_end(collaboratorform) }}
+                </div>
+			</div>
+		</section>
+	</div>
+{% endblock %}

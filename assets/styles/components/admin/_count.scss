@@ -14,5 +14,16 @@
             font-size: 15px;
             font-weight: 500;
         }
+        .counterCol {
+            max-width: 200px;
+        }
+    }
+}
+.countersCollaborator {
+    // padding: 40px 0 20px 0;
+    span {
+        font-size: 36px;
+        display: block;
+        font-weight: 700;
     }
 }

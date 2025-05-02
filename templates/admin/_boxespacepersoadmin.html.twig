@@ -1,13 +1,22 @@
-<div class="boxEspacePerso">
-    <h2>Vos Données Personelles</h2>
-    <h3>Prénom :
-        {{ app.user.firstname | capitalize }}</h3>
-    <h4>Nom :
-        {{ app.user.lastname | capitalize }}</h4>
-    <h5>Email :
-        {{ app.user.email }}</h5>
-    <div class="col-12 d-flex justify-content-around " data-aos="zoom-in">
-        <a href="{{ path('user.edit.password', {id: app.user.id}) }}" class="btn-user">Changer le Mot de passe</a>
-        <a href="{{ path('user.edit', {id:app.user.id}) }}" class="btn-user">Modifier mes données</a>
+<section class="boxEspacePerso">
+    <div>
+        <h2>Vos Données Personelles</h2>
+        <h3>Prénom :
+            {{ app.user.firstname | capitalize }}</h3>
+        <h4>Nom :
+            {{ app.user.lastname | capitalize }}</h4>
+        <h5>Email :
+            {{ app.user.email }}</h5>
+        <div class="col-12 d-flex justify-content-around " data-aos="zoom-in">
+            <a href="{{ path('user.edit.password', {id: app.user.id}) }}" class="btn-user">Changer le Mot de passe</a>
+            <a href="{{ path('user.edit', {id:app.user.id}) }}" class="btn-user">Modifier mes données</a>
+        </div>
     </div>
-</div>
+
+	<!-- Counts Section -->
+	{% include "_partials/_countsCol.html.twig"  %}
+	<!-- End Counts Section -->
+
+</section>
+
+

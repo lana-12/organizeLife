@@ -12,7 +12,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProjectRepository::class)]
 #[ORM\Table(name: '`projects`')]
-#[UniqueEntity(fields: ['name'], message: 'Ce nom est déjà utilisé ')]
 
 class Project
 {
@@ -21,7 +20,7 @@ class Project
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 180, unique: true)]
+    #[ORM\Column(length: 180)]
     #[Assert\NotBlank]
     private ?string $name = null;
 

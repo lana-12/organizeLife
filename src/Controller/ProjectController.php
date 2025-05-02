@@ -6,7 +6,7 @@ use App\Entity\Project;
 use App\Form\ProjectType;
 use App\Service\CheckService;
 use App\Repository\ProjectRepository;
-use App\Service\AccessControlService;
+use App\Repository\UserRepository;
 use App\Service\TextFormatterService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -37,10 +37,9 @@ class ProjectController extends AbstractController
 
     /**
      * Retrieve Project by id
-     * 'slug' => '[\p{L}0-9-]+'  pas => 'slug' => '[A-z0-9-]+' [A-zÀ-ú0-9-]+
      */
-    #[Route('/show/{slug}-{id}', name: 'project.show', requirements: ['id' => '\d+','slug' => '[A-zÀ-ú0-9-]+'    ] )]
-    public function show(?Project $project): Response
+    #[Route('/show/{slug}-{id}', name: 'project.show', requirements: ['id' => '\d+','slug' => '[A-zÀ-ú0-9-]+'] )]
+    public function show(?Project $project, Request $request, UserRepository $userRepo): Response
     {
 
         /** @var \App\Entity\User $user */
@@ -63,8 +62,13 @@ class ProjectController extends AbstractController
         }
 
         if($user->getId() === $project->getAdmin()->getId()){
+            $collaborators = $userRepo->findCollaboratorsByProject($project);
+            $totalCollaborators = $userRepo->countCollaboratorsByProject($project);
+
             return $this->render('project/_show.html.twig', [
                 'project' => $project,
+                'collaborators' => $collaborators,
+                'totalCollaborators' => $totalCollaborators,
             ]);
         }
 
@@ -100,15 +104,13 @@ class ProjectController extends AbstractController
         
         if ($form->isSubmitted() && $form->isValid()) {
             if($request->getMethod() === "POST"){
-                // Retrieve all data in the form 
                 $project = $form->getData();
-                // $admin = $this->security->getUser();
                 $project->setAdmin($admin);
-                // TODO: Prévoir un nombre limiter de caractère ou faire un DTO pour le slug
-                // Retrieve NameAdmin strtolower() 
 
                 $formattedSlug = $this->textFormatter->formatSlug($project->getName());
                 $project->setSlug($formattedSlug);
+                $project->setName($this->textFormatter->formatUcFirst($project->getName()));
+                $project->setDescription($this->textFormatter->formatDescription($project->getDescription()));
 
                 $this->em->persist($project);
                 $this->em->flush();
@@ -117,7 +119,7 @@ class ProjectController extends AbstractController
 
             $this->addFlash('success', 'Le project a été créé avec succes');
 
-            return $this->redirectToRoute('admin.index');
+            return $this->redirectToRoute('project.show', ['id'=>$project->getId(), 'slug'=>$project->getSlug() ]);
             }
         }
 
@@ -166,6 +168,7 @@ class ProjectController extends AbstractController
                     $project = $form->getData();
                     $formattedSlug = $this->textFormatter->formatSlug($project->getName());
                     $project->setSlug($formattedSlug);
+                    $project->setName($this->textFormatter->formatUcFirst($project->getName()));
                     $this->em->persist($project);
                     $this->em->flush();
                 
@@ -173,7 +176,7 @@ class ProjectController extends AbstractController
     
                 $this->addFlash('success', 'Le project a été modifié avec succes');
     
-                return $this->redirectToRoute('admin.index');
+            return $this->redirectToRoute('project.show', ['id'=>$project->getId(), 'slug'=>$project->getSlug() ]);
                 }
             }
             return $this->render('project/_formProject.html.twig', [
@@ -189,15 +192,54 @@ class ProjectController extends AbstractController
     /**
      * Delete Project 
      */
-    #[Route('/supprimer/{id}', name: 'project.delete')]
-    public function deleteProject(?Project $project)
+    #[Route('/supprimer/{id}', name: 'project.delete', methods: ['GET', 'POST'])]
+    public function deleteProject(?Project $project, Request $request)
     {
-        if($project){
+        if (!$project) {
+            $this->addFlash('danger', 'Le projet est introuvable.');
+            return $this->redirectToRoute('admin.index');
+        }
+        // Check if user is Admin (CheckService)
+        if(!$this->checkService->checkAdminAccess()){
+            $this->addFlash('danger', "Vous ne disposez pas des droits pour accéder à ce service");
+            return $this->redirectToRoute('home');
+        } 
+        if ($request->isMethod('POST') || $request->isMethod('GET') ) {
+            // Save collaborator before delete
+            $formerCollaborators = $project->getCollaborator()->toArray();
+            // Delete events attached 
+            foreach ($project->getEvents() as $event) {
+                $this->em->remove($event);
+            }
+            // Delete collaborator attached
+            foreach ($formerCollaborators as $collaborator) {
+                $project->removeCollaborator($collaborator);
+            }
+            $this->em->flush(); 
+
+            // Delete User why is not project
+            foreach ($formerCollaborators as $collaborator) {
+                if ($collaborator->getProjects()->isEmpty()) {
+                    foreach ($collaborator->getUnavailable() as $unavailable) {
+                        $this->em->remove($unavailable);
+                    }
+                    foreach ($collaborator->getEvents() as $event) {
+                        $this->em->remove($event);
+                    }
+                    $this->em->remove($collaborator);
+                }
+            }
+
+            // Delete  project
             $this->em->remove($project);
             $this->em->flush();
-            $this->addFlash('success', 'Le project a été supprimé avec success');
-            return $this->redirectToRoute('admin.index', [], Response::HTTP_SEE_OTHER);
+            $this->addFlash('success', 'Le projet a été supprimé avec succès.');
+            return $this->redirectToRoute('admin.index');
         }
+        return $this->redirectToRoute('project.show', [
+            'id' => $project->getId(),
+            'slug' => $project->getSlug(),
+        ]);
     }
 
     
