@@ -22,6 +22,16 @@ class CalendarController extends AbstractController
     #[Route('/calendar/{id}', name: 'calendar')]
     public function index(?project $project): Response
     {
+        /**
+         * Retrieve
+         * Nbr Collaborator 
+         * Nbr de taches pour moi en cours
+         * ...
+         * 
+         */
+        
+         
+         
         return $this->render('calendar/index.html.twig', [
             'project' => $project,
         ]);
