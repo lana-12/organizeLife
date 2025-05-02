@@ -19,7 +19,6 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/collaborators')]
-#[IsGranted('ROLE_ADMIN')] 
 class CollaboratorController extends AbstractController
 {
     public function __construct(
@@ -32,6 +31,7 @@ class CollaboratorController extends AbstractController
         private CheckService $checkService
     ){}
 
+   
     #[Route('/manage/{id}', name: 'collaborator.manage', requirements: ['id' => '\d+', ])]
     public function manageCollaborator(Request $request, int $id): Response
     {
@@ -63,6 +63,7 @@ class CollaboratorController extends AbstractController
     
     }
 
+   
     #[Route('/ajouter/{id}', name: 'collaborator.new', requirements: ['id' => '\d+', ])]
     public function new(Request $request, int $id): Response
     {
@@ -97,18 +98,26 @@ class CollaboratorController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
             $this->collaboratorService->createCollaborator($collaboratorDTO, $project);
-            // from=> defaultEmail
-            $this->mailer->sendEmail(
+
+            try {
+                $this->mailer->sendEmail(
                     $project->getAdmin()->getEmail(),
                     null,
                     'Bienvenue sur ' . $project->getName(),
                     'emails/newCollaborator.html.twig',
                     [
                         'project' => $project,
-                        'collaborator' =>$data
+                        'collaborator' => $data
                     ]
                 );
-            $this->addFlash('success', 'Collaborateur créé avec succès !!');
+            } catch (\Exception $e) {
+                // Gestion simple si l'envoi d'email échoue
+                $this->addFlash('warning', "La gestion des emails n'est pas encore opérationnelle.");
+            }
+
+            $this->addFlash('success', 'Collaborateur créé avec succès !');
+            $this->addFlash('info', "L'identifiant du collaborateur est son email et le mot de passe est son nom de famille pour l'instant. Le dashboard du collaborateur est en cours de développement.");
+
             return $this->redirectToRoute('project.show', [
                 'id' => $project->getId(),
                 'slug' => $project->getSlug(),
@@ -126,6 +135,7 @@ class CollaboratorController extends AbstractController
     /**
      * Edit Project 
      */
+    #[IsGranted('ROLE_ADMIN')] 
     #[Route('/edit/{project}/{id}', name: 'collaborator.edit', requirements: ['id' => '\d+', ])]
     public function editCollaborator(Request $request,int $project, int $id): Response
     {
@@ -192,6 +202,7 @@ class CollaboratorController extends AbstractController
     /**
      * Delete Collaborator 
      */
+    #[IsGranted('ROLE_ADMIN')] 
     #[Route('/supprimer/{project}/{id}', name: 'collaborator.delete', methods: ['POST', 'GET'])]
     public function deleteCollaborator(int $id, int $project)
     {
@@ -252,6 +263,28 @@ class CollaboratorController extends AbstractController
             'id' => $project->getId(),
             'slug' => $project->getSlug()
         ]);
+    }
+
+
+    #[IsGranted('ROLE_COLLABORATOR')] 
+    #[Route('/dashboard', name: 'collaborator.dashboard')]
+    public function dashboardCollaborator(): Response
+    {
+
+        /** @var \App\Entity\User $user */
+        $user = $this->getUser();
+        $admin = $user->getId();
+
+        if(!$this->security->getUser()){
+            $this->addFlash('danger', "Vous devez être connecté(e) pour accéder à ce service");
+            return $this->redirectToRoute('home');
+        }
+
+
+        return $this->render('collaborator/_dashboardCollaborator.html.twig', [
+            // 'project' => $project,
+        ]);    
+    
     }
 
 }

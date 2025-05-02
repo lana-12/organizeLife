@@ -13,7 +13,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/admin')]
-#[IsGranted('ROLE_ADMIN')] 
+
 class AdminController extends AbstractController
 {
     public function __construct(
