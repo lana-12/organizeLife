@@ -1,0 +1,19 @@
+.collab-legend {
+    margin-top: 1rem;
+    border-top: 1px solid #ddd;
+    padding-top: 0.5rem;
+
+    .legend-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 0.3rem;
+
+        .color-box {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+            margin-right: 8px;
+        }
+    }
+}

@@ -1,30 +1,31 @@
 {% extends 'base.html.twig' %}
-
 {% block title %}Calendrier{% endblock %}
-
 {% block body %}
-
     <div class="manageCalendar">
         <div class="container">
-
             <div class="row">
-                <section class="col-4">
+                <section class="col-12 col-lg-4">
                     <div class="boxWhite boxProject">
                         <h2>{{ project.name }}</h2>
-                        <p>Nbr Collaborateur : </p>
-                        <p>Nbr de taches pour le mois en cours</p>
-                        <p>...</p>
-                        
+                        <p>Nbr Collaborateur : {{ countCollaborator }}</p>
+                        <p>Nbr Tâches : {{ totalEvents }}</p>
+                        <p>Nbr de taches pour le mois en cours : {{ currentMonthEvents }}</p>      
+                        <ul class="list-group mt-3">
+                            {% for collaborator in collaborators %}
+                                {% set colors = colorMap[collaborator.id] %}
+                                <li class="list-group-item d-flex justify-content-start align-items-center mb-3" style="background-color: {{ colors.background }}; color: {{ colors.text }};">
+                                    <span class="badge bg-secondary">{{ collaborator.email }}</span>
+                                </li>
+                            {% endfor %}
+                        </ul>
                     </div>
                 </section>
-            
-                <section class="col-8">
+                <section class="col-12 col-lg-8">
                     <div class="boxWhite">
                         <div id="calendar-holder"></div>
                     </div>
                 </section>
             </div>
-        
         </div>
     </div>
 
@@ -33,28 +34,27 @@
 {% block javascripts %}
 {{ parent() }}
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js" integrity="sha256-J37ZtjEw94oWBNZ9w/XC73raGXE9t10//XHJfKz2QCM=" crossorigin="anonymous"></script>
-
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.3/dist/sweetalert2.all.min.js" integrity="sha256-xkymBp70qMSHnInLEXDWb34pyON8sBGMA1S84vQILx4=" crossorigin="anonymous"></script>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
     <script src="{{ asset('js/CalendarManager.js') }}"></script>
     <script src="{{ asset('js/services/EventService.js') }}"></script>
 
+<script>
+	const projectId = {{ project.id }};
+    const collaborators = {{ collaborators_json|raw }};
+    const COLLABORATOR_COLOR_MAP = {{ colorMap|json_encode|raw }};
 
+    console.log(collaborators);
+    console.log(COLLABORATOR_COLOR_MAP);
 
-    <script>
-
-        const projectId = {{ project.id }}
+    (async () => {
         const eventService = new EventService();
-        const calendarManagerInstance = new CalendarManager(eventService, projectId);
-        calendarManagerInstance.initialize();
-        const today = Date();
-        console.log(today)
-        
-    </script>
-
-    
+        const calendarManagerInstance = new CalendarManager(eventService, projectId, COLLABORATOR_COLOR_MAP, collaborators);
+        await calendarManagerInstance.initialize();
+        const today = new Date();
+        console.log(today);
+    })
+    ();
+</script>  
 {% endblock %}
