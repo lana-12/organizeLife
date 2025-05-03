@@ -31,9 +31,8 @@ class CalendarController extends AbstractController
             return $this->redirectToRoute('home');
         }
         $project = $projectRepo->find($id);
-// dump($project);
         if(!$project){
-            $this->addFlash('danger', "Ceeeeeeeeee projet n'existe pas");
+            $this->addFlash('danger', "Ce projet n'existe pas");
             return $this->redirectToRoute('admin.index');
         }
         $collaborators = $userRepo->findCollaboratorsByProject($project);

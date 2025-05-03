@@ -27,6 +27,7 @@ class EventService
                 'description' => $event->getDescription(),
                 'type'=> $event->getTypeEvent()->getName(),
                 'collaborator'=> $user->getId(),
+                'collaboratorName'=> $user->getLastName(),
             ];
         }
         return $formattedEvents;

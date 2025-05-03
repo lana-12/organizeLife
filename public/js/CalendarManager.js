@@ -25,13 +25,14 @@ class CalendarManager {
                         center: 'title',
                         end: 'dayGridMonth timeGridWeek'
                     },
-                    height: 700,
+                    contentHeight: "auto",
                     width: 800,
                     events: events.map(event => {
                         const collaborator = event.collaborator;
                         const color = this.colorMap[collaborator]?.background || 'gray';
                         return {
                             type: event.type,
+                            name: event.collaboratorName,
                             title: event.title,
                             start: `${event.date_event_start}T${event.hour_event_start}`,
                             end: `${event.date_event_end}T${event.hour_event_end}`,
@@ -42,6 +43,31 @@ class CalendarManager {
                     }),
                     selectable: true,
                     editable: true,
+                    eventClick: function (info) {
+                        const event = info.event;
+                        // alert('Event: ' );
+                        Swal.fire({
+                            title: `<strong>${event.title}</strong>`,
+                            icon: "info",
+                            html: `
+                                <p><b>Collaborateur :</b> ${event.extendedProps.name}</p>
+                                <p><b>Début :</b> ${event.start.toLocaleString()}</p>
+                                <p><b>Fin :</b> ${event.end ? event.end.toLocaleString() : 'Non défini'}</p>
+                                <p><b>Description :</b> ${event.extendedProps.description || 'Aucune'}</p>
+                                <p><b>Type :</b> ${event.extendedProps.type || 'N/A'}</p>
+                                <a href="/event/nouveau/${projectId}" class="btn btn-primary">
+                                    <i class="fa fa-plus"></i> Créer un événement
+                                </a>
+                            `,
+                            showCloseButton: true,
+                            showCancelButton: false,
+                            focusConfirm: false,
+                            confirmButtonText: `
+                                <i class="fa fa-thumbs-up"></i> Ok
+                            `,
+                            confirmButtonAriaLabel: "OK",
+                        });
+                    },
                     select: (arg) => {
                         const today = new Date();
                         today.setHours(0, 0, 0, 0);
