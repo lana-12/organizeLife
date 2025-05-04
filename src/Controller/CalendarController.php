@@ -21,7 +21,7 @@ class CalendarController extends AbstractController
         private Security $security,
         ){}
     
-    #[Route('/calendar/{id}', name: 'calendar.index')]
+    #[Route('/calendar/{id}', name: 'calendar')]
     public function index(int $id, Project $project, UserRepository $userRepo, ProjectRepository $projectRepo, EventRepository $eventRepo, CollaboratorService $collaboratorService): Response
     {
         /** @var \App\Entity\User $user */
@@ -69,22 +69,13 @@ class CalendarController extends AbstractController
                 return $this->json(['error' => 'Projet introuvable'], 404);
             }
 
-                $start = microtime(true);
-
-
         if($user->getId() === $project->getAdmin()->getId()){
             $projectId = $project->getId();  
             $events = $this->eventService->getEventsForProject($projectId);
-            dump($events);
-            $duration = microtime(true) - $start;
-
-dump("Temps de génération des events : " . $duration . " secondes");
             return $this->json([
                 'formatEvent' => $events,
             ]);        
         }
            return $this->json(['error' => 'Accès non autorisé'], 403);      
-
     }
-  
 }

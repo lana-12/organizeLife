@@ -19,15 +19,16 @@ class EventService
         foreach ($events as $event) {
             $user = $event->getUser();
             $formattedEvents[] = [
+                'id_event'=> $event->getId() ?? '',
+                'id'=> $user->getId() ?? '',
                 'title' => $event->getTitle(),
                 'date_event_start' => $event->getDateEventStart()->format('Y-m-d'),
                 'hour_event_start' => $event->getHourEventStart()->format('H:i:s'),
                 'date_event_end' => $event->getDateEventEnd()->format('Y-m-d'),
                 'hour_event_end' => $event->getHourEventEnd()->format('H:i:s'),
-                'description' => $event->getDescription(),
-                'type'=> $event->getTypeEvent()->getName(),
-                'collaborator'=> $user->getId(),
-                'collaboratorName'=> $user->getLastName(),
+                'description' => $event->getDescription() ?? 'Aucune description',
+                'type' => $event->getTypeEvent()?->getName() ?? 'Aucun type d\'évènement',
+                'collaboratorName'=> $user->getLastName() ?? 'Aucun Collaborateur',
             ];
         }
         return $formattedEvents;

@@ -26,46 +26,56 @@ class CalendarManager {
                         end: 'dayGridMonth timeGridWeek'
                     },
                     contentHeight: "auto",
-                    width: 800,
                     events: events.map(event => {
                         const collaborator = event.collaborator;
                         const color = this.colorMap[collaborator]?.background || 'gray';
+                        const start = new Date(`${event.date_event_start}T${event.hour_event_start}`);
+                        const end = new Date(`${event.date_event_end}T${event.hour_event_end}`);
                         return {
-                            type: event.type,
-                            name: event.collaboratorName,
                             title: event.title,
-                            start: `${event.date_event_start}T${event.hour_event_start}`,
-                            end: `${event.date_event_end}T${event.hour_event_end}`,
+                            start: start.toISOString(),
+                            end: end.toISOString(),
                             description: event.description,
                             color: color,
                             display: 'block',
+                            extendedProps: {
+                                description: event.description,
+                                name_colaborator: event.collaboratorName,
+                                type: event.type,
+                                id_event: event.id_event
+                            }
                         };
                     }),
                     selectable: true,
                     editable: true,
                     eventClick: function (info) {
                         const event = info.event;
-                        // alert('Event: ' );
                         Swal.fire({
                             title: `<strong>${event.title}</strong>`,
                             icon: "info",
                             html: `
-                                <p><b>Collaborateur :</b> ${event.extendedProps.name}</p>
+                                <p><b>Collaborateur :</b> ${event.extendedProps.name_colaborator}</p>
                                 <p><b>Début :</b> ${event.start.toLocaleString()}</p>
-                                <p><b>Fin :</b> ${event.end ? event.end.toLocaleString() : 'Non défini'}</p>
-                                <p><b>Description :</b> ${event.extendedProps.description || 'Aucune'}</p>
+                                <p><b>Fin :</b> ${event.end.toLocaleString()}</p>
+                                <p><b>Description :</b> ${event.extendedProps.description || 'Aucune Description'}</p>
                                 <p><b>Type :</b> ${event.extendedProps.type || 'N/A'}</p>
-                                <a href="/event/nouveau/${projectId}" class="btn btn-primary">
-                                    <i class="fa fa-plus"></i> Créer un événement
-                                </a>
+                                <div class='d-flex justify-content-center gap-2 mt-3 flex-wrap'>
+                                    <a href='/event/nouveau/${projectId}' class='btn btn-primary'>
+                                        <i class='fa fa-plus'></i> Créer
+                                    </a>
+                                    <a href='/event/edit/${event.extendedProps.id_event}' class='btn btn-warning'>
+                                        <i class='fa fa-edit'></i> Modifier
+                                    </a>
+                                    <a href='/event/delete/${event.extendedProps.id_event}' class='btn btn-danger'onsubmit="return confirm('Supprimer cet évènement ?');">
+                                        <i class='fa fa-edit'></i> Supprimer
+                                    </a>
+                                    
+                                </div>
                             `,
                             showCloseButton: true,
                             showCancelButton: false,
-                            focusConfirm: false,
-                            confirmButtonText: `
-                                <i class="fa fa-thumbs-up"></i> Ok
-                            `,
-                            confirmButtonAriaLabel: "OK",
+                            showConfirmButton: false,
+                            
                         });
                     },
                     select: (arg) => {
@@ -103,5 +113,4 @@ class CalendarManager {
             }
         });
     }
-
 }

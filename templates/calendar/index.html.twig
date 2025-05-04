@@ -4,23 +4,11 @@
     <div class="manageCalendar">
         <div class="container">
             <div class="row">
-                <section class="col-12 col-lg-4">
-                    <div class="boxWhite boxProject">
-                        <h2>{{ project.name }}</h2>
-                        <p>Nbr Collaborateur : {{ countCollaborator }}</p>
-                        <p>Nbr Tâches : {{ totalEvents }}</p>
-                        <p>Nbr de taches pour le mois en cours : {{ currentMonthEvents }}</p>      
-                        <ul class="list-group mt-3">
-                            {% for collaborator in collaborators %}
-                                {% set colors = colorMap[collaborator.id] %}
-                                <li class="list-group-item d-flex justify-content-start align-items-center mb-3" style="background-color: {{ colors.background }}; color: {{ colors.text }};">
-                                    <span class="badge bg-secondary">{{ collaborator.email }}</span>
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                </section>
-                <section class="col-12 col-lg-8">
+                <section class="col-12 col-lg-4 d-flex justify-content-center justify-content-lg-around mb-3" data-aos="fade-right" data-aos-delay="500">
+                    {% include "calendar/_infoProject.html.twig"  %}
+                </section>                       
+                
+                <section class="col-12 col-md-8 d-flex justify-content-center justify-content-lg-around" data-aos="zoom-in" data-aos-delay="2000">
                     <div class="boxWhite">
                         <div id="calendar-holder"></div>
                     </div>

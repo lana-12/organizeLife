@@ -66,6 +66,7 @@ class EventController extends AbstractController
                 $this->addFlash('danger', 'Cette date est déjà passée !!');
                 return $this->redirectToRoute('calendar', ['id' => $event->getProject()->getId()]);
             }
+            
         }
         $form = $this->createForm(EventType::class, $event, [
             'projectId' => $id,
@@ -76,6 +77,16 @@ class EventController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             if($request->getMethod() === "POST"){
                 $eventData = $form->getData();
+
+                $start = new \DateTime($eventData->getDateEventStart()->format('Y-m-d') . ' ' . $eventData->getHourEventStart()->format('H:i:s'));
+                $end = new \DateTime($eventData->getDateEventEnd()->format('Y-m-d') . ' ' . $eventData->getHourEventEnd()->format('H:i:s'));
+                if ($end <= $start) {
+                    $this->addFlash('danger', 'La date et l\'heure de fin doivent être postérieures à celles de début.');
+                    return $this->render('event/_formEvent.html.twig', [
+                        'eventForm' => $form,
+                        'editMode'=> $event->getId() !== null,
+                    ]);
+                }
                 $this->em->persist($eventData);
                 $this->em->flush();
                 $this->addFlash('success', 'L\'évènement a été créé avec succes');
@@ -84,9 +95,88 @@ class EventController extends AbstractController
         }
         return $this->render('event/_formEvent.html.twig', [
             'eventForm' => $form,
+            'editMode'=> $event->getId() !== null,
         ]);
     }
 
+    /**
+    * Edit Event 
+    */
+    #[Route('/edit/{id}', name: 'event.edit', requirements: ['id' => '\d+'] )]
+    public function editProject(Event $event, Request $request)
+    {
+        /** @var \App\Entity\User $user */
+        $user = $this->getUser();
 
-    
+        if(!$this->security->getUser()){
+            $this->addFlash('danger', "Vous devez être connecté(e) pour accéder à ce service");
+            return $this->redirectToRoute('home');
+        }
+
+        // Check if user is Admin (CheckService)
+        if(!$this->checkService->checkAdminAccess()){
+            $this->addFlash('danger', "Vous ne disposez pas des droits pour accéder à ce service");
+            return $this->redirectToRoute('home');
+        } 
+
+        if(!$event){
+            $this->addFlash('danger', "Cet évènement n'existe pas");
+            return $this->redirectToRoute('admin.index');
+        }
+
+        $form = $this->createForm(EventType::class, $event);
+        $form->handleRequest($request);
+            
+            if ($form->isSubmitted() && $form->isValid()) {
+                $event = $form->getData();
+                $start = new \DateTime($event->getDateEventStart()->format('Y-m-d') . ' ' . $event->getHourEventStart()->format('H:i:s'));
+                $end = new \DateTime($event->getDateEventEnd()->format('Y-m-d') . ' ' . $event->getHourEventEnd()->format('H:i:s'));
+                if ($end <= $start) {
+                    $this->addFlash('danger', 'La date et l\'heure de fin doivent être postérieures à celles de début.');
+                    return $this->render('event/_formEvent.html.twig', [
+                        'eventForm' => $form,
+                        'editMode'=> $event->getId() !== null,
+                    ]);
+                }
+                $this->em->persist($event);
+                $this->em->flush();
+            
+            // do anything else you need here, like send an email
+
+            $this->addFlash('success', 'L\'évènement a été modifier avec succes');
+            return $this->redirectToRoute('calendar', ['id' => $event->getProject()->getId()]); 
+            }
+        return $this->render('event/_formEvent.html.twig', [
+            'eventForm' => $form,
+            'editMode'=> $event->getId() !== null,
+        ]);
+    }
+
+    #[Route('/delete/{id}', name: 'event.delete')]
+    public function delete(Request $request, Event $event): Response
+    {
+        if (!$this->security->getUser()) {
+            $this->addFlash('danger', "Vous devez être connecté(e) pour accéder à ce service");
+            return $this->redirectToRoute('app_login');
+        }
+
+        if (!$this->checkService->checkAdminAccess()) {
+            $this->addFlash('danger', "Vous ne disposez pas des droits pour accéder à ce service");
+            return $this->redirectToRoute('home');
+        }
+
+        if (!$event) {
+            $this->addFlash('danger', "L'évènement n'existe pas");
+            return $this->redirectToRoute('calendar', ['id' => $event->getProject()?->getId() ?? 0]);
+        }
+
+        $projectId = $event->getProject()?->getId() ?? null;
+
+        $this->em->remove($event);
+        $this->em->flush();
+
+        $this->addFlash('success', "L'évènement a été supprimé avec succès");
+
+        return $this->redirectToRoute('calendar', ['id' => $projectId]);
+    } 
 }

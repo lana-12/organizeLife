@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-	{# {% if editMode %}
+	{% if editMode %}
 		Modifiez votre event
-	{% else %} #}
+	{% else %}
 		Nouveau event
-	{# {% endif %} #}
+	{% endif %}
 	|
 	{{ parent() }}
 {% endblock %}
@@ -15,13 +15,13 @@
 		<section class="container">
 			<div class="row">
 				<div class="col-12 boxWhite ">
-					{# {% if editMode %}
+					{% if editMode %}
 						<h2 class="mt-4 center  fs-1">
 							Modifier</h2>
-					{% else %} #}
+					{% else %}
 						<h2 class="mt-4 center  fs-1">
 							Créer votre évènement</h2>
-					{# {% endif %} #}
+					{% endif %}
 
 					{{ form_errors(eventForm) }}
 					{{ form_start(eventForm,  { 'attr': {'class': 'formEvent'} }) }}
@@ -31,11 +31,11 @@
 						</div>
 					</fieldset>
 					<div class="d-flex justify-content-center">
-						{# {% if editMode %}
+						{% if editMode %}
 							<button type="submit" class="btn btnCustom my-3 ">Modifier</button>
-						{% else %} #}
+						{% else %}
 							<button type="submit" class="btn btnCustom my-3 mx-auto">Enregistrer</button>
-						{# {% endif %} #}
+						{% endif %}
 					</div>
 					{{ form_end(eventForm) }}
 				</div>
