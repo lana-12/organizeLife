@@ -1,45 +1,48 @@
 {% extends 'base.html.twig' %}
-
 {% block title %}Calendrier{% endblock %}
-
 {% block body %}
-
-    <main class="container">
-        <section class="row">
-            <div class="col">
-            <h2>{{ project.name }}</h2>
-                <div id="calendar-holder"></div>
+    <div class="manageCalendar">
+        <div class="container">
+            <div class="row">
+                <section class="col-12 col-lg-4 d-flex justify-content-center justify-content-lg-around mb-3" data-aos="fade-right" data-aos-delay="500">
+                    {% include "calendar/_infoProject.html.twig"  %}
+                </section>                       
+                
+                <section class="col-12 col-md-8 d-flex justify-content-center justify-content-lg-around" data-aos="zoom-in" data-aos-delay="2000">
+                    <div class="boxWhite">
+                        <div id="calendar-holder"></div>
+                    </div>
+                </section>
             </div>
-        </section>
-    </main>
+        </div>
+    </div>
 
 {% endblock %}
 
 {% block javascripts %}
 {{ parent() }}
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js" integrity="sha256-J37ZtjEw94oWBNZ9w/XC73raGXE9t10//XHJfKz2QCM=" crossorigin="anonymous"></script>
-
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.3/dist/sweetalert2.all.min.js" integrity="sha256-xkymBp70qMSHnInLEXDWb34pyON8sBGMA1S84vQILx4=" crossorigin="anonymous"></script>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
     <script src="{{ asset('js/CalendarManager.js') }}"></script>
     <script src="{{ asset('js/services/EventService.js') }}"></script>
 
+<script>
+	const projectId = {{ project.id }};
+    const collaborators = {{ collaborators_json|raw }};
+    const COLLABORATOR_COLOR_MAP = {{ colorMap|json_encode|raw }};
 
+    console.log(collaborators);
+    console.log(COLLABORATOR_COLOR_MAP);
 
-    <script>
-
-        const projectId = {{ project.id }}
+    (async () => {
         const eventService = new EventService();
-        const calendarManagerInstance = new CalendarManager(eventService, projectId);
-        calendarManagerInstance.initialize();
-        const today = Date();
-        console.log(today)
-        
-    </script>
-
-    
+        const calendarManagerInstance = new CalendarManager(eventService, projectId, COLLABORATOR_COLOR_MAP, collaborators);
+        await calendarManagerInstance.initialize();
+        const today = new Date();
+        console.log(today);
+    })
+    ();
+</script>  
 {% endblock %}
