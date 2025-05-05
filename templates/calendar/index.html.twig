@@ -4,7 +4,7 @@
     <div class="manageCalendar">
         <div class="container">
             <div class="row">
-                <section class="col-12 col-lg-4 d-flex justify-content-center justify-content-lg-around mb-3" data-aos="fade-right" data-aos-delay="500">
+                    <section class="col-12 col-lg-4 d-flex justify-content-center justify-content-lg-around mb-3 my-auto" data-aos="fade-right" data-aos-delay="500">
                     {% include "calendar/_infoProject.html.twig"  %}
                 </section>                       
                 
@@ -28,21 +28,21 @@
     <script src="{{ asset('js/CalendarManager.js') }}"></script>
     <script src="{{ asset('js/services/EventService.js') }}"></script>
 
-<script>
-	const projectId = {{ project.id }};
-    const collaborators = {{ collaborators_json|raw }};
-    const COLLABORATOR_COLOR_MAP = {{ colorMap|json_encode|raw }};
+    <script>
+        const projectId = {{ project.id }};
+        const collaborators = {{ collaborators_json|raw }};
+        const COLLABORATOR_COLOR_MAP = {{ colorMap|json_encode|raw }};
 
-    console.log(collaborators);
-    console.log(COLLABORATOR_COLOR_MAP);
+        console.log(collaborators);
+        console.log(COLLABORATOR_COLOR_MAP);
 
-    (async () => {
-        const eventService = new EventService();
-        const calendarManagerInstance = new CalendarManager(eventService, projectId, COLLABORATOR_COLOR_MAP, collaborators);
-        await calendarManagerInstance.initialize();
-        const today = new Date();
-        console.log(today);
-    })
-    ();
-</script>  
+        (async () => {
+            const eventService = new EventService();
+            const calendarManagerInstance = new CalendarManager(eventService, projectId, COLLABORATOR_COLOR_MAP, collaborators);
+            await calendarManagerInstance.initialize();
+            const today = new Date();
+            console.log(today);
+        })
+        ();
+    </script>  
 {% endblock %}
