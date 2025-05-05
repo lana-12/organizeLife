@@ -1,10 +1,10 @@
-{# {% extends 'base.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block title %}
 	{% if editMode %}
-		Modifiez votre Projet
+		Modifiez votre event
 	{% else %}
-		Nouveau Projet
+		Nouveau event
 	{% endif %}
 	|
 	{{ parent() }}
@@ -14,27 +14,15 @@
 	<div class="eventForm">
 		<section class="container">
 			<div class="row">
-				<div class="col-12">
+				<div class="col-12 boxWhite ">
 					{% if editMode %}
 						<h2 class="mt-4 center  fs-1">
 							Modifier</h2>
 					{% else %}
 						<h2 class="mt-4 center  fs-1">
-							Créer votre projet</h2>
+							Créer votre évènement</h2>
 					{% endif %}
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-12 col-lg-6 projectBoxAdmin">
-					<section class="boxEspacePerso text-white p-3 m-3">
-						<h3 class="text-center">Administrateur :
-						</h3>
-						<p>{{ app.user.firstname }}</p>
-						<p>{{ app.user.lastname }}</p>
-						<p>{{ app.user.email }}</p>
-					</section>
-				</div>
-				<div class="col-12 col-lg-6 ">
+
 					{{ form_errors(eventForm) }}
 					{{ form_start(eventForm,  { 'attr': {'class': 'formEvent'} }) }}
 					<fieldset class="mb-3">
@@ -54,4 +42,4 @@
 			</div>
 		</section>
 	</div>
-{% endblock %} #}
+{% endblock %}
