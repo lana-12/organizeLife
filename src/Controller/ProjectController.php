@@ -38,7 +38,7 @@ class ProjectController extends AbstractController
      * Retrieve Project by id
      */
     #[Route('/show/{slug}-{id}', name: 'project.show', requirements: ['id' => '\d+','slug' => '[A-zÀ-ú0-9-]+'] )]
-    public function show(?Project $project, Request $request, UserRepository $userRepo): Response
+    public function show(Project $project, Request $request, UserRepository $userRepo): Response
     {
 
         /** @var \App\Entity\User $user */
