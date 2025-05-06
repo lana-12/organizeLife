@@ -59,8 +59,8 @@
 												<td>{{ collaborator.lastname }}</td>
 												<td>{{ collaborator.email }}</td>
 												<td>
-													{% if collaborator.tasks is defined and collaborator.tasks|length > 0 %}
-														{{ collaborator.tasks|length }}
+													{% if collaborator.events is defined and collaborator.events|length > 0 %}
+														{{ collaborator.events|length }}
 														tâche(s)
 													{% else %}
 														Aucune tâche

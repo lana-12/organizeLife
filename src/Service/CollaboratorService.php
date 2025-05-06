@@ -69,4 +69,54 @@ class CollaboratorService extends AbstractController
         );
     }
 
+
+    public function generateCollaboratorsColorMap(array $collaborators): array
+    {
+        $colorMap = [];
+
+        foreach ($collaborators as $collaborator) {
+            $bgColor = $this->generateColorFromId($collaborator->getId());
+            $textColor = $this->getContrastingTextColor($bgColor);
+            $colorMap[$collaborator->getId()] = [
+                'background' => $bgColor,
+                'text' => $textColor
+            ];
+        }
+
+        return $colorMap;
+    }
+
+    private function generateColorFromId(int $id): string
+    {
+        // Generete color 
+        $hue = ($id * 47) % 360; 
+        return "hsl($hue, 70%, 70%)";
+    }
+
+    private function getContrastingTextColor(string $hslColor): string
+    {
+        // Convert HSL en RGB of calcul light 
+        if (!preg_match('/hsl\((\d+),\s*(\d+)%,\s*(\d+)%\)/', $hslColor, $matches)) {
+            return '#000'; 
+        }
+        [$h, $s, $l] = [(int)$matches[1], (int)$matches[2] / 100, (int)$matches[3] / 100];
+        // HSL to RGB conversion
+        $c = (1 - abs(2 * $l - 1)) * $s;
+        $x = $c * (1 - abs(fmod($h / 60.0, 2) - 1));
+        $m = $l - $c / 2;
+        [$r, $g, $b] = match (true) {
+            $h < 60  => [$c, $x, 0],
+            $h < 120 => [$x, $c, 0],
+            $h < 180 => [0, $c, $x],
+            $h < 240 => [0, $x, $c],
+            $h < 300 => [$x, 0, $c],
+            default  => [$c, 0, $x],
+        };
+        $r = ($r + $m);
+        $g = ($g + $m);
+        $b = ($b + $m);
+        $luminance = 0.299 * $r + 0.587 * $g + 0.114 * $b;
+        return $luminance > 0.6 ? '#000000' : '#ffffff';
+    }
+
 }
