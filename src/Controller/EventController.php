@@ -37,7 +37,7 @@ class EventController extends AbstractController
 
 
     #[Route('/nouveau/{id}', name: 'event.new')]
-    public function new(Request $request, int $id, ProjectRepository $projectRepo)
+    public function new(int $id, Request $request,  ProjectRepository $projectRepo)
     {
         /** @var \App\Entity\User $user */
         $user = $this->getUser();
@@ -127,21 +127,20 @@ class EventController extends AbstractController
     */
     #[Route('/edit/{id}', name: 'event.edit', requirements: ['id' => '\d+'] )]
     public function edit(Event $event, Request $request)
+
     {
         /** @var \App\Entity\User $user */
         $user = $this->getUser();
-
+        $event = $this->eventRepo->find($id);
         if(!$this->security->getUser()){
             $this->addFlash('danger', "Vous devez être connecté(e) pour accéder à ce service");
             return $this->redirectToRoute('home');
         }
-
         // Check if user is Admin (CheckService)
         if(!$this->checkService->checkAdminAccess()){
             $this->addFlash('danger', "Vous ne disposez pas des droits pour accéder à ce service");
             return $this->redirectToRoute('home');
         } 
-
         if(!$event){
             $this->addFlash('danger', "Cet évènement n'existe pas");
             return $this->redirectToRoute('admin.index');
@@ -150,7 +149,6 @@ class EventController extends AbstractController
 
         $form = $this->createForm(EventType::class, $event, [
             'projectId' => $project->getId(),
-            
         ]);
         $form->handleRequest($request);
             

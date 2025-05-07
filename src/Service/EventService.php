@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\User;
 use App\Repository\EventRepository;
 
 class EventService 
@@ -20,7 +21,7 @@ class EventService
             $user = $event->getUser();
             $formattedEvents[] = [
                 'id_event'=> $event->getId() ?? '',
-                'id'=> $user->getId() ?? '',
+                'collaborateur_id'=> $user->getId() ?? '',
                 'title' => $event->getTitle(),
                 'date_event_start' => $event->getDateEventStart()->format('Y-m-d'),
                 'hour_event_start' => $event->getHourEventStart()->format('H:i:s'),

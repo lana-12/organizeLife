@@ -14,7 +14,7 @@ class CalendarManager {
 
             try {
                 const events = await this.eventService.getEvents(this.projectId);
-                console.log('events chargés :', events);
+                // console.log('events chargés :', events);
 
                 this.myCalendar = new FullCalendar.Calendar(calendarEl, {
                     initialView: 'dayGridMonth',
@@ -27,7 +27,7 @@ class CalendarManager {
                     },
                     contentHeight: "auto",
                     events: events.map(event => {
-                        const collaborator = event.collaborator;
+                        const collaborator = event.collaborateur_id;
                         const color = this.colorMap[collaborator]?.background || 'gray';
                         const start = new Date(`${event.date_event_start}T${event.hour_event_start}`);
                         const end = new Date(`${event.date_event_end}T${event.hour_event_end}`);
@@ -42,7 +42,8 @@ class CalendarManager {
                                 description: event.description,
                                 name_colaborator: event.collaboratorName,
                                 type: event.type,
-                                id_event: event.id_event
+                                id_event: event.id_event,
+                                collaborateur_id: event.collaborateur_id
                             }
                         };
                     }),

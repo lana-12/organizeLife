@@ -32,17 +32,12 @@
         const projectId = {{ project.id }};
         const collaborators = {{ collaborators_json|raw }};
         const COLLABORATOR_COLOR_MAP = {{ colorMap|json_encode|raw }};
-
-        console.log(collaborators);
-        console.log(COLLABORATOR_COLOR_MAP);
-
         (async () => {
             const eventService = new EventService();
             const calendarManagerInstance = new CalendarManager(eventService, projectId, COLLABORATOR_COLOR_MAP, collaborators);
             await calendarManagerInstance.initialize();
             const today = new Date();
             console.log(today);
-        })
-        ();
+        })();
     </script>  
 {% endblock %}
