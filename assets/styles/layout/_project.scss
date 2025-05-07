@@ -1,4 +1,4 @@
-.projetShow {
+.projectShow {
     width: 100%;
     background: url("../../img/callToAction.png") center center;
     background-size: cover;
@@ -25,6 +25,12 @@
             display: flex;
             flex-direction: column;
             gap: 2rem;
+        }
+        .boxEventAndType {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+
         }
 
     }

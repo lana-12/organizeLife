@@ -1,8 +1,11 @@
 <div class="boxWhite boxProject">
 	<div class="flexCustomOne flex-wrap">
 		<h2>{{ project.name }}</h2>
+		<a href="{{ path('project.show', {id: project.id , slug: project.slug }) }}" class="btn btn-primary " title="Retour le projet" alt="Retour le projet">
+			Retour au Projet
+		</a>
 		<a href="{{ path('project.edit', {id: project.id , slug: project.slug }) }}" class="btn btn-warning " title="Modifier le projet" alt="Modifier le projet">
-			Modifier le projet
+			<i class="bi bi-pen"></i>
 		</a>
 	</div>
 	<div class="flexCustomOne">

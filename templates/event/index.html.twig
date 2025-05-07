@@ -5,30 +5,25 @@
 {% endblock %}
 
 {% block body %}
-
 	<div class="">
 		{% if events %}
 			{# Array associatif pour mapper les noms de route aux fichiers Twig  #}
 			{% set routeName = app.request.attributes.get('_route') %}
-
 			{% include {
-                
                 'event.new': './_fromEvent.html.twig',
-                
-
+                'event.edit': './_fromEvent.html.twig',
+                'event': '../home/index.html.twig',
             }[routeName] ?? '' %}
 
 		{% else %}
 			<div class="alert alert-danger alert-dismissible" role="alert">
 				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-
 				<div class="alert-message">
 					<p>Pas d'évènement en cours ...</p>
 					<a href="{{ path('admin.index') }}">Espace perso</a>
 				</div>
 			</div>
 		{% endif %}
-
 	</div>
 {% endblock %}
 

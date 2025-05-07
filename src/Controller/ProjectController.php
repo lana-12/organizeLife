@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Project;
 use App\Form\ProjectType;
+use App\Repository\EventRepository;
 use App\Service\CheckService;
 use App\Repository\ProjectRepository;
 use App\Repository\UserRepository;
@@ -26,6 +27,7 @@ class ProjectController extends AbstractController
         private Security $security,
         private TextFormatterService $textFormatter,
         private CheckService $checkService,
+        private EventRepository $eventRepo,
     ){}
 
     #[Route('/', name: 'project.index')]
@@ -60,14 +62,26 @@ class ProjectController extends AbstractController
             return $this->redirectToRoute('admin.index');
         }
 
+        $typeEventsList = [];
+        foreach ($project->getEvents() as $event) {
+            $typeEvent = $event->getTypeEvent()->getName();
+            if ($typeEvent && !in_array($typeEvent, $typeEventsList, true)) {
+                $typeEventsList[] = $typeEvent;
+            }
+        }
+
         if($user->getId() === $project->getAdmin()->getId()){
             $collaborators = $userRepo->findCollaboratorsByProject($project);
             $totalCollaborators = $userRepo->countCollaboratorsByProject($project);
+            $totalEvents = $this->eventRepo->countByProject($project->getId());
 
             return $this->render('project/_show.html.twig', [
                 'project' => $project,
                 'collaborators' => $collaborators,
                 'totalCollaborators' => $totalCollaborators,
+                'totalEvents' => $totalEvents,
+                'typeEventsList' => $typeEventsList,
+                'typeEventsCount' => count($typeEventsList),
             ]);
         }
 
@@ -240,6 +254,5 @@ class ProjectController extends AbstractController
             'slug' => $project->getSlug(),
         ]);
     }
-
-    
+ 
 }
