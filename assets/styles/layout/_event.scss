@@ -1,30 +1,30 @@
-.eventForm {
+.eventManage {
     width: 100%;
     padding: 80px 0;
     background: url("../../img/bgevent.png") center center;
     background-size: cover;
     .boxWhite {
-            max-width: 600px;
-            height: auto;
-            margin: 20px auto;
-
-            .btnCustom {
-                @include btnCustom($green, black, $color, black);
-            }
+        h3, h4, p {
+            text-align: start;
         }
-
-}
-
-
-.manageCalendar {
-    width: 100%;
-    padding: 100px 0;
-    background: url("../../img/bgevent.png") center center;
-    background-size: cover;
-
-    .boxProject {
-        width: 400px;
-        
+        .showEvent {
+            display: flex;
+            flex-direction: column;
+            justify-content: start;
+        }
     }
+    .boxWhite:nth-of-type(1) {
+        max-width: 400px;
+        height: auto;
+        margin: 20px auto;
+    }
+    .boxWhite:nth-of-type(2) {
+        max-width: 600px;
+        height: auto;
+        margin: 20px auto;
 
+        .btnCustom {
+            @include btnCustom($green, black, $color, black);
+        }
+    }
 }
