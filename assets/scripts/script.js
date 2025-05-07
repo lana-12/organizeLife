@@ -69,11 +69,50 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
 
+/* *Message Modal showEvent  */
+    const showEventModal = () => {
+        document.querySelectorAll('.btnShowEventModal').forEach(button => {
+            button.addEventListener('click', () => {
+                const title = button.dataset.title;
+                const description = button.dataset.description;
+                const dateStart = button.dataset.dateStart;
+                const dateEnd = button.dataset.dateEnd;
+                const user = button.dataset.user;
+                const typeEvent = button.dataset.typeevent;
+                const project = button.dataset.project;
+                const eventId = button.dataset.eventid;
+                Swal.fire({
+                    title: title,
+                    html: `
+                    <p><strong>Description :</strong> ${description}</p>
+                    <p><strong>Début :</strong> ${dateStart}</p>
+                    <p><strong>Fin :</strong> ${dateEnd}</p>
+                    <p><strong>Créé par :</strong> ${typeEvent}</p>
+                    <p><strong>Créé par :</strong> ${user}</p>
+                    <div class='d-flex justify-content-center gap-2 mt-3 flex-wrap'>
+                        <a href='/event/nouveau/${project}' class='btn btn-primary'>
+                            <i class='fa fa-plus'></i> Créer
+                        </a>
+                        <a href='/event/edit/${eventId}' class='btn btn-warning'>
+                            <i class='fa fa-edit'></i> Modifier
+                        </a>
+                        <a href='/event/delete/${eventId}' class='btn btn-danger'>
+                            <i class='fa fa-edit'></i> Supprimer
+                        </a>
+                    </div>
+                `,
+                    icon: 'info',
+                    showCloseButton: true,
+                    showCancelButton: false,
+                    showConfirmButton: false,
+                })
+            });
+        });
+    };
+
     // Initialisations
+    showEventModal();
     initProjectDeletion();
     checkNoCollaborators();
     initCollaboratorDeletion();
-
 });
-
-

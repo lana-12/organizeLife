@@ -28,6 +28,14 @@ class EventController extends AbstractController
         private CheckService $checkService,
     ){}
 
+    #[Route('/', name: 'event')]
+    public function index(Request $request,  ProjectRepository $projectRepo)
+    {
+        $this->addFlash('danger', "Cette page n'existe pas");
+        return $this->redirectToRoute('home');
+    }
+
+
     #[Route('/nouveau/{id}', name: 'event.new')]
     public function new(Request $request, int $id, ProjectRepository $projectRepo)
     {
@@ -46,14 +54,23 @@ class EventController extends AbstractController
             return $this->redirectToRoute('home');
         } 
 
-        $projectId = $projectRepo->find($id);
-        if(!$projectId){
+        $project = $projectRepo->find($id);
+        if(!$project){
             $this->addFlash('danger', "Ce projet n'existe pas");
             return $this->redirectToRoute('admin.index');
         }
+
+        $typeEventsList = [];
+        foreach ($project->getEvents() as $event) {
+            $typeEvent = $event->getTypeEvent()->getName();
+            dump($typeEvent);
+            if ($typeEvent && !in_array($typeEvent, $typeEventsList, true)) {
+                $typeEventsList[] = $typeEvent;
+            }
+        }
         
         $event = new Event();
-        $event->setProject($projectId);
+        $event->setProject($project);
         $startDate="";
         $startEnd = "";
         // Retrieving the querystring for the date selected
@@ -85,6 +102,9 @@ class EventController extends AbstractController
                     return $this->render('event/_formEvent.html.twig', [
                         'eventForm' => $form,
                         'editMode'=> $event->getId() !== null,
+                        'project'=> $project,
+                        'typeEventsList' => $typeEventsList,
+                        'typeEventsCount' => count($typeEventsList),
                     ]);
                 }
                 $this->em->persist($eventData);
@@ -96,6 +116,9 @@ class EventController extends AbstractController
         return $this->render('event/_formEvent.html.twig', [
             'eventForm' => $form,
             'editMode'=> $event->getId() !== null,
+            'project'=> $project,
+            'typeEventsList' => $typeEventsList,
+            'typeEventsCount' => count($typeEventsList),
         ]);
     }
 
@@ -103,7 +126,7 @@ class EventController extends AbstractController
     * Edit Event 
     */
     #[Route('/edit/{id}', name: 'event.edit', requirements: ['id' => '\d+'] )]
-    public function editProject(Event $event, Request $request)
+    public function edit(Event $event, Request $request)
     {
         /** @var \App\Entity\User $user */
         $user = $this->getUser();
@@ -123,8 +146,12 @@ class EventController extends AbstractController
             $this->addFlash('danger', "Cet évènement n'existe pas");
             return $this->redirectToRoute('admin.index');
         }
+        $project = $event->getProject();
 
-        $form = $this->createForm(EventType::class, $event);
+        $form = $this->createForm(EventType::class, $event, [
+            'projectId' => $project->getId(),
+            
+        ]);
         $form->handleRequest($request);
             
             if ($form->isSubmitted() && $form->isValid()) {
@@ -136,6 +163,7 @@ class EventController extends AbstractController
                     return $this->render('event/_formEvent.html.twig', [
                         'eventForm' => $form,
                         'editMode'=> $event->getId() !== null,
+                        'project'=> $project,
                     ]);
                 }
                 $this->em->persist($event);
@@ -149,6 +177,8 @@ class EventController extends AbstractController
         return $this->render('event/_formEvent.html.twig', [
             'eventForm' => $form,
             'editMode'=> $event->getId() !== null,
+            'project'=> $project,
+
         ]);
     }
 

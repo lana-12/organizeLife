@@ -14,13 +14,69 @@
 	<div class="eventManage">
 		<section class="container">
 			<div class="row">
+				<div class="col-12 col-md-4 boxWhite ">
+					<div class="d-flex justify-content-between mb-5">
+						<h3><strong>{{ project.name }}</strong></h3>
+						<a href="{{ path('project.show', {id: project.id , slug: project.slug }) }}" class="btn btn-success  " alt="Retour au projet" title="Retour au projet">Retour au projet</a>
+					</div>
 
+					<div class="d-flex justify-content-between">
+						<p><strong>Total Events :</strong>
+						{% if project.events %}
+							{{ project.events|length }}
+						</p>
+						{% else %}
+							0
+						</p>
+						<a href="{{ path('event.new', {id: project.id}) }}" class="btn btn-warning ">Ajouter un event</a>
+						{% endif %}
+					</div>
 
+					<div class="d-flex justify-content-between mb-5">
+						<p><strong>Total collaborateurs :</strong>
+						{% if project.collaborator %}
+							{{ project.collaborator|length }}
+							{% else %}
+							0
+						{% endif %}
+						</p>
+						<a href="{{ path('collaborator.new', {id: project.id}) }}" class="btn btn-dark ">Ajouter un collaborateur</a>
+					</div>
+					
 
-				<div class="col-12 col-md-4 my-auto boxWhite ">
-					hello
+					<div class="d-flex justify-content-between">
+						<p><strong>Total Type :</strong>
+						{% if typeEventsCount > 0 %}
+							{{ typeEventsCount }}
+							</p>
+							<button class="btn btn-warning m-2" data-bs-target="#showModalEventType" data-bs-toggle="modal">Voir plus ...</button>
+						{% else %}
+							0
+							<button class="btn btn-warning m-2" data-bs-target="#showModalEventType2" data-bs-toggle="modal">Créer</button>
+							</p>
+						{% endif %}
+					</div>
+					{% if project.events %}
+					<div class="showEvent">
+						<h4><strong>Liste :</strong></h4>
+						{% for event in project.events %}
+							<div class="d-flex justify-content-between my-2">
+								<p class="">{{ event.title }}</p>
+								<button class="btn btn-primary btnShowEventModal"  alt="Voir plus ..." title="Voir plus ..."
+									data-title="{{ event.title|e('html_attr') }}"
+									data-description="{{ event.description|e('html_attr') }}"
+									data-date-start="{{ event.dateEventStart|date('d/m/Y H:i') }}"
+									data-date-end="{{ event.dateEventEnd|date('d/m/Y H:i') }}"
+									data-user="{{ event.user.firstname|e('html_attr') }}"
+									data-typeevent="{{ event.typeEvent.name|e('html_attr') }}"
+									data-eventid="{{ event.id|e('html_attr') }}"
+									data-project="{{ project.id|e('html_attr') }}"
+								> Voir plus...</button>
+							</div>
+						{% endfor %}
+					</div>
+					{% endif %}
 				</div>
-
 				<div class="col-12 col-md-8 mt-3 boxWhite ">
 				
 					{% if editMode %}
@@ -50,5 +106,6 @@
 
 			</div>
 		</section>
+{% include "_partials/_modalEventType.html.twig"  %}
 	</div>
 {% endblock %}
