@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block body %}
-<div class="projetShow">
+<div class="projectShow">
 	<div class="container">
 		<div class="row project-layout">
 			<div class="col-12 col-lg-6">
@@ -25,7 +25,7 @@
 							<i class="bi bi-trash"></i>
 						</button>
 					</div>
-					<hr class="separator">
+					<hr class="separator-x">
 					<h3 class="my-3">Administrateur :</h3>
 					<p>Prénom :
 						{{ app.user.firstname }}</p>
@@ -40,13 +40,12 @@
 					</div>
 				</section>
 			</div>
-
 			<div class="col-12 col-lg-6">
 				<section class="boxWhite boxCollaborator">
 					<div class="">
 						<h4>Collaborateur :</h4>
 					{% if totalCollaborators > 0 %}
-							<div class="countersCollaborator">
+							<div class="countersStyleCustom">
 								<span data-purecounter-start="150" data-purecounter-end="{{ totalCollaborators ?? 0 }}" data-purecounter-duration="1" class="purecounter"></span>
 							</div>
 					</div>
@@ -59,22 +58,43 @@
 					<div>
 						<a href="{{ path('collaborator.new', {id: project.id}) }}" class="btn btn-dark">Ajouter</a>
 					</div>
-
 					{% endif %}		
 				</section>
 
-				<section class="boxWhite ">
-					<h5 class="">Evènement :</h5>
-					<a href="{{ path('calendar', {id: project.id }) }}" class="btn btn-primary me-2">Calendrier</a>
-					<a href="{{ path('event.new', {id: project.id }) }}" class="btn btn-primary">Nouveau</a>
-					{% if project.events is not empty %}
-						{% for events in project.events %}
-							<p>{{ events.title }}</p>
-						{% endfor %}
-					{% else %}
-						<p>Aucun évènement pour ce projet.</p>
-					{% endif %}
+				<section class="boxWhite boxEventAndType">
+					<div class="">
+						<h5 class="">Evènement :</h5>
+						{% if project.events is not empty %}
+							<div class="countersStyleCustom">
+								<span data-purecounter-start="150" data-purecounter-end="{{ totalEvents ?? 0 }}" data-purecounter-duration="1" class="purecounter"></span>
+							</div>
+						{% else %}
+							<p>Aucun évènement pour ce projet.</p>
+						{% endif %}
+						<div>
+							<a href="{{ path('calendar', {id: project.id }) }}" class="btn btn-warning m-2">Calendrier</a>
+							<a href="{{ path('event.new', {id: project.id }) }}" class="btn btn-primary">Nouveau</a>
+						</div>
+					</div>
+					<hr class="separator-y">
+					<div class="">
+						{% if typeEventsList is not empty %}
+						<h5 class="">Type d'évènement :</h5>
+						<div class="countersStyleCustom">
+							<span data-purecounter-start="150" data-purecounter-end="{{ typeEventsCount ?? 0 }}" data-purecounter-duration="1" class="purecounter"></span>
+						</div>
+						<div>
+							<button class="btn btn-dark m-2" data-bs-target="#showModalEventType" data-bs-toggle="modal">Gérer</button>
+						</div>
+						{% else %}
+						<p>Aucun Type d'évènement pour ce projet.</p>
+						<div>
+							<button class="btn btn-dark m-2" data-bs-target="#showModalEventType2" data-bs-toggle="modal">Créer</button>
+						</div>
+						{% endif %}
+					</div>
 				</section>
+			{% include "_partials/_modalEventType.html.twig"  %}
 			</div>
 		</div>
 	</div>

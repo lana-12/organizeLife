@@ -9,10 +9,18 @@
   white-space: normal;
   word-break: break-word;
 }
-.separator {
+.separator-x {
   margin-top: 10px;
   height: 2px;
   width: 50%;
+  border: none;
+  background: $green;
+  margin: auto;
+}
+.separator-y {
+  margin-top: 10px;
+  width: 2px;
+  height: 50%;
   border: none;
   background: $green;
   margin: auto;
