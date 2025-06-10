@@ -4,11 +4,12 @@ namespace App\Controller;
 
 use App\Entity\Project;
 use App\Form\ProjectType;
-use App\Repository\EventRepository;
 use App\Service\CheckService;
-use App\Repository\ProjectRepository;
 use App\Repository\UserRepository;
+use App\Repository\EventRepository;
+use App\Repository\ProjectRepository;
 use App\Service\TextFormatterService;
+use App\Repository\TypeEventRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,6 +29,8 @@ class ProjectController extends AbstractController
         private TextFormatterService $textFormatter,
         private CheckService $checkService,
         private EventRepository $eventRepo,
+        private TypeEventRepository $typeEventRepository,
+
     ){}
 
     #[Route('/', name: 'project.index')]
@@ -61,14 +64,7 @@ class ProjectController extends AbstractController
             $this->addFlash('danger', "Ce projet n'existe pas");
             return $this->redirectToRoute('admin.index');
         }
-
-        $typeEventsList = [];
-        foreach ($project->getEvents() as $event) {
-            $typeEvent = $event->getTypeEvent()->getName();
-            if ($typeEvent && !in_array($typeEvent, $typeEventsList, true)) {
-                $typeEventsList[] = $typeEvent;
-            }
-        }
+        $typeEventsList = $this->typeEventRepository->findByUser($user);
 
         if($user->getId() === $project->getAdmin()->getId()){
             $collaborators = $userRepo->findCollaboratorsByProject($project);

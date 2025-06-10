@@ -26,10 +26,11 @@ class EventController extends AbstractController
         private EntityManagerInterface $em,
         private Security $security,
         private CheckService $checkService,
+        private TypeEventRepository $typeEventRepository,
     ){}
 
     #[Route('/', name: 'event')]
-    public function index(Request $request,  ProjectRepository $projectRepo)
+    public function index()
     {
         $this->addFlash('danger', "Cette page n'existe pas");
         return $this->redirectToRoute('home');
@@ -60,15 +61,8 @@ class EventController extends AbstractController
             return $this->redirectToRoute('admin.index');
         }
 
-        $typeEventsList = [];
-        foreach ($project->getEvents() as $event) {
-            $typeEvent = $event->getTypeEvent()->getName();
-            dump($typeEvent);
-            if ($typeEvent && !in_array($typeEvent, $typeEventsList, true)) {
-                $typeEventsList[] = $typeEvent;
-            }
-        }
-        
+        $typeEventsList = $this->typeEventRepository->findByUser($user);
+
         $event = new Event();
         $event->setProject($project);
         $startDate="";
@@ -131,7 +125,6 @@ class EventController extends AbstractController
     {
         /** @var \App\Entity\User $user */
         $user = $this->getUser();
-        $event = $this->eventRepo->find($id);
         if(!$this->security->getUser()){
             $this->addFlash('danger', "Vous devez être connecté(e) pour accéder à ce service");
             return $this->redirectToRoute('home');
@@ -146,6 +139,7 @@ class EventController extends AbstractController
             return $this->redirectToRoute('admin.index');
         }
         $project = $event->getProject();
+        $typeEventsList = $this->typeEventRepository->findByUser($user);
 
         $form = $this->createForm(EventType::class, $event, [
             'projectId' => $project->getId(),
@@ -162,6 +156,8 @@ class EventController extends AbstractController
                         'eventForm' => $form,
                         'editMode'=> $event->getId() !== null,
                         'project'=> $project,
+                        'typeEventsList' => $typeEventsList,
+                        'typeEventsCount' => count($typeEventsList),
                     ]);
                 }
                 $this->em->persist($event);
@@ -176,6 +172,8 @@ class EventController extends AbstractController
             'eventForm' => $form,
             'editMode'=> $event->getId() !== null,
             'project'=> $project,
+            'typeEventsList' => $typeEventsList,
+            'typeEventsCount' => count($typeEventsList),
 
         ]);
     }

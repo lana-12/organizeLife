@@ -6,9 +6,11 @@ use App\Repository\TypeEventRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Validator\Constraints as CustomAssert;
 
 #[ORM\Entity(repositoryClass: TypeEventRepository::class)]
 #[ORM\Table(name: '`types_event`')]
+#[CustomAssert\UniqueTypeEventNameForUser]
 
 class TypeEvent
 {
@@ -22,6 +24,9 @@ class TypeEvent
 
     #[ORM\OneToMany(targetEntity: Event::class, mappedBy: 'typeEvent')]
     private Collection $events;
+
+    #[ORM\ManyToOne(inversedBy: 'typeEvents')]
+    private ?User $user = null;
 
     public function __construct()
     {
@@ -71,6 +76,18 @@ class TypeEvent
                 $event->setTypeEvent(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }
