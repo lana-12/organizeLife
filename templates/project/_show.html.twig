@@ -89,7 +89,7 @@
 						{% else %}
 						<p>Aucun Type d'évènement pour ce projet.</p>
 						<div>
-							<button class="btn btn-dark m-2" data-bs-target="#showModalEventType2" data-bs-toggle="modal">Créer</button>
+							<a href="{{ path('event.type.new', {id: project.id}) }}" class="btn btn-primary" >Créer</a>
 						</div>
 						{% endif %}
 					</div>

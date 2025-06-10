@@ -19,8 +19,6 @@
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
 
-/migrations/
-
 ###> symfony/asset-mapper ###
 /public/assets/
 /assets/vendor/

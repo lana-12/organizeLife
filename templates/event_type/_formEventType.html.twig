@@ -1,0 +1,90 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{% if editMode %}
+		Modifiez type Event
+	{% else %}
+		Nouveau Type Event
+	{% endif %}
+	|
+	{{ parent() }}
+{% endblock %}
+
+{% block body %}
+	<div class="typeEventManage">
+		<section class="container">
+			<div class="row">
+				<div class="col-12 col-lg-6">
+					<section class="boxWhite">
+						<div class="d-flex mb-5">
+							<h2>
+								<strong>{{ project.name }}</strong>
+							</h2>
+							<a href="{{ path('project.show', {id: project.id , slug: project.slug }) }}" class="btn btn-success my-auto " alt="Retour au projet" title="Retour au projet">Retour au projet</a>
+						</div>
+						{% if typeEventsList %}
+							<h2 class="mb-4 fs-3">Type d'évènement</h2>							
+							<div class="d-flex justify-content-between mb-5">
+								<p>Total :{{ typeEventsCount ?? 0 }}</p>
+								<a href="{{ path('event.type.new', {id: project.id}) }}" class="btn btn-primary"alt="Créer un type" title="Créer un type">
+									<i class="bi bi-plus-circle"></i>
+								</a>
+							</div>
+							<input type="text" id="searchTypeEvent" class="form-control mb-3" placeholder="Rechercher un type...">
+							<div class="accordion" id="typeEventsAccordion">
+								{% for type in typeEventsList %}
+									<div class="accordion-item {% if loop.index > 10 %}d-none hidden-type{% endif %}" data-name="{{ type.name|lower }}">
+										<h2 class="accordion-header" id="headingType{{ loop.index }}">
+											<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseType{{ loop.index }}" aria-expanded="false" aria-controls="collapseType{{ loop.index }}">
+												{{ type.name }}
+											</button>
+										</h2>
+										<div id="collapseType{{ loop.index }}" class="accordion-collapse collapse" aria-labelledby="headingType{{ loop.index }}" data-bs-parent="#typeEventsAccordion">
+											<div class="accordion-body">
+												<a href="{{ path('event.type.edit', {id: type.id, project: project.id}) }}" class="btn btn-sm btn-warning " alt="Modifier un type d'évènement ?" title="Modifier un type d'évènement ?">
+													<i class="bi bi-pen"></i>
+												</a>
+												<a href="{{ path('event.type.delete', {id: type.id, project: project.id}) }}" class="btn btn-sm btn-danger " alt="Supprimer un type d'évènement ?" title="Supprimer un type d'évènement ?">
+													<i class="bi bi-trash"></i>
+												</a>
+											</div>
+										</div>
+									</div>
+								{% endfor %}
+							</div>
+						{% else %}
+							<p>Aucun Type d'évènement pour ce projet.</p>
+						{% endif %}
+					</section>
+				</div>
+				<div class="col-12 col-lg-6">
+					{{ form_errors(typeEventForm) }}
+					{{ form_start(typeEventForm,  { 'attr': {'class': 'boxWhite'} }) }}
+					<fieldset class="mb-3">
+						<div>
+							{% if editMode %}
+								<h2 class="mb-4 center  fs-1">
+									Modifier</h2>
+							{% else %}
+								<h2 class="mb-4 center  fs-1">
+									Créer votre Type</h2>
+							{% endif %}
+							{{ form_rest(typeEventForm) }}
+
+							<div class="d-flex justify-content-center">
+								{% if editMode %}
+									<button type="submit" class="btn btnCustom my-3 ">Modifier</button>
+								{% else %}
+								<button type="submit" class="btn btn-success">
+									<i class="bi bi-plus-circle me-2"></i>Enregistrer
+								</button>
+							{% endif %}
+							</div>
+							{{ form_end(typeEventForm) }}
+						</div>
+					</fieldset>
+				</div>
+			</div>
+		</section>
+	</div>
+{% endblock %}

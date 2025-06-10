@@ -6,31 +6,43 @@
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
-                {# {{ dump(typeEventsList) }} #}
-                En cours de développement
+			{% if typeEventsList %}
+
+				<table class="table">
+					<thead>
+						<tr>
+							<th scope="col">#</th>
+							<th scope="col">Type</th>
+							<th scope="col">Action</th>
+						</tr>
+					</thead>
+					<tbody>
+					{% for type in typeEventsList %}
+						<tr>
+							<th scope="row">{{ type.id }}</th>
+							<td>{{ type.name }}</td>
+							<td>
+								<a href="{{ path('event.type.edit', {id: type.id, project: project.id}) }}" class="btn btn-sm btn-warning " alt="Modifier un type d'évènement ?" title="Modifier un type d'évènement ?">
+									<i class="bi bi-pen"></i>
+								</a>
+								<a href="{{ path('event.type.delete', {id: type.id, project: project.id}) }}" class="btn btn-sm btn-danger " alt="Supprimer un type d'évènement ?" title="Supprimer un type d'évènement ?">
+									<i class="bi bi-trash"></i>
+								</a>
+							</td>
+						</tr>
+					{% endfor %}
+
+					</tbody>
+				</table>
+			{% else %}
+			<p class="text-start">
+			Aucun type d'évènement enregistré sur ce projet !!
+			</p>
+			{% endif %}
 			</div>
 			<div class="modal-footer">
-				<button class="btn btn-primary" data-bs-target="#showModalEventType2" data-bs-toggle="modal">Créer ou Modifier</button>
+				<a href="{{ path('event.type.new', {id: project.id}) }}" class="btn btn-primary" >Créer</a>
 			</div>
 		</div>
 	</div>
 </div>
-<div class="modal fade" id="showModalEventType2" aria-hidden="true" aria-labelledby="showModalEventTypeLabel2" tabindex="-1">
-	<div class="modal-dialog modal-dialog-centered">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h1 class="modal-title fs-5" id="showModalEventTypeLabel2">Créer ou Modifier</h1>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-			</div>
-			<div class="modal-body">
-                En cours de développement
-			</div>
-			<div class="modal-footer">
-				<button class="btn btn-primary" data-bs-target="#showModalEventType" data-bs-toggle="modal">Back to first</button>
-			</div>
-		</div>
-	</div>
-</div>
-
-
-

@@ -110,9 +110,52 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
+    // document.getElementById('searchTypeEvent').addEventListener('input', function () {
+    //     const filter = this.value.toLowerCase();
+    //     document.querySelectorAll('#typesList > div').forEach(el => {
+    //         el.style.display = el.getAttribute('data-name').includes(filter) ? '' : 'none';
+    //     });
+    // });
+
+    /* *Filtering event types in the accordion */
+    const initTypeEventAccordionFilter = () => {
+        const searchInput = document.getElementById('searchTypeEvent');
+        if (!searchInput) return;
+
+        const accordionItems = document.querySelectorAll('#typeEventsAccordion .accordion-item');
+
+        searchInput.addEventListener('input', function () {
+            const filter = this.value.toLowerCase();
+            let visibleCount = 0;
+
+            accordionItems.forEach((item, index) => {
+                const name = item.getAttribute('data-name') || '';
+                if (name.includes(filter)) {
+                    item.classList.remove('d-none');
+                    visibleCount++;
+                } else {
+                    item.classList.add('d-none');
+                }
+            });
+
+            if (filter === '') {
+                accordionItems.forEach((item, index) => {
+                    if (index < 10) {
+                        item.classList.remove('d-none');
+                    } else {
+                        item.classList.add('d-none');
+                    }
+                });
+            }
+        });
+    };
+
+
+
     // Initialisations
     showEventModal();
     initProjectDeletion();
     checkNoCollaborators();
     initCollaboratorDeletion();
+    initTypeEventAccordionFilter();
 });
