@@ -60,12 +60,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'boolean')]
     private bool $isFromGoogle = false;
 
+    /**
+     * @var Collection<int, TypeEvent>
+     */
+    #[ORM\OneToMany(targetEntity: TypeEvent::class, mappedBy: 'user')]
+    private Collection $typeEvents;
+
 
     public function __construct()
     {
         $this->projects = new ArrayCollection();
         $this->unavailables = new ArrayCollection();
         $this->events = new ArrayCollection();
+        $this->typeEvents = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -270,6 +277,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __toString()
     {
         return $this->getEmail();
+    }
+
+    /**
+     * @return Collection<int, TypeEvent>
+     */
+    public function getTypeEvents(): Collection
+    {
+        return $this->typeEvents;
+    }
+
+    public function addTypeEvent(TypeEvent $typeEvent): static
+    {
+        if (!$this->typeEvents->contains($typeEvent)) {
+            $this->typeEvents->add($typeEvent);
+            $typeEvent->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTypeEvent(TypeEvent $typeEvent): static
+    {
+        if ($this->typeEvents->removeElement($typeEvent)) {
+            // set the owning side to null (unless already changed)
+            if ($typeEvent->getUser() === $this) {
+                $typeEvent->setUser(null);
+            }
+        }
+
+        return $this;
     }
     
 }
