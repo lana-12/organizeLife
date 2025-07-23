@@ -42,17 +42,17 @@
 						</p>
 						<a href="{{ path('collaborator.new', {id: project.id}) }}" class="btn btn-dark ">Ajouter un collaborateur</a>
 					</div>
-					
-
+				
 					<div class="d-flex justify-content-between">
 						<p><strong>Total Type :</strong>
 						{% if typeEventsCount > 0 %}
 							{{ typeEventsCount }}
 							</p>
 							<button class="btn btn-warning m-2" data-bs-target="#showModalEventType" data-bs-toggle="modal">Voir plus ...</button>
+
 						{% else %}
 							0
-							<button class="btn btn-warning m-2" data-bs-target="#showModalEventType2" data-bs-toggle="modal">Créer</button>
+							<a href="{{ path('event.type.new', {id: project.id}) }}" class="btn btn-primary" >Créer</a>
 							</p>
 						{% endif %}
 					</div>
@@ -106,6 +106,6 @@
 
 			</div>
 		</section>
-{% include "_partials/_modalEventType.html.twig"  %}
+		{% include "_partials/_modalEventType.html.twig"  %}
 	</div>
 {% endblock %}

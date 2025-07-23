@@ -25,12 +25,7 @@ services:
         arguments:
             $defaultSender: '%app.default_email_sender%'
 
-    App\EventSubscriber\CalendarSubscriber:
-        arguments:
-            $eventRepository: '@App\Repository\EventRepository'
-            $router: '@router'
-        tags:
-            - { name: 'kernel.event_subscriber' }
+
 
 
     # makes classes in src/ available to be used as services

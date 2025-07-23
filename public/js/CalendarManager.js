@@ -25,7 +25,7 @@ class CalendarManager {
                         center: 'title',
                         end: 'dayGridMonth timeGridWeek'
                     },
-                    contentHeight: "auto",
+                    height: "auto",
                     events: events.map(event => {
                         const collaborator = event.collaborateur_id;
                         const color = this.colorMap[collaborator]?.background || 'gray';
