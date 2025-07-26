@@ -13,7 +13,7 @@
 
       <div class="col-lg-6 d-flex justify-content-center mt-5" data-aos="zoom-in" data-aos-delay="400">
       {% if projects is empty %}
-          <div class="boxWhite p-4 w-100">
+          <div class="boxWhite noProjects p-4 w-100">
             <h3>Aucun projet pour le moment</h3>
             <p>Commencez par créer un nouveau projet pour gérer vos collaborateurs et événements.</p>
             <a href="{{ path('project.new') }}" class="btn btnCustom mt-3">Créer un projet</a>
@@ -51,8 +51,7 @@
                 {% endif %}
               </div>
             </div>
-
-          </section>
+          </section> 
         <!-- End Section projects -->
       {% endif %}
       </div>

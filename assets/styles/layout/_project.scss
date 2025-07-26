@@ -1,3 +1,6 @@
+/*------
+# project/_showProject.html
+---------*/
 .projectShow {
     width: 100%;
     background: url("../../img/callToAction.png") center center;
@@ -66,6 +69,15 @@
     }
 }
 
+/*------
+# admin/index.html
+---------*/
+.noProjects {
+    height: 250px;
+    .btnCustom {
+        @include btnCustom($green, $white, $color, black);
+    }
+}
 
 .projects {
     .btnCustom {
