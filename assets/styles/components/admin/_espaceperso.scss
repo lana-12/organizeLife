@@ -3,14 +3,20 @@
     background: url("../../../img/hero-bg.jpg") center center;
     background-size: cover;
     padding: 60px 0;
+
+    .boxWhiteCount {
+        width: 70%;
+        margin: auto;
+    }
     .boxEspacePerso {
+        height: 350px;
         h2 {
             margin: 0 0 10px 0;
             font-size: 35px;
             font-weight: 700;
             line-height: 50px;
             color: $white;
-            height: auto;
+            text-align: start;
         }
         h3,
         h4,
@@ -21,6 +27,7 @@
             font-weight: 700;
             font-family: "Open Sans", sans-serif;
             letter-spacing: 0.5px;
+            text-align: start;
         }
         .btn-user {
             font-weight: 500;
