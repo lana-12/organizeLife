@@ -9,6 +9,7 @@ use App\Repository\EventRepository;
 use App\Repository\ProjectRepository;
 use App\Repository\TypeEventRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use PhpParser\Node\Stmt\Foreach_;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -60,6 +61,10 @@ class EventController extends AbstractController
             $this->addFlash('danger', "Ce projet n'existe pas");
             return $this->redirectToRoute('admin.index');
         }
+        foreach ($project->getEvents() as $event) {
+            dump($event);
+        }
+
 
         $typeEventsList = $this->typeEventRepository->findByUser($user);
 
@@ -82,6 +87,7 @@ class EventController extends AbstractController
         $form = $this->createForm(EventType::class, $event, [
             'projectId' => $id,
             'start_date' => $startDate,
+            'admin' => $project->getAdmin()?->getId(),
         ]);
         $form->handleRequest($request);
 

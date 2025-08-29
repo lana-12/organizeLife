@@ -110,13 +110,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    // document.getElementById('searchTypeEvent').addEventListener('input', function () {
-    //     const filter = this.value.toLowerCase();
-    //     document.querySelectorAll('#typesList > div').forEach(el => {
-    //         el.style.display = el.getAttribute('data-name').includes(filter) ? '' : 'none';
-    //     });
-    // });
-
     /* *Filtering event types in the accordion */
     const initTypeEventAccordionFilter = () => {
         const searchInput = document.getElementById('searchTypeEvent');
@@ -152,6 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+    
     // Initialisations
     showEventModal();
     initProjectDeletion();

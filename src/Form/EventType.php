@@ -109,7 +109,8 @@ class EventType extends AbstractType
                 'query_builder' => function (EntityRepository $er) use ($options) {
                     return $er->createQueryBuilder('u')
                         ->leftJoin('u.projects', 'p')
-                        ->where('p.id = :projectId')
+                        ->leftJoin('App\Entity\Project', 'proj', 'WITH', 'proj.admin = u')
+                        ->where('p.id = :projectId OR proj.id = :projectId')
                         ->setParameter('projectId', $options['projectId']);
                 },
             ])
@@ -123,6 +124,7 @@ class EventType extends AbstractType
             'projectId' => null,
             'start_date' => null,
             'end_date' => null,
+            'admin' => null
         ]);
     }
 }

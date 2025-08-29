@@ -7,8 +7,6 @@ use App\Entity\Project;
 
 class CollaboratorDTO
 {
-    
-
     public function __construct(
         
         private ?string $firstname = null,
@@ -18,7 +16,6 @@ class CollaboratorDTO
         private ?Project $project = null,
     
     ){}
-
 
     // Getters and setters
     public function getFirstname()

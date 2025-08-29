@@ -27,14 +27,16 @@ class CalendarManager {
                     },
                     height: "auto",
                     events: events.map(event => {
+                        // console.log('event debut ', event)
                         const collaborator = event.collaborateur_id;
                         const color = this.colorMap[collaborator]?.background || 'gray';
-                        const start = new Date(`${event.date_event_start}T${event.hour_event_start}`);
-                        const end = new Date(`${event.date_event_end}T${event.hour_event_end}`);
+                        const start = `${event.date_event_start}T${event.hour_event_start}`;
+                        const end = `${event.date_event_end}T${event.hour_event_end}`;
+
                         return {
                             title: event.title,
-                            start: start.toISOString(),
-                            end: end.toISOString(),
+                            start: start,
+                            end: end,
                             description: event.description,
                             color: color,
                             display: 'block',
@@ -43,12 +45,18 @@ class CalendarManager {
                                 name_colaborator: event.collaboratorName,
                                 type: event.type,
                                 id_event: event.id_event,
-                                collaborateur_id: event.collaborateur_id
+                                collaborateur_id: event.collaborateur_id,
+                                date_start: event.date_event_start,
+                                hour_start: event.hour_event_start,
+                                date_end: event.date_event_end,
+                                hour_end: event.hour_event_end
                             }
+                            
                         };
                     }),
                     selectable: true,
                     editable: true,
+
                     eventClick: function (info) {
                         const event = info.event;
                         Swal.fire({
@@ -56,8 +64,8 @@ class CalendarManager {
                             icon: "info",
                             html: `
                                 <p><b>Collaborateur :</b> ${event.extendedProps.name_colaborator}</p>
-                                <p><b>Début :</b> ${event.start.toLocaleString()}</p>
-                                <p><b>Fin :</b> ${event.end.toLocaleString()}</p>
+                                <p><b>Début :</b> ${event.extendedProps.date_start} - ${event.extendedProps.hour_start}</p>
+                                <p><b>Fin :</b> ${event.extendedProps.date_end} - ${event.extendedProps.hour_end} </p>
                                 <p><b>Description :</b> ${event.extendedProps.description || 'Aucune Description'}</p>
                                 <p><b>Type :</b> ${event.extendedProps.type || 'N/A'}</p>
                                 <div class='d-flex justify-content-center gap-2 mt-3 flex-wrap'>
@@ -76,7 +84,7 @@ class CalendarManager {
                             showCloseButton: true,
                             showCancelButton: false,
                             showConfirmButton: false,
-                            
+
                         });
                     },
                     select: (arg) => {
@@ -105,6 +113,70 @@ class CalendarManager {
                             });
                         }
                     },
+
+                    eventDrop: async (info) => {
+                        const event = info.event;
+                        const newStart = event.start;
+                        const newEnd = event.end;
+                        const formattedStartDate = newStart.toISOString().split('T')[0];
+                        const formattedEndDate = newEnd.toISOString().split('T')[0];
+                        const result = await Swal.fire({
+                            title: "Confirmer la modification",
+                            html: `
+                                <p><strong>${event.title}</strong></p>
+                                <p>Nouvelle date de début : <code>${formattedStartDate}</code></p>
+                                <input type="time" id="start-time" class="swal2-input" placeholder="Heure de début" value="${newStart.toTimeString().slice(0, 5)}">
+                                <p>Nouvelle date de fin : <code>${formattedEndDate}</code></p>
+                                <input type="time" id="end-time" class="swal2-input" placeholder="Heure de fin" value="${newEnd.toTimeString().slice(0, 5)}">
+                            `,
+                            focusConfirm: false,
+                            showCancelButton: true,
+                            confirmButtonText: "Oui, enregistrer",
+                            cancelButtonText: "Annuler",
+                            preConfirm: () => {
+                                const startTime = document.getElementById('start-time').value;
+                                const endTime = document.getElementById('end-time').value;
+
+                                if (!startTime || !endTime) {
+                                    Swal.showValidationMessage("Merci de renseigner les deux heures");
+                                    return false;
+                                }
+
+                                return {
+                                    hour_event_start: startTime,
+                                    hour_event_end: endTime
+                                };
+                            }
+                        });
+
+                        if (result.isConfirmed && result.value) {
+                            const { hour_event_start, hour_event_end } = result.value;
+
+                            const response = await fetch(`/event/update-time/${event.extendedProps.id_event}`, {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json"
+                                },
+                                body: JSON.stringify({
+                                    date_event_start: formattedStartDate,
+                                    hour_event_start: hour_event_start,
+                                    date_event_end: formattedEndDate,
+                                    hour_event_end: hour_event_end
+                                })
+                            });
+
+                            if (!response.ok) {
+                                Swal.fire("Erreur", "La mise à jour a échoué. Merci de réessayer.", "error");
+                                info.revert();
+                            } else {
+                                Swal.fire("Mis à jour", "L’événement a été mis à jour avec succès.", "success");
+                            }
+                        } else {
+                            info.revert();
+                        }
+                    }
+
+
                 });
 
                 this.myCalendar.render();

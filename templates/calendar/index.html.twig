@@ -4,7 +4,7 @@
     <div class="manageCalendar">
         <div class="container">
             <div class="row">
-                    <section class="col-12 col-lg-4 d-flex justify-content-center justify-content-lg-around mb-3 my-auto" data-aos="fade-right" data-aos-delay="500">
+                    <section class="col-12 col-lg-4 d-flex justify-content-center justify-content-lg-around mb-3 " data-aos="fade-right" data-aos-delay="500">
                     {% include "calendar/_infoProject.html.twig"  %}
                 </section>                       
                 
@@ -37,7 +37,6 @@
             const calendarManagerInstance = new CalendarManager(eventService, projectId, COLLABORATOR_COLOR_MAP, collaborators);
             await calendarManagerInstance.initialize();
             const today = new Date();
-            console.log(today);
         })();
     </script>  
 {% endblock %}

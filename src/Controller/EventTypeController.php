@@ -74,7 +74,7 @@ class EventTypeController extends AbstractController
             $this->em->persist($type);
             $this->em->flush();
             $this->addFlash('success', 'Le Type a été créé avec succes');
-            return $this->redirectToRoute('project.show', ['id'=>$project->getId(), 'slug'=>$project->getSlug() ]);
+            return $this->redirectToRoute('event.type.new', ['id'=>$project->getId() ]);
         }
 
         return $this->render('event_type/_formEventType.html.twig', [

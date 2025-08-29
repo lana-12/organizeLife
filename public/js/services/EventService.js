@@ -19,5 +19,27 @@ class EventService {
         return data.formatEvent;
     }
 
+    async updateEventTime(eventId, startDate, startTime, endDate, endTime) {
+        const response = await fetch(`/event/update-time/${eventId}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                date_event_start: startDate,
+                hour_event_start: startTime,
+                date_event_end: endDate,
+                hour_event_end: endTime
+            }),
+        });
+
+        if (!response.ok) {
+            console.log('la', response )
+            throw new Error("La mise à jour a échoué");
+        }
+
+        return await response.json(); 
+    }
+
     
 }
