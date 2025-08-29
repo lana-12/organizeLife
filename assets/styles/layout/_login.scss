@@ -1,10 +1,31 @@
 .login {
     width: 100%;
-    padding: 80px 0;
-    .boxWhite{
+    background: url("../../img/bglogin.png") center center;
+    background-size: cover;
+    padding: 120px 0;
+
+    .boxWhite {
         text-align: start;
         max-width: 500px;
         margin: auto;
+
+        .btnCustom {
+            @include btnCustom($green, $white, $color, black);
+        }
+    }
+}
+
+.register {
+    width: 100%;
+    background: url("../../img/bgregister.png") center center;
+    background-size: cover;
+    padding: 120px 0;
+
+    .boxWhite {
+        text-align: start;
+        max-width: 500px;
+        margin: auto;
+
         .btnCustom {
             @include btnCustom($green, $white, $color, black);
         }
