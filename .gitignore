@@ -35,3 +35,7 @@ yarn-error.log
 /deploy_logs/
 /migrations/
 deploy.sh
+
+start-fix.sh
+docker-compose.yml
+Dockerfile
